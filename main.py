@@ -28,6 +28,9 @@ class Review():
   location_name = ''
   location_address = ''
   
+  # Ratings are from a 1 to 5 scale. 
+  # If review does not include a particular rating, it should be 0,
+  #   and not factor into the cumulative ratings.
   vision_rating = 0.0
   mobility_rating = 0.0
   speech_rating = 0.0
