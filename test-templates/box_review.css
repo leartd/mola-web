@@ -2,6 +2,10 @@
     border: 1px solid black;
 }
 
-.ratings {
-    border-right: 1px solid black;
+.panel-heading .user-name {
+    float: left;
+}
+
+.panel-heading .review-date {
+    margin-left: 80%;
 }
