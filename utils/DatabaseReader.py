@@ -8,6 +8,7 @@ def get_location(loc_id):
         desc = "No description available for this location"
     if m:
         return {
+            'id': m.key.id(),
             'name': m.name, 
             'address': m.address,
             'city': m.city,
