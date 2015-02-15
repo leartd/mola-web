@@ -1,4 +1,5 @@
 index.html css*/
+
 body {
   padding-top: 50px;
 }
@@ -6,6 +7,7 @@ body {
 body .col-md-3,.col-md-9,.row{
 	/*Just for developing*/
 	border: solid 1px;
+	margin-top: 2em;
 }
 
 
@@ -17,10 +19,15 @@ body .col-md-3,.col-md-9,.row{
 	padding-top: 10px;
 	padding-right: 10px;
 }
-.reviews>h2{
+.posts>h2{
 	text-align: left
 }
 .review{
+	/*border: solid 1px;*/
+	border-color: #000;
+}
+
+.location{
 	/*border: solid 1px;*/
 	border-color: #000;
 }
@@ -32,9 +39,95 @@ body .col-md-3,.col-md-9,.row{
 .sidebar p{
 	padding-top: 15px;
 }
+
+.location_form label{
+	float:left;
+	margin-left: 1em;
+}
+
+#loc_form_pad{
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+}
+.location_form input[type=text]{
+/*	margin-left: 0.25em;
+	margin-right: 1em;*/
+}
+
+.location_form input[type=submit]{
+	margin: 1em 0em;
+	float:left;
+}
+/*		padding:5px 15px;
+	background:#b7b7b7;
+	border:0 none;
+	cursor:pointer;
+	-webkit-border-radius: 5px;
+	border-radius: 5px; 
+	color:#fff;*/
+/*	margin-left: 0.25em;
+	margin-right: 1em;*/
+/*}*/
 /*
 .mola-nav {
 	background-image: linear-gradient(to bottom,#2ECC71 0,#00b16a 100%);
 	background-color: #2ECC71;
 
 }
+
+/*
+.location_form {
+	float:left;
+
+	text-align: left;
+	padding: 0.5em 1em;
+}
+
+.location_form input{
+	margin-top: 0.25em;
+	margin-bottom: 0.25em;
+}
+
+.location_form input, label{
+	display:block;
+}
+
+.location_form input[type=text]{
+	width: 27em;
+}
+
+.location_form input[type=text], textarea, select {
+	padding:5px;
+	border:2px solid #ccc; 
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.location_form select{
+    height:34px;
+    font-size:14px;
+}
+
+
+.location_form textarea{
+	padding:5px;
+	border:2px solid #ccc; 	
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+.location_form textarea:focus,input[type=text]:focus {
+	border-radius: 5px;	
+	border-color:#333; 
+}
+
+.location_form input[type=submit] {
+	padding:5px 15px;
+	background:#b7b7b7;
+	border:0 none;
+	cursor:pointer;
+	-webkit-border-radius: 5px;
+	border-radius: 5px; 
+	color:#fff;
+
+}
+*/
