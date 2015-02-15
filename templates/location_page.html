@@ -1,0 +1,9 @@
+{% extends "base_template.html" %}
+{% block content %}
+    <h1>{{ name }}</h1>
+    <label for="address">Address:</label>
+    <div id="address">
+        {{ address }} <br />
+        {{ city }}, {{ state }}
+    </div>
+{% endblock content %}

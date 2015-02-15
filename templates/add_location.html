@@ -2,7 +2,7 @@
 {% block content %}
     <div class="row" id="loc_form_pad">
         <h2>Add Location</h2>
-        <form role="form" class="location_form" name="location_form" action="post/submit_location" method="POST">
+        <form role="form" class="location_form" name="location_form" action="/submit/loc_handler" method="POST">
             <div class="form-group">
                 <label for="name_loc_form">Name:</label>
                 <input class="form-control" type="text" name="Name" id="name_loc_form" placeholder="Known as...">
@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-md-2">
                     <label for="state_loc_form">State:</label>
-                    <select class="form-control" name="state" id="state_loc_form">
+                    <select class="form-control" name="State" id="state_loc_form">
                         <option value="AK">AK</option>
                         <option value="AL">AL</option>
                         <option value="AR">AR</option>

@@ -1,36 +1,36 @@
 from google.appengine.api import users
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 
 
-class Location(db.Model):
-  name = db.StringProperty()
-  address = db.StringProperty()
-  city = db.StringProperty()
-  state = db.StringProperty()
-  desc = db.StringProperty(multiline=True)
+class Location(ndb.Model):
+  name = ndb.StringProperty()
+  address = ndb.StringProperty()
+  city = ndb.StringProperty()
+  state = ndb.StringProperty()
+  desc = ndb.TextProperty()
   
-  time_created = db.IntegerProperty()
-  user = db.StringProperty()
-  location_id = db.IntegerProperty()
-  url = db.StringProperty()
+  time_created = ndb.IntegerProperty()
+  user = ndb.StringProperty()
+  location_id = ndb.IntegerProperty()
+  url = ndb.StringProperty()
   
-  vision_rating = db.IntegerProperty()
-  mobility_rating = db.IntegerProperty()
-  speech_rating = db.IntegerProperty()
-  helpfulness_rating = db.IntegerProperty()
+  vision_rating = ndb.IntegerProperty()
+  mobility_rating = ndb.IntegerProperty()
+  speech_rating = ndb.IntegerProperty()
+  helpfulness_rating = ndb.IntegerProperty()
 
 
-class Review(db.Model):
-  loc_id = db.StringProperty()
+class Review(ndb.Model):
+  loc_id = ndb.StringProperty()
   
-  time_created = db.IntegerProperty()
-  user = db.StringProperty()
-  rev_id = db.IntegerProperty()
+  time_created = ndb.IntegerProperty()
+  user = ndb.StringProperty()
+  rev_id = ndb.IntegerProperty()
   
   # Ratings are from a 1 to 5 scale, unless unrated(0).
-  vision_rating = db.IntegerProperty()
-  mobility_rating = db.IntegerProperty()
-  speech_rating = db.IntegerProperty()
-  helpfulness_rating = db.IntegerProperty()
+  vision_rating = ndb.IntegerProperty()
+  mobility_rating = ndb.IntegerProperty()
+  speech_rating = ndb.IntegerProperty()
+  helpfulness_rating = ndb.IntegerProperty()
   
-  text = db.StringProperty(multiline=True)
+  text = ndb.TextProperty()

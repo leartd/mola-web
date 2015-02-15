@@ -3,7 +3,7 @@ import webapp2
 from google.appengine.ext.webapp import template
 
 # import local files
-import models
+from utils import Formatter, DatabaseWriter, DatabaseReader
 
 
 def render_template(templatename, templatevalues):
@@ -17,38 +17,20 @@ class AddLocationPage(webapp2.RequestHandler):
     self.response.out.write(str(html))
 
 class ProcessLocation(webapp2.RequestHandler):
-  def post(self):
-    name = self.request.get('Name')
-    address = self.request.get('Address')
-    city = self.request.get('City')
-    state = self.request.get('State')
-    desc = self.request.get('Description')
-    
-    location = Location()
-    invalid = False
-    
-    if len(name) <= 32:
-      location.name = name
-    if len(address) <= 48:
-      location.address = address
-    if len(city) <= 32:
-      location.city = city
-    if len(state) == 2 and state.isalpha():
-      location.state = state
-    location.desc = desc
-    
-    if (location.name != None and location.address != None and 
-        location.city != None and location.state != None):
-      location.put()
+  def post(self):    
+    url = DatabaseWriter.AddLocation(self.request)
+
+    if url:
+      self.redirect("/location/" + url)
     else:
-      invalid = True
-    
-    if not invalid:
-      html = render_template('success.html', {})
-      self.response.out.write(str(html))
-    else:
-      html = render_template('add_location.html', {})
-      self.response.out.write(str(html))
+      self.redirect("/submit/location")
+
+class LocationHandler(webapp2.RequestHandler):
+  def get(self):
+    render_params = DatabaseReader.get_location(Formatter.get_location_id(self.request.url))
+    render_params['title'] = ' - %s' % render_params['name']
+    html = render_template('location_page.html', render_params)
+    self.response.out.write(html)
 
 class MainPage(webapp2.RequestHandler):
   def post(self):
@@ -62,5 +44,6 @@ class MainPage(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
   ('/', MainPage),
   ('/submit/location', AddLocationPage),
-  ('/submit/loc_handler', ProcessLocation)
+  ('/submit/loc_handler', ProcessLocation),
+  ('/location/.*', LocationHandler)
 ])
