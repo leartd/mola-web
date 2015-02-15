@@ -8,14 +8,18 @@ def render_template(templatename, templatevalues):
   html = template.render(path, templatevalues)
   return html
 
+class LocationSubmitPage(webapp2.RequestHandler):
+  def get(self):
+    html = render_template('loc_form_page.html', {'title': ' - Submit Location'})
+    self.response.out.write(str(html))
   
 class MainPage(webapp2.RequestHandler):
   def post(self):
-    html = render_template('main_page.html', {})
+    html = render_template('main_page.html', {'title': ' - Welcome'})
     self.response.out.write(str(html))
     
   def get(self):
-    html = render_template('main_page.html', {})
+    html = render_template('main_page.html', {'title': ' - Welcome'})
     self.response.out.write(str(html))
 
     
@@ -49,7 +53,8 @@ class Review():
     
 
 app = webapp2.WSGIApplication([
-  ('/', MainPage)
+  ('/', MainPage),
+  ('/submit/location', LocationSubmitPage)
 ])
 
 
