@@ -2,12 +2,55 @@ import os
 import webapp2
 from google.appengine.ext.webapp import template
 
+# import local files
+import models
+
 
 def render_template(templatename, templatevalues):
   path = os.path.join(os.path.dirname(__file__), 'templates/' + templatename)
   html = template.render(path, templatevalues)
   return html
 
+
+class CreateLocationPage(webapp2.RequestHandler):
+  def get(self):
+    html = render_template('add_location.html', {})
+    self.response.out.write(str(html))
+
+
+class ProcessLocation(webapp2.RequestHandler):
+  def post(self):
+    name = self.request.get('Name')
+    address = self.request.get('Address')
+    city = self.request.get('City')
+    state = self.request.get('State')
+    desc = self.request.get('Description')
+    
+    location = Location()
+    invalid = False
+    
+    if len(name) <= 32:
+      location.name = name
+    if len(address) <= 48:
+      location.address = address
+    if len(city) <= 32:
+      location.city = city
+    if len(state) == 2 and state.isalpha():
+      location.state = state
+    location.desc = desc
+    
+    if (location.name != None and location.address != None and 
+        location.city != None and location.state != None):
+      location.put()
+    else:
+      invalid = True
+    
+    if not invalid:
+      html = render_template('success.html', {})
+      self.response.out.write(str(html))
+    else:
+      html = render_template('add_location.html', {})
+      self.response.out.write(str(html))
   
 class MainPage(webapp2.RequestHandler):
   def post(self):
@@ -18,40 +61,8 @@ class MainPage(webapp2.RequestHandler):
     html = render_template('main_page.html', {})
     self.response.out.write(str(html))
 
-    
-# class LocationPage():
-  # def post(self):
-  # def get(self):
-    
-
-class Review():
-  location_name = ''
-  location_address = ''
-  
-  # Ratings are from a 1 to 5 scale. 
-  # If review does not include a particular rating, it should be 0,
-  #   and not factor into the cumulative ratings.
-  vision_rating = 0.0
-  mobility_rating = 0.0
-  speech_rating = 0.0
-  helpfulness_rating = 0.0
-  
-  review_text = ''
-  
-  def __init__(ln, la, vr, mr, sr, hr, rt):
-    location_name = ln
-    location_address = la
-    vision_rating = vr
-    mobility_rating = mr
-    speech_rating = sr
-    helpfulness_rating = hr
-    review_text = rt
-    
 
 app = webapp2.WSGIApplication([
+  ('/addlocation', CreateLocationPage)
   ('/', MainPage)
 ])
-
-
-
-
