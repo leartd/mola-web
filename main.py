@@ -11,9 +11,9 @@ def render_template(templatename, templatevalues):
   html = template.render(path, templatevalues)
   return html
 
-class LocationSubmitPage(webapp2.RequestHandler):
+class AddLocationPage(webapp2.RequestHandler):
   def get(self):
-    html = render_template('loc_form_page.html', {'title': ' - Submit Location'})
+    html = render_template('add_location.html', {'title': ' - Add Location'})
     self.response.out.write(str(html))
 
 class ProcessLocation(webapp2.RequestHandler):
@@ -61,5 +61,6 @@ class MainPage(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
   ('/', MainPage),
-  ('/submit/location', LocationSubmitPage)
+  ('/submit/location', AddLocationPage),
+  ('/submit/loc_handler', ProcessLocation)
 ])
