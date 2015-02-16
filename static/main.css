@@ -47,7 +47,7 @@ body .col-md-3,.col-md-9,.row{
 	margin-left: 1em;
 }
 
-#loc_form_pad{
+.form_padding{
 	padding-left: 0.5em;
 	padding-right: 0.5em;
 }
@@ -133,3 +133,35 @@ body .col-md-3,.col-md-9,.row{
 
 }
 */
+.ratings {
+	padding-top: 40px;
+}
+
+.rating {
+    overflow: hidden;
+    display: inline-block;
+    font-size: 0;
+    position: relative;
+}
+.rating-input {
+    float: right;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    margin: 0 0 0 -16px;
+    opacity: 0;
+}
+.rating:hover .rating-star:hover,
+.rating:hover .rating-star:hover ~ .rating-star,
+.rating-input:checked ~ .rating-star {
+    background-position: 0 0;
+}
+.rating-star,
+.rating:hover .rating-star {
+    position: relative;
+    float: right;
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url('http://kubyshkin.ru/samples/star-rating/star.png') 0 -16px;
+}
