@@ -47,7 +47,7 @@ body .col-md-3,.col-md-9,.row{
 	margin-left: 1em;
 }
 
-#loc_form_pad{
+.form_padding{
 	padding-left: 0.5em;
 	padding-right: 0.5em;
 }
@@ -133,6 +133,9 @@ body .col-md-3,.col-md-9,.row{
 
 }
 */
+.ratings {
+	padding-top: 40px;
+}
 
 .rating {
     overflow: hidden;
