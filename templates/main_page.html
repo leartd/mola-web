@@ -1,11 +1,11 @@
 {% extends "base_template.html" %}
 {% block content %}
     <div class="row">
-        <div class="posts col-md-9">
-            <h2>Recent Locations and Reviews</h2>
+        <div class="posts col-md-9 main-bar">
+            <h1 class="title">Recent Locations and Reviews</h2>
             <div class="col-md-6">
                 {% for location in locations %}
-                <div class="row">   
+                <div class="panel panel-default front-page-post">   
                     <h1><a href="/location/{{location.key.id}}">{{ location.name }}</a></h1>
                     <label for="address">Address:</label>
                     <div id="address">
@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-6">
                 {% for review in reviews %}
-                <div class="panel panel-default review">
+                <div class="panel panel-default front-page-post">
                     <div class="panel-heading">
                         <span class="user-name">{{review.user}}</span>
                         <span class="page-link"><a href="/location/{{review.loc_id}}">{{ review.loc_name }}</a></span>
@@ -54,7 +54,7 @@
         </div>
         <div class="sidebar col-md-3">
             <div id="submit_review">
-                <a class="btn" href="/submit/location">Add a Location</a>
+                <a class="btn btn-default" href="/submit/location">Add a Location</a>
             </div>
             <div id="Statement">
                 <p>

@@ -8,17 +8,21 @@
 		{% endif %}
 	{% endif %}
 	<div class="container">
-		<div class="row">	
-			<h1>{{ name }}</h1>
-			<label for="address">Address:</label>
-			<div id="address">
-				{{ address }} <br />
-				{{ city }}, {{ state }}
-			</div>
-			<p>{{ description }}</p>
+		<div class="row">
+			<div class="location-page-address">
+				<h1>{{ name }}</h1>
+				<label for="address">Address:</label>
+				<div id="address" class>
+					{{ address }} <br />
+					{{ city }}, {{ state }}
+				</div>
+				<label for="h3-test" class="small-border"></label for="h3-test">
+				<h3 id="h3-test">About us...</h3>
+				<p style="padding-top:0.5em;">{{ description }}</p>
+			</div>	
 		</div>
 		<!-- START add_review.html copypast	a, with added script -->
-		<div class="row" id="form_padding">
+		<div class="row review row-fix form_padding">
 			<h2>Add Review</h2>
 			<form role="form" name="review_form" action="/submit/rev_handler" class="review_form" method="POST">
 				<div class="col-md-3">   
@@ -112,7 +116,7 @@
 				<div class="col-md-9">   
 					<div class="form-group">
 						<label for="review_text">Your Review</label>
-						<textarea name="Text" id="review_text" cols="50" rows="8" class="form-control"></textarea>
+						<textarea name="Text" id="review_text" cols="50	" rows="8" class="form-control"></textarea>
 					</div>  
 					<div class="form-group">
 						<input type="hidden" value="{{loc_id}}" id="loc_id" name="URL" />
