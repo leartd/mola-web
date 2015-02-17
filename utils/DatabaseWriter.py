@@ -63,6 +63,7 @@ def add_review(request):
     review.helpfulness_rating = 0
   review.text = text
   review.time_created = post_time
+  review.loc_id = loc_id
   
   if (review.vision_rating != None and review.mobility_rating != None and
       review.speech_rating != None and review.helpfulness_rating != None):

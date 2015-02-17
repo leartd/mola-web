@@ -46,6 +46,7 @@ class LocationPage(webapp2.RequestHandler):
   def get(self):
     render_params = DatabaseReader.get_location(Formatter.get_location_id(
                                                             self.request.url))
+    render_params['loc_id'] = Formatter.get_location_id(self.request.url)
     render_params['post'] = self.request.get('post_review')
     render_params['reviews'] = DatabaseReader.get_last_reviews(
                                   Formatter.get_location_id(self.request.url))

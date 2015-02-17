@@ -111,23 +111,20 @@
 					<textarea name="Text" id="review_text" cols="50" rows="8" class="form-control"></textarea>
 				</div>  
 				<div class="form-group">
+					<input type="text" value="{{loc_id}}" id="loc_id" name="URL" />
+					
 					<input type="submit" class="btn" value="Submit" style="float:right;">
 				</div>
 			</div>
-			<input type="hidden" value="" id="loc_id" name="URL" />
-			<script>
-				var pathArray = window.location.pathname.split( '/' );
-				var locationID = pathArray[2];
-				document.getElementById('loc_id').value = locationID;
-			</script>
+
 		</form>
 	</div>
 	<!-- END add_review.html copypasta -->
 	<h2>Recent Reviews:</h2>
 	There are {{reviews|length}} reviews for this location.
 	{% for review in reviews %}
-	<div id="reviews">
-		On <span class="time">{{review.time_created}}</span>, {{review.user}} said:<br><br>
+	<div id="reviews" class="container">
+		On <span class="time">{{review.time_created}}</span>, {{review.user}} said:
 		<div class="ratings">
 			Vision: {{review.vision_rating}}<br>
 			Mobility: {{review.mobility_rating}}<br>
