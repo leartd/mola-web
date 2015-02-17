@@ -78,6 +78,7 @@ class ProcessReview(webapp2.RequestHandler):
     else:
       self.redirect("/location/" + self.request.get('URL') + "?post_review=failure")
 
+
 #==============================================================================
 # This is our main page handler.  It will show the most recent Review objects
 # in main_page.html.

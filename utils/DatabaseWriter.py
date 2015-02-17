@@ -26,8 +26,8 @@ def add_location(request):
   location.desc = desc
   location.time_created = post_time
   
-  if (location.name != None and location.address != None and
-      location.city != None and location.state != None):
+  if (location.name != "" and location.address != "" and
+      location.city != "" and location.state != ""):
     location.put()
     return str(location.key.id())
   else:
