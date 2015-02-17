@@ -11,8 +11,8 @@ class Location(ndb.Model):
   
   time_created = ndb.IntegerProperty()
   user = ndb.StringProperty()
-  location_id = ndb.IntegerProperty()
-  url = ndb.StringProperty()
+  # location_id = ndb.IntegerProperty()
+  # url = ndb.StringProperty()
   
   vision_rating = ndb.IntegerProperty()
   mobility_rating = ndb.IntegerProperty()
@@ -25,7 +25,7 @@ class Review(ndb.Model):
   
   time_created = ndb.IntegerProperty()
   user = ndb.StringProperty()
-  rev_id = ndb.IntegerProperty()
+  # rev_id = ndb.IntegerProperty()
   
   # Ratings are from a 1 to 5 scale, unless unrated(0).
   vision_rating = ndb.IntegerProperty()
