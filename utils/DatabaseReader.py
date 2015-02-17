@@ -22,8 +22,16 @@ def get_location(loc_id):
   else:
     return None
 
+def get_recent_locations(lower = 0, higher = 5, pos = 0):
+  locs = models.Location.query().order(-models.Location.time_created).fetch(higher - lower, offset = pos)
+  return locs
+
+def get_recent_reviews(lower = 0, higher = 5, pos = 0):
+  reviews = models.Review.query().order(-models.Review.time_created).fetch(higher - lower, offset = pos)  
+  return reviews
+
 def get_last_reviews(loc_id):
-  reviews = list()
+  reviews = []
   qry = models.Review.query(models.Review.loc_id == loc_id).order(-models.Review.time_created)
   for review in qry.fetch(5):
     reviews.append(review)

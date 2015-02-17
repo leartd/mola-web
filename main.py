@@ -88,7 +88,14 @@ class MainPage(webapp2.RequestHandler):
     self.response.out.write(str(html))
   
   def get(self):
-    html = render_template('main_page.html', {'title': ' - Welcome'})
+    recent_locations = DatabaseReader.get_recent_locations()
+    recent_reviews = DatabaseReader.get_recent_reviews()
+    render_params = {
+      'title': ' - Welcome',
+      'locations': recent_locations,
+      'reviews': recent_reviews
+    }
+    html = render_template('main_page.html', render_params)
     self.response.out.write(str(html))
 
 

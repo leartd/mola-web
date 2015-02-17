@@ -1,5 +1,6 @@
 import models
 import time, random
+import DatabaseReader
 
 # @params: request containing the POSTed parameters
 # Returns true if the request is valid, false otherwise
@@ -37,30 +38,44 @@ def add_review(request):
   post_time = int(time.time() * 1000)
   
   loc_id = request.get('URL')
-  vision_rating = int(request.get('Vision'))
-  mobility_rating = int(request.get('Mobility'))
-  speech_rating = int(request.get('Speech'))
-  helpfulness_rating = int(request.get('Helpfulness'))
+  loc_name = DatabaseReader.get_location(loc_id)['name']
+  try:
+    vision_rating = int(request.get('Vision'))
+  except:
+    vision_rating = 0
+  try:
+    mobility_rating = int(request.get('Mobility'))
+  except:
+    mobility_rating = 0
+  try:
+    speech_rating = int(request.get('Speech'))
+  except:
+    speech_rating = 0
+  try:
+    helpfulness_rating = int(request.get('Helpfulness'))
+  except:
+    helpfulness_rating = 0
   text = request.get('Text')
   
   review = models.Review()
+  review.loc_name = loc_name
   
-  if vision_rating >= 1 and vision_rating <= 5:
+  if vision_rating <= 5:
     review.vision_rating = vision_rating
-  elif vision_rating == None:
-    review.vision_rating = 0
-  if mobility_rating >= 1 and mobility_rating <= 5:
+  else:
+    review.vision_rating = None
+  if mobility_rating <= 5:
     review.mobility_rating = mobility_rating
-  elif mobility_rating == None:
-    review.mobility_rating = 0
-  if speech_rating >= 1 and speech_rating <= 5:
+  else:
+    review.mobility_rating = None
+  if speech_rating <= 5:
     review.speech_rating = speech_rating
-  elif speech_rating == None:
-    review.speech_rating = 0
-  if helpfulness_rating >= 1 and helpfulness_rating <= 5:
+  else:
+    review.speech_rating = None
+  if helpfulness_rating <= 5:
     review.helpfulness_rating = helpfulness_rating
-  elif helpfulness_rating == None:
-    review.helpfulness_rating = 0
+  else:
+    review.helpfulness_rating = None
   review.text = text
   review.time_created = post_time
   review.loc_id = loc_id

@@ -22,6 +22,7 @@ class Location(ndb.Model):
 
 class Review(ndb.Model):
   loc_id = ndb.StringProperty()
+  loc_name = ndb.StringProperty()
   
   time_created = ndb.IntegerProperty()
   user = ndb.StringProperty()
