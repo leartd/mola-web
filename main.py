@@ -78,6 +78,7 @@ class ProcessReview(webapp2.RequestHandler):
     else:
       self.redirect("/location/" + self.request.get('URL') + "?post_review=failure")
 
+
 #==============================================================================
 # This is our main page handler.  It will show the most recent Review objects
 # in main_page.html.
@@ -106,5 +107,6 @@ app = webapp2.WSGIApplication([
   # ('/submit/review', AddReview),
     # Currently have copy/pasted code in location_page.html
   ('/submit/rev_handler', ProcessReview),
-  ('/location/.*', LocationPage)
+  ('/location/.*', LocationPage),
+  ('/search', SearchHandler)
 ])
