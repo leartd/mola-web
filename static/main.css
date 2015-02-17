@@ -246,3 +246,12 @@ body .col-md-3,.col-md-9,.row{
 .text-review {
     text-align: left;
 }
+
+.form-error {
+    border: 1px solid red;
+}
+
+#error-text {
+    color: red;
+    display: none;
+}

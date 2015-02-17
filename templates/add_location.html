@@ -1,24 +1,29 @@
 {% extends "base_template.html" %}
 {% block content %}
     <div class="row form_padding">
+            
         <h2>Add Location</h2>
-        <form role="form" class="location_form" name="location_form" action="/submit/loc_handler" method="POST">
+        <form role="form" class="location_form" name="location_form" action="/submit/loc_handler" method="POST" id="loc_form">
             <div class="form-group">
                 <label for="name_loc_form">Name:</label>
-                <input class="form-control" type="text" name="Name" id="name_loc_form" placeholder="Known as...">
+                <input class="form-control" type="text" name="Name" id="name_loc_form" placeholder="Known as..." 
+                    onchange="removeError(this);">
             </div>
             <div class="form-group">
                 <label for="address_loc_form">Address:</label>
-                <input class="form-control" type="text" name="Address" id="address_loc_form" placeholder="Street...">
+                <input class="form-control" type="text" name="Address" id="address_loc_form" placeholder="Street..."
+                    onchange="removeError(this);">
             </div>
             <div class="form-group">
                 <div class="col-md-10">
                     <label for="city_loc_form">City:</label>
-                    <input class="form-control" type="text" name="City" id="city_loc_form" placeholder="Located in...">
+                    <input class="form-control" type="text" name="City" id="city_loc_form" placeholder="Located in..."
+                        onchange="removeError(this);">
                 </div>
                 <div class="col-md-2">
                     <label for="state_loc_form">State:</label>
-                    <select class="form-control" name="State" id="state_loc_form">
+                    <select class="form-control" name="State" id="state_loc_form"
+                        onchange="removeError(this);">
                         <option value="AK">AK</option>
                         <option value="AL">AL</option>
                         <option value="AR">AR</option>
@@ -83,9 +88,10 @@
                 <div> <!-- This fixes the positioning-->
                     <label for="descrp_loc_form">Description:</label>
                     <textarea class="form-control" name="Description" id="descrp_loc_form" placeholder="About the place..."></textarea>
-                    <input type="submit" class="btn" value="Submit">    
+                    <input type="button" id="form_submit" class="btn" value="Submit" onclick="checkFields(this);">
                 </div>
             </div>
         </form>
+        <div id="error-text">Error in one or more fields</div>
     </div>
 {% endblock content %}

@@ -107,6 +107,5 @@ app = webapp2.WSGIApplication([
   # ('/submit/review', AddReview),
     # Currently have copy/pasted code in location_page.html
   ('/submit/rev_handler', ProcessReview),
-  ('/location/.*', LocationPage),
-  ('/search', SearchHandler)
+  ('/location/.*', LocationPage)
 ])
