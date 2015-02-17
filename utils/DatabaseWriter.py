@@ -45,28 +45,28 @@ def add_review(request):
   
   review = models.Review()
   
-  # if vision_rating >= 1 and vision_rating <= 5:
-    # review.vision_rating = vision_rating
-  # elif vision_rating == None:
-    # review.vision_rating = 0
-  # if mobility_rating >= 1 and mobility_rating <= 5:
-    # review.mobility_rating = mobility_rating
-  # elif mobility_rating == None:
-    # review.mobility_rating = 0
-  # if speech_rating >= 1 and speech_rating <= 5:
-    # review.speech_rating = speech_rating
-  # elif speech_rating == None:
-    # review.speech_rating = 0
-  # if helpfulness_rating >= 1 and helpfulness_rating <= 5:
-    # review.helpfulness_rating = helpfulness_rating
-  # elif helpfulness_rating == None:
-    # review.helpfulness_rating = 0
-  # review.text = text
-  # review.time_created = post_time
+  if vision_rating >= 1 and vision_rating <= 5:
+    review.vision_rating = vision_rating
+  elif vision_rating == None:
+    review.vision_rating = 0
+  if mobility_rating >= 1 and mobility_rating <= 5:
+    review.mobility_rating = mobility_rating
+  elif mobility_rating == None:
+    review.mobility_rating = 0
+  if speech_rating >= 1 and speech_rating <= 5:
+    review.speech_rating = speech_rating
+  elif speech_rating == None:
+    review.speech_rating = 0
+  if helpfulness_rating >= 1 and helpfulness_rating <= 5:
+    review.helpfulness_rating = helpfulness_rating
+  elif helpfulness_rating == None:
+    review.helpfulness_rating = 0
+  review.text = text
+  review.time_created = post_time
   
-  # if (review.vision_rating != None and review.mobility_rating != None and
-      # review.speech_rating != None and review.helpfulness_rating != None):
-  review.put()
-  return loc_id  # For now?
-  # else:
-    # return None
+  if (review.vision_rating != None and review.mobility_rating != None and
+      review.speech_rating != None and review.helpfulness_rating != None):
+    review.put()
+    return loc_id  # For now?
+  else:
+    return None

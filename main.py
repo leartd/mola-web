@@ -71,9 +71,9 @@ class AddReview(webapp2.RequestHandler):
 #==============================================================================
 class ProcessReview(webapp2.RequestHandler):
   def post(self):
-    url = DatabaseWriter.add_location(self.request)
+    url = DatabaseWriter.add_review(self.request)
     if url:
-      self.redirect("/location/" + url + "?post_review=success")
+      self.redirect("/location/" + self.request.get('URL') + "?post_review=success")
     else:
       self.redirect("/location/" + self.request.get('URL') + "?post_review=failure")
 
