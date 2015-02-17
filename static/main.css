@@ -165,3 +165,26 @@ body .col-md-3,.col-md-9,.row{
     height: 16px;
     background: url('http://kubyshkin.ru/samples/star-rating/star.png') 0 -16px;
 }
+
+/*
+.review {
+    border: 1px solid black;
+}*/
+.panel-heading {
+    padding-bottom: 25px;
+}
+.panel-heading .user-name  {
+    float: left;
+}
+
+.panel-heading .review-date, .page-link {
+    float:right;
+}
+
+.user-reviews {
+    float: right;
+}
+
+.text-review {
+    text-align: left;
+}

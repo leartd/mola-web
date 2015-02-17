@@ -4,15 +4,57 @@
         <div class="posts col-md-9">
             <h2>Recent Locations and Reviews</h2>
             <div class="col-md-6">
-                <p class="locations">Location 1</p>
+                {% for location in locations %}
+                <div class="row">   
+                    <h1><a href="/location/{{location.key.id}}">{{ location.name }}</a></h1>
+                    <label for="address">Address:</label>
+                    <div id="address">
+                        {{ location.address }} <br />
+                        {{ location.city }}, {{ location.state }}
+                    </div>
+                    <p>{{ location.desc }}</p>
+                </div>
+                {% endfor %}
             </div>
             <div class="col-md-6">
-                <p class="review">Review 1</p>
+                {% for review in reviews %}
+                <div class="panel panel-default review">
+                    <div class="panel-heading">
+                        <span class="user-name">{{review.user}}</span>
+                        <span class="page-link"><a href="/location/{{review.loc_id}}">{{ review.loc_name }}</a></span>
+                    </div>
+                    <div class="panel-body" style="margin-top:-0px">
+                            <div class="col-md-4 ">
+                                <div>
+                                    <label>Vision:</label>
+                                    <img class="user-reviews" src = "/static/images/{{review.vision_rating}}_star.gif" tile="{{review.vision_rating}} Star Rating" alt="{{review.vision_rating}} Stars" />
+                                </div>
+                                <div>
+                                    <label>Mobility:</label>
+                                    <img class="user-reviews" src = "/static/images/{{review.mobility_rating}}_star.gif" tile="{{review.mobility_rating}} Star Rating" alt="{{review.mobility_rating}} Stars" />
+                                </div>
+                                <div>
+                                    <label>Speech</label>
+                                    <img class="user-reviews" src = "/static/images/{{review.speech_rating}}_star.gif" tile="{{review.speech_rating}} Star Rating" alt="{{review.speech_rating}} Stars" />
+                                </div>
+                                <div>
+                                    <label>Helpfulness</label>
+                                    <img class="user-reviews" src = "/static/images/{{review.helpfulness_rating}}_star.gif" tile="{{review.helpfulness_rating}} Star Rating" alt="{{review.helpfulness_rating}} Stars" />
+                                </div>
+                            </div> 
+                            <div class="col-md-8 text-review">
+                                <p>
+                                    {{review.text}}
+                                </p>
+                            </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
         <div class="sidebar col-md-3">
             <div id="submit_review">
-                <button class="btn">Submit</button>
+                <a class="btn" href="/submit/location">Add a Location</a>
             </div>
             <div id="Statement">
                 <p>
