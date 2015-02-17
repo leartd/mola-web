@@ -13,6 +13,28 @@ body .col-md-3,.col-md-9,.row{
 	margin-top: 2em;
 }
 
+.small-border{
+	width:300px;
+	height:1px;
+	/*align:center;*/
+		/*padding:5px;*/
+	border-bottom:2px solid #ddd; 
+	/*-webkit-border-radius: 5px;*/
+	/*border-radius: 5px;	*/
+}
+.location-page-address{
+	padding:5px;
+	border-top:2px solid #ddd; 
+	-webkit-border-radius: 5px;
+	border-radius: 5px;	
+	/*float:left;*/
+	/*text-align: left;*/
+
+}
+
+.row-fix{
+	margin-right: 0px;
+}
 
 .front-page-post {
 	padding:5px;
@@ -53,9 +75,18 @@ body .col-md-3,.col-md-9,.row{
 }
 .review{
 	/*border: solid 1px;*/
-	border-color: #000;
+	padding:5px;
+	border:2px solid #ccc; 
+	-webkit-border-radius: 5px;
+	border-radius: 5px;	
 }
-
+.footer{
+		padding:5px;
+	border:2px solid #ccc; 
+	-webkit-border-radius: 5px;
+	border-radius: 5px;	
+	/*margin-right: -30px;*/
+}
 .location{
 	/*border: solid 1px;*/
 	border-color: #000;
