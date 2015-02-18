@@ -17,12 +17,12 @@
 					{{ city }}, {{ state }}
 				</div>
 				<label for="h3-test" class="small-border"></label for="h3-test">
-				<h3 id="h3-test">About us...</h3>
+				<h3 id="h3-test">Description:</h3>
 				<p style="padding-top:0.5em;">{{ description }}</p>
 			</div>	
 		</div>
 		<!-- START add_review.html copypast	a, with added script -->
-		<div class="row review row-fix form_padding">
+		<div class="row review row-fix form_padding" id="add-location-fix">
 			<h2>Add Review</h2>
 			<form role="form" name="review_form" action="/submit/rev_handler" class="review_form" method="POST">
 				<div class="col-md-3">   
