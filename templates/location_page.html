@@ -131,12 +131,12 @@
 		There are {{reviews|length}} reviews for this location.
 		{% for review in reviews %}
 		<div class="panel panel-default review">
-	            <div class="panel-heading">
+	            <div class="panel-heading" style="background-color:#e1e1e1;" >
 	                <span class="user-name">{{review.user}}</span>
-	                <span class="review-date">{{review.time_created}}</span>
+	                <span class="review-date">{{review.time_created.month}}/{{review.time_created.day}}/{{review.time_created.year}}</span>
 	            </div>
-	            <div class="panel-body" style="margin-top:-20px">
-	                    <div class="col-md-3 ">
+	            <div class="panel-body" style="margin-top:-0px; background-color:#f4f4f4">
+	                    <div class="col-md-3 well">
 	                    	<div>
 								<label>Vision:</label>
 								<img class="user-reviews" src = "/static/images/{{review.vision_rating}}_star.gif" tile="{{review.vision_rating}} Star Rating" alt="{{review.vision_rating}} Stars" />

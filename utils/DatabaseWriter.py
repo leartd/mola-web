@@ -1,6 +1,7 @@
 import models
 import time, random
 import DatabaseReader
+import datetime
 
 # @params: request containing the POSTed parameters
 # Returns true if the request is valid, false otherwise
@@ -35,7 +36,7 @@ def add_location(request):
 
 def add_review(request):
   # Current time in milliseconds
-  post_time = int(time.time() * 1000)
+  post_time = int(time.time())
   
   loc_id = request.get('URL')
   loc_name = DatabaseReader.get_location(loc_id)['name']
@@ -77,8 +78,10 @@ def add_review(request):
   else:
     review.helpfulness_rating = None
   review.text = text
-  review.time_created = post_time
+  review.time_created = datetime.datetime.fromtimestamp(post_time)
   review.loc_id = loc_id
+
+  review.user = "Anonymous"
   
   if (review.vision_rating != None and review.mobility_rating != None and
       review.speech_rating != None and review.helpfulness_rating != None):

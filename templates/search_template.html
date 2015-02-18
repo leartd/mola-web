@@ -1,0 +1,8 @@
+{% extends "base_template.html" %}
+{% block content %}
+    <div class="row top-padding-fix">
+        <h1>Search Results:</h1>
+        <p>Showing 0-0 results {% if location and location != "" %} for {{location}} {% endif %} 
+            {% if city and city != ""  %} in {{city}}{% endif %}.</p>
+    </div>  
+{% endblock content %}

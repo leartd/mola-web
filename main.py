@@ -78,6 +78,18 @@ class ProcessReview(webapp2.RequestHandler):
     else:
       self.redirect("/location/" + self.request.get('URL') + "?post_review=failure")
 
+class SearchHandler(webapp2.RequestHandler):
+  def get(self):
+    location = self.request.get('location-query')
+    city = self.request.get('city-query')
+    render_params = {
+      'title': ' - Search',
+      'location': location,
+      'city': city
+    }
+    html = render_template('search_template.html', render_params)
+    self.response.out.write(html)
+
 
 #==============================================================================
 # This is our main page handler.  It will show the most recent Review objects
@@ -107,5 +119,6 @@ app = webapp2.WSGIApplication([
   # ('/submit/review', AddReview),
     # Currently have copy/pasted code in location_page.html
   ('/submit/rev_handler', ProcessReview),
-  ('/location/.*', LocationPage)
+  ('/location/.*', LocationPage),
+  ('/search', SearchHandler)
 ])
