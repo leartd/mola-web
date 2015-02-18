@@ -4,7 +4,10 @@
 
 html, body {
 	height:100%;
-  /*padding-top: 50px;*/
+}
+
+.top-padding-fix {
+  padding-top: 35px;
 }
 
 body .col-md-3,.col-md-9,.row{
@@ -106,8 +109,8 @@ body .col-md-3,.col-md-9,.row{
 }
 
 .form_padding{
-	padding-left: 0.5em;
-	padding-right: 0.5em;
+	padding-left: 1em;
+	padding-right: 1em;
 }
 .location_form input[type=text]{
 /*	margin-left: 0.25em;

@@ -19,12 +19,12 @@
             <div class="col-md-6">
                 {% for review in reviews %}
                 <div class="panel panel-default front-page-post">
-                    <div class="panel-heading">
+                    <div class="panel-heading" style="background-color:#e1e1e1">
                         <span class="user-name">{{review.user}}</span>
                         <span class="page-link"><a href="/location/{{review.loc_id}}">{{ review.loc_name }}</a></span>
                     </div>
-                    <div class="panel-body" style="margin-top:-0px">
-                            <div class="col-md-4 ">
+                    <div class="panel-body " style="margin-top:-0px; background-color:#f4f4f4;">
+                            <div class="col-md-4 well">
                                 <div>
                                     <label>Vision:</label>
                                     <img class="user-reviews" src = "/static/images/{{review.vision_rating}}_star.gif" tile="{{review.vision_rating}} Star Rating" alt="{{review.vision_rating}} Stars" />
@@ -54,12 +54,15 @@
         </div>
         <div class="sidebar col-md-3">
             <div id="submit_review">
-                <a class="btn btn-default" href="/submit/location">Add a Location</a>
+                <a class="btn btn-primary" href="/submit/location">Add a Location</a>
             </div>
-            <div id="Statement">
-                <p>
-                    This site is really cool it's really neat I love it look at all the neat stuff on our site wow this is amazing.
-                </p>
+            <div id="Statement" class="panel panel-default" style="margin-top: 1.5em;">
+                <div class="panel-heading" style="padding-bottom:0.75em;"><h2 class="panel-title">About us</h2></div>
+                <div class="panel-body" style="padding-top:0.25em;">
+                    <p>
+                        Site description here.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
