@@ -46,13 +46,16 @@ class LocationPage(webapp2.RequestHandler):
   def get(self):
     render_params = DatabaseReader.get_location(Formatter.get_location_id(
                                                             self.request.url))
-    render_params['loc_id'] = Formatter.get_location_id(self.request.url)
-    render_params['post'] = self.request.get('post_review')
-    render_params['reviews'] = DatabaseReader.get_last_reviews(
-                                  Formatter.get_location_id(self.request.url))
-    render_params['title'] = ' - %s' % render_params['name']
-    html = render_template('location_page.html', render_params)
-    self.response.out.write(html)
+    if render_params == None:
+      self.redirect("/")
+    else:
+      render_params['loc_id'] = Formatter.get_location_id(self.request.url)
+      render_params['post'] = self.request.get('post_review')
+      render_params['reviews'] = DatabaseReader.get_last_reviews(
+                                    Formatter.get_location_id(self.request.url))
+      render_params['title'] = ' - %s' % render_params['name']
+      html = render_template('location_page.html', render_params)
+      self.response.out.write(html)
 
 
 #==============================================================================

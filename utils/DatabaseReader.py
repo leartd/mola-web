@@ -1,7 +1,12 @@
 import models
 
 def get_location(loc_id):
-  m = models.Location.get_by_id(long(loc_id))
+  try:
+    m = models.Location.get_by_id(long(loc_id))
+  except:
+    return None
+  if not m:
+    return None
   if m.desc:
     desc = m.desc
   else:
