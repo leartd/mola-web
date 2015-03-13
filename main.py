@@ -1,4 +1,5 @@
 import os
+from google.appengine.api import users 
 import webapp2
 from google.appengine.ext.webapp import template
 from utils import Formatter, DatabaseWriter, DatabaseReader
@@ -6,7 +7,16 @@ from utils import Formatter, DatabaseWriter, DatabaseReader
 #==============================================================================
 # Convenience function to retrieve and render a template.
 #==============================================================================
-def render_template(templatename, templatevalues):
+def render_template(templatename, templatevalues = {}):
+  user = users.get_current_user()
+  if user:
+    templatevalues['login_needed'] = False
+    templatevalues['login'] = users.create_logout_url("/")
+    templatevalues['user'] = user.nickname()
+  else:
+    templatevalues['login_needed'] = True
+    templatevalues['login'] = users.create_login_url("/")
+    
   path = os.path.join(os.path.dirname(__file__), 'templates/' + templatename)
   html = template.render(path, templatevalues)
   return html

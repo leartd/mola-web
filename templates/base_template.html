@@ -23,7 +23,7 @@
 	</head>
 	<body>
 		
-	    <nav class="navbar navbar-inverse navbar-fixed-top mola-nav">
+	    <nav class="navbar navbar-inverse navbar-fixed-top mola-nav" style = "margin-bottom: 20px;">
 	      <div class="container">
 	        <div class="navbar-header">
 	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -44,11 +44,27 @@
 		            <li><a href="#about">About</a></li>
 		            <li><a href="#contact">Contact</a></li> -->
 		          </ul>
+
 	          </form>
+              <ul class="secondary-nav">
+                    {% if not login_needed %}
+                        <li class="nav-mola greeting">Welcome <a href="/history">{{user}}</a></li>
+                    {% endif %}
+                    <li class="nav-mola">
+                        <a class="btn btn-xs btn-primary" href="{{login}}" style="font-size:15px">{% if login_needed %}
+                            Login
+                            {% else %}
+                            Logout
+                        {% endif %}</a>
+                    </li>
+                </ul>
 	        </div><!--/.nav-collapse -->
+
 	      </div>
+
 	    </nav>
 	    <div class="container main">
+            <!-- Content starts here -->
 	    	{% block content %}
 	    	
 			{% endblock content %}
