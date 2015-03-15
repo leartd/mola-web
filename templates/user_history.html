@@ -1,0 +1,41 @@
+{% extends "base_template.html" %}
+{% block content %}
+    <div class="row top-padding-fix">
+        <div class="container">
+            <h1>Review History</h1>
+        {% for review in posts %}
+            <div class="panel panel-default review">
+                <div class="panel-heading" style="background-color:#e1e1e1;" >
+                    <span class="page-link" style="float:left;"><a href="/location/{{review.loc_id}}">{{ review.loc_name }}</a></span>
+                    <span class="review-date">{{review.time_created.month}}/{{review.time_created.day}}/{{review.time_created.year}}</span>
+                </div>
+                <div class="panel-body" style="margin-top:-0px; background-color:#f4f4f4">
+                    <div class="col-md-3 well">
+                        <div>
+                            <label>Vision:</label>
+                            <img class="user-reviews" src = "/static/images/{{review.vision_rating}}_star.gif" tile="{{review.vision_rating}} Star Rating" alt="{{review.vision_rating}} Stars" />
+                        </div>
+                        <div>
+                            <label>Mobility:</label>
+                            <img class="user-reviews" src = "/static/images/{{review.mobility_rating}}_star.gif" tile="{{review.mobility_rating}} Star Rating" alt="{{review.mobility_rating}} Stars" />
+                        </div>
+                        <div>
+                            <label>Speech</label>
+                            <img class="user-reviews" src = "/static/images/{{review.speech_rating}}_star.gif" tile="{{review.speech_rating}} Star Rating" alt="{{review.speech_rating}} Stars" />
+                        </div>
+                        <div>
+                            <label>Helpfulness</label>
+                            <img class="user-reviews" src = "/static/images/{{review.helpfulness_rating}}_star.gif" tile="{{review.helpfulness_rating}} Star Rating" alt="{{review.helpfulness_rating}} Stars" />
+                        </div>
+                    </div> 
+                    <div class="col-md-9 text-review">
+                        <p>
+                            {{review.text}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    </div>
+{% endblock content %}

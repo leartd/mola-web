@@ -1,4 +1,5 @@
 import os
+from google.appengine.api import users 
 import webapp2
 from google.appengine.ext.webapp import template
 from utils import Formatter, DatabaseWriter, DatabaseReader
@@ -6,7 +7,16 @@ from utils import Formatter, DatabaseWriter, DatabaseReader
 #==============================================================================
 # Convenience function to retrieve and render a template.
 #==============================================================================
-def render_template(templatename, templatevalues):
+def render_template(templatename, templatevalues = {}):
+  user = users.get_current_user()
+  if user:
+    templatevalues['login_needed'] = False
+    templatevalues['login'] = users.create_logout_url("/")
+    templatevalues['user'] = user.nickname()
+  else:
+    templatevalues['login_needed'] = True
+    templatevalues['login'] = users.create_login_url("/")
+    
   path = os.path.join(os.path.dirname(__file__), 'templates/' + templatename)
   html = template.render(path, templatevalues)
   return html
@@ -95,6 +105,15 @@ class SearchHandler(webapp2.RequestHandler):
 
 
 #==============================================================================
+# Test Page for AutoComplete.
+#
+#==============================================================================
+class TestHandler(webapp2.RequestHandler):
+    def get(self):
+      html = render_template('test_page.html', {'title': ' - Test'})
+      self.response.out.write(str(html))
+
+#==============================================================================
 # This is our main page handler.  It will show the most recent Review objects
 # in main_page.html.
 #==============================================================================
@@ -114,7 +133,6 @@ class MainPage(webapp2.RequestHandler):
     html = render_template('main_page.html', render_params)
     self.response.out.write(str(html))
 
-
 app = webapp2.WSGIApplication([
   ('/', MainPage),
   ('/submit/location', AddLocationPage),
@@ -123,5 +141,6 @@ app = webapp2.WSGIApplication([
     # Currently have copy/pasted code in location_page.html
   ('/submit/rev_handler', ProcessReview),
   ('/location/.*', LocationPage),
-  ('/search', SearchHandler)
+  ('/search', SearchHandler),
+  ('/test', TestHandler)
 ])

@@ -2,6 +2,7 @@ import models
 import time, random
 import DatabaseReader
 import datetime
+from google.appengine.api import users 
 
 # @params: request containing the POSTed parameters
 # Returns true if the request is valid, false otherwise
@@ -81,7 +82,12 @@ def add_review(request):
   review.time_created = datetime.datetime.fromtimestamp(post_time)
   review.loc_id = loc_id
 
-  review.user = "Anonymous"
+  user = users.get_current_user()
+  if user:
+    review.user = user.nickname()
+    review.user_email = user.email()
+  else:
+    review.user = "Anonymous"
   
   if (review.vision_rating != None and review.mobility_rating != None and
       review.speech_rating != None and review.helpfulness_rating != None):
