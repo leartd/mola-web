@@ -114,6 +114,29 @@ class TestHandler(webapp2.RequestHandler):
       self.response.out.write(str(html))
 
 #==============================================================================
+# Test Location Checker.
+#
+#==============================================================================      
+class LocationChecker(webapp2.RequestHandler):
+  def post(self):
+    url = DatabaseWriter.add_location_beta(self.request)
+    if url:
+      self.redirect("/location/" + url)
+    else:
+      self.redirect("/test")
+      # googlePlaceId = self.request.get("placeID")
+
+
+
+  #   class ProcessLocation(webapp2.RequestHandler):
+  # def post(self):    
+  #   url = DatabaseWriter.add_location(self.request)
+  #   if url:
+  #     self.redirect("/location/" + url)
+  #   else:
+  #     self.redirect("/submit/location")
+
+#==============================================================================
 # This is our main page handler.  It will show the most recent Review objects
 # in main_page.html.
 #==============================================================================
@@ -142,5 +165,6 @@ app = webapp2.WSGIApplication([
   ('/submit/rev_handler', ProcessReview),
   ('/location/.*', LocationPage),
   ('/search', SearchHandler),
-  ('/test', TestHandler)
+  ('/test', TestHandler),
+  ('/loc_checker', LocationChecker)
 ])
