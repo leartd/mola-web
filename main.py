@@ -167,4 +167,5 @@ app = webapp2.WSGIApplication([
   ('/search', SearchHandler),
   ('/test', TestHandler),
   ('/loc_checker', LocationChecker)
-])
+],
+debug=True)

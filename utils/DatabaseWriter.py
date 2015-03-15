@@ -61,7 +61,7 @@ def add_location_beta(request):
   
   if (location.name != "" and location.address != "" and
       location.city != "" and location.state != ""):
-    location.put(key = request.get("PlaceID"))
+    location.put(key_name = request.get("PlaceID"))
     return str(location.key.id())
   else:
     return None
