@@ -42,7 +42,7 @@ def add_location_beta(request):
   post_time = int(time.time() * 1000)
   
   name = request.get('PlaceName')
-  address = request.get('Street_number') + request.get('Street_name')
+  address = request.get('Street_number') + " "+ request.get('Street_name')
   city = request.get('City')
   state = request.get('State')
   desc = ""#request.get('Description')
@@ -61,7 +61,7 @@ def add_location_beta(request):
   
   if (location.name != "" and location.address != "" and
       location.city != "" and location.state != ""):
-    location.put(key_name = request.get("PlaceID"))
+    location.put()
     return str(location.key.id())
   else:
     return None
