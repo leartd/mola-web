@@ -63,7 +63,7 @@ def add_location_beta(request):
   location.desc = desc
   location.time_created = post_time
   location.goPlaceID = request.get("PlaceID")
-  # location.key = ndb.Key(models.Location, request.get("PlaceID"))
+  location.key = ndb.Key(models.Location, request.get("PlaceID"))
   if (location.name != "" and location.address != "" and
       location.city != "" and location.state != ""):
     location.put()

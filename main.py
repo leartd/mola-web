@@ -46,16 +46,14 @@ class ProcessLocation(webapp2.RequestHandler):
     else:
       self.redirect("/submit/location")
 
-
 #==============================================================================
 # This is our location page handler. It will show the Location object linked
 # with the current url, and all Review objects belonging to it, in
 # location_page.html.
 #==============================================================================
 class LocationPage(webapp2.RequestHandler):
-  def get(self):
-    render_params = DatabaseReader.get_location(Formatter.get_location_id(
-                                                            self.request.url))
+  def get(self, location_id):
+    render_params = DatabaseReader.get_location(location_id)
     if render_params == None:
       self.redirect("/")
     else:
@@ -178,7 +176,7 @@ app = webapp2.WSGIApplication([
   # ('/submit/review', AddReview),
     # Currently have copy/pasted code in location_page.html
   ('/submit/rev_handler', ProcessReview),
-  ('/location/.*', LocationPage),
+  ('/location/(.*)', LocationPage),
   ('/search', SearchHandler),
   ('/test', TestHandler),
   ('/loc_checker', LocationChecker),
