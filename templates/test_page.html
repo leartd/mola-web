@@ -1,0 +1,22 @@
+{% extends "base_template.html" %}
+{% block content %}
+    <div class="row form_padding top-padding-fix">
+        <form action="/loc_checker" method="POST" id="search_form">
+            <div class="form-group">
+
+                <input id="autocomplete" onFocus="geolocate()" name="search-query" type="text" placeholder="Search Places...">
+
+                <input id="placeName" name="PlaceName" type="hidden" >
+                <input id="placeID" name="PlaceID" type="hidden">
+
+                <input id="street_number" name="Street_number" type="hidden">
+                <input id="route" name="Street_name" type="hidden">
+                <input id="locality" name="City" type="hidden">
+                <input id="administrative_area_level_1" name="State" type="hidden">
+                <input id="country" name="Country" type="hidden">
+       <!--          <input id="postal_code" name="Postal_code" type="hidden">             -->
+                <input class="btn btn-xs btn-primary" style="font-size:15px;" type="submit" value="Search Mola">
+            </div>
+        </form>
+    </div>
+{% endblock content %}

@@ -105,6 +105,53 @@ class SearchHandler(webapp2.RequestHandler):
 
 
 #==============================================================================
+# Test Page for AutoComplete.
+#
+#==============================================================================
+class TestHandler(webapp2.RequestHandler):
+    def get(self):
+      html = render_template('test_page.html', {'title': ' - Test'})
+      self.response.out.write(str(html))
+
+#==============================================================================
+# Test Location Checker.
+#
+#==============================================================================      
+class LocationChecker(webapp2.RequestHandler):
+  def post(self):
+    url = DatabaseWriter.add_location_beta(self.request)
+    if url:
+      self.redirect("/location/" + url)
+    else:
+      self.redirect("/test")
+      # googlePlaceId = self.request.get("placeID")
+
+
+
+  #   class ProcessLocation(webapp2.RequestHandler):
+  # def post(self):    
+  #   url = DatabaseWriter.add_location(self.request)
+  #   if url:
+  #     self.redirect("/location/" + url)
+  #   else:
+  #     self.redirect("/submit/location")
+
+class MoreReviewsHandler(webapp2.RequestHandler):
+    def get(self):
+      location_id = self.request.get("id")
+      offset = self.request.get("offset")
+      self.response.out.write("Server says YES!")
+
+#       import json
+
+# self.response.headers['Content-Type'] = 'application/json'   
+# obj = {
+#     'success': 'some var', 
+#     'payload': 'some var',
+#   } 
+# self.response.out.write(json.dumps(obj))
+
+#==============================================================================
 # This is our main page handler.  It will show the most recent Review objects
 # in main_page.html.
 #==============================================================================
@@ -124,7 +171,6 @@ class MainPage(webapp2.RequestHandler):
     html = render_template('main_page.html', render_params)
     self.response.out.write(str(html))
 
-
 app = webapp2.WSGIApplication([
   ('/', MainPage),
   ('/submit/location', AddLocationPage),
@@ -133,5 +179,9 @@ app = webapp2.WSGIApplication([
     # Currently have copy/pasted code in location_page.html
   ('/submit/rev_handler', ProcessReview),
   ('/location/.*', LocationPage),
-  ('/search', SearchHandler)
-])
+  ('/search', SearchHandler),
+  ('/test', TestHandler),
+  ('/loc_checker', LocationChecker),
+  ('/get/reviews', MoreReviewsHandler)
+],
+debug=True)
