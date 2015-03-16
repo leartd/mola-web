@@ -33,10 +33,10 @@ function initialize() {
     fillInAddress();
   });
 
-  $("#search_form").submit(function(e) {
-      if (document.getElementById('placeID').value=="") {
-        e.preventDefault();
-      }
+  $("#search_form").submit(function(e) { 
+      if (document.getElementById('placeID').value=="") { 
+        e.preventDefault(); 
+      } 
   });
   // var form = document.getElementById('search_form');
   // form.addEventListener('onSubmit', function(e) {
