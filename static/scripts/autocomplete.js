@@ -7,11 +7,21 @@ var componentForm = {
   route: 'long_name',
   locality: 'long_name',
   administrative_area_level_1: 'short_name',
-  country: 'long_name'
+  country: 'long_name',
+  placeName: 'place_name',
+  placeID: 'place_id'
   // postal_code: 'short_name'
 };
+submit=false;
 
 function initialize() {
+
+  $("#autocomplete")[0].value = "";
+  for (var component in componentForm) {
+    document.getElementById(component).value = '';
+    // document.getElementById(component).disabled = false;
+  }
+
   // Create the autocomplete object, restricting the search
   // to geographical location types.
   autocomplete = new google.maps.places.Autocomplete(
@@ -22,13 +32,26 @@ function initialize() {
   google.maps.event.addListener(autocomplete, 'place_changed', function() {
     fillInAddress();
   });
+
+  $("#search_form").submit(function(e) {
+      if (document.getElementById('placeID').value=="") {
+        e.preventDefault();
+      }
+  });
+  // var form = document.getElementById('search_form');
+  // form.addEventListener('onSubmit', function(e) {
+  //   if ($('.pac-container:visible').length) {
+  //     return false;
+  //   }
+  // });
 }
 
 // [START region_fillform]
 function fillInAddress() {
+  submit = true;
   // Get the place details from the autocomplete object.
   var place = autocomplete.getPlace();
-
+  console.log(place)
   for (var component in componentForm) {
     document.getElementById(component).value = '';
     // document.getElementById(component).disabled = false;
@@ -44,7 +67,9 @@ function fillInAddress() {
     }
   }
   document.getElementById('placeName').value = place.name;
+  console.log(place.name);
   document.getElementById('placeID').value = place.place_id;
+  $("#search_form").submit()
 }
 // [END region_fillform]
 
