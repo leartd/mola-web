@@ -2,6 +2,7 @@ import models
 import time, random
 import DatabaseReader
 import datetime
+from google.appengine.ext import ndb
 from google.appengine.api import users 
 
 # @params: request containing the POSTed parameters
@@ -58,7 +59,9 @@ def add_location_beta(request):
     location.state = state
   location.desc = desc
   location.time_created = post_time
-  
+  location.goPlaceID = request.get("PlaceID")
+  # location.key = ndb.Key(models.Location, request.get("PlaceID"))
+
   if (location.name != "" and location.address != "" and
       location.city != "" and location.state != ""):
     location.put()

@@ -136,6 +136,21 @@ class LocationChecker(webapp2.RequestHandler):
   #   else:
   #     self.redirect("/submit/location")
 
+class MoreReviewsHandler(webapp2.RequestHandler):
+    def get(self):
+      location_id = self.request.get("id")
+      offset = self.request.get("offset")
+      self.response.out.write("Server says YES!")
+
+#       import json
+
+# self.response.headers['Content-Type'] = 'application/json'   
+# obj = {
+#     'success': 'some var', 
+#     'payload': 'some var',
+#   } 
+# self.response.out.write(json.dumps(obj))
+
 #==============================================================================
 # This is our main page handler.  It will show the most recent Review objects
 # in main_page.html.
@@ -166,6 +181,7 @@ app = webapp2.WSGIApplication([
   ('/location/.*', LocationPage),
   ('/search', SearchHandler),
   ('/test', TestHandler),
-  ('/loc_checker', LocationChecker)
+  ('/loc_checker', LocationChecker),
+  ('/get/reviews', MoreReviewsHandler)
 ],
 debug=True)
