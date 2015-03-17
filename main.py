@@ -46,23 +46,20 @@ class ProcessLocation(webapp2.RequestHandler):
     else:
       self.redirect("/submit/location")
 
-
 #==============================================================================
 # This is our location page handler. It will show the Location object linked
 # with the current url, and all Review objects belonging to it, in
 # location_page.html.
 #==============================================================================
 class LocationPage(webapp2.RequestHandler):
-  def get(self):
-    render_params = DatabaseReader.get_location(Formatter.get_location_id(
-                                                            self.request.url))
+  def get(self, location_id):
+    render_params = DatabaseReader.get_location(location_id)
     if render_params == None:
       self.redirect("/")
     else:
-      render_params['loc_id'] = Formatter.get_location_id(self.request.url)
+      render_params['loc_id'] = location_id
       render_params['post'] = self.request.get('post_review')
-      render_params['reviews'] = DatabaseReader.get_last_reviews(
-                                    Formatter.get_location_id(self.request.url))
+      render_params['reviews'] = DatabaseReader.get_last_reviews(location_id)
       render_params['title'] = ' - %s' % render_params['name']
       html = render_template('location_page.html', render_params)
       self.response.out.write(html)
@@ -161,6 +158,8 @@ class MainPage(webapp2.RequestHandler):
     self.response.out.write(str(html))
   
   def get(self):
+    #location = self.request.headers.get("X-AppEngine-City")
+    #self.response.out.write(location)
     recent_locations = DatabaseReader.get_recent_locations()
     recent_reviews = DatabaseReader.get_recent_reviews()
     render_params = {
@@ -178,7 +177,7 @@ app = webapp2.WSGIApplication([
   # ('/submit/review', AddReview),
     # Currently have copy/pasted code in location_page.html
   ('/submit/rev_handler', ProcessReview),
-  ('/location/.*', LocationPage),
+  ('/location/(.*)', LocationPage),
   ('/search', SearchHandler),
   ('/test', TestHandler),
   ('/loc_checker', LocationChecker),

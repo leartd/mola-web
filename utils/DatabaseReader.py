@@ -1,8 +1,10 @@
 import models
+from google.appengine.ext import ndb
 
 def get_location(loc_id):
   try:
-    m = models.Location.get_by_id(long(loc_id))
+    key = ndb.Key(models.Location, loc_id)
+    m = key.get()
   except:
     return None
   if not m:
