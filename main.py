@@ -57,10 +57,9 @@ class LocationPage(webapp2.RequestHandler):
     if render_params == None:
       self.redirect("/")
     else:
-      render_params['loc_id'] = Formatter.get_location_id(self.request.url)
+      render_params['loc_id'] = location_id
       render_params['post'] = self.request.get('post_review')
-      render_params['reviews'] = DatabaseReader.get_last_reviews(
-                                    Formatter.get_location_id(self.request.url))
+      render_params['reviews'] = DatabaseReader.get_last_reviews(location_id)
       render_params['title'] = ' - %s' % render_params['name']
       html = render_template('location_page.html', render_params)
       self.response.out.write(html)
@@ -159,6 +158,8 @@ class MainPage(webapp2.RequestHandler):
     self.response.out.write(str(html))
   
   def get(self):
+    #location = self.request.headers.get("X-AppEngine-City")
+    #self.response.out.write(location)
     recent_locations = DatabaseReader.get_recent_locations()
     recent_reviews = DatabaseReader.get_recent_reviews()
     render_params = {

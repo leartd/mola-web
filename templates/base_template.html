@@ -34,16 +34,17 @@
 			  <a class="navbar-brand" href="/">Mola</a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
-				<form action="/search" method="post">
+				<form action="/loc_checker" method="post" id="search_form">
 					<ul class="nav navbar-nav">
 						<li class="nav-mola" style="padding-left: 5px;">
-							<input name="search-query" type="text" placeholder="Search...">
-							<input name="street-num" type="hidden">
-							<input name="route" type="hidden">
-							<input name="locality" type="hidden">
-							<input name="administrative_area_level_1" type="hidden">
-							<input name="country" type="hidden">
-							<input name="postal_code" type="hidden">
+							<input id="autocomplete" onFocus="geolocate()" name="search-query" type="text" placeholder="Search Places..." size="50" >
+			                <input id="placeName" name="PlaceName" type="hidden" >
+			                <input id="placeID" name="PlaceID" type="hidden">
+			                <input id="street_number" name="Street_number" type="hidden">
+			                <input id="route" name="Street_name" type="hidden">
+			                <input id="locality" name="City" type="hidden">
+			                <input id="administrative_area_level_1" name="State" type="hidden">
+			                <input id="country" name="Country" type="hidden">
 						</li>
 						<li class="nav-mola"><input class="btn btn-xs btn-primary" style="font-size:15px;" type="submit" value="Search Mola"></li>
 						<!-- 

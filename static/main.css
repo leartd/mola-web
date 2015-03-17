@@ -136,6 +136,10 @@ body .col-md-3,.col-md-9,.row{
     font-size: 18px;
     color: white;
 }
+
+.pac-container {
+    z-index: 5000;
+}
 /*		padding:5px 15px;
 	background:#b7b7b7;
 	border:0 none;

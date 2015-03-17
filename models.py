@@ -11,7 +11,6 @@ class Location(ndb.Model):
   
   time_created = ndb.IntegerProperty()
   user = ndb.StringProperty()
-  goPlaceID = ndb.StringProperty()
   # location_id = ndb.IntegerProperty()
   # url = ndb.StringProperty()
   
