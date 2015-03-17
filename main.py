@@ -1,8 +1,8 @@
 import os
-from google.appengine.api import users 
+from google.appengine.api import users
 import webapp2
 from google.appengine.ext.webapp import template
-from utils import Formatter, DatabaseWriter, DatabaseReader
+from utils import Formatter, DatabaseWriter, DatabaseReader, Email
 
 #==============================================================================
 # Convenience function to retrieve and render a template.
@@ -30,6 +30,36 @@ class AddLocationPage(webapp2.RequestHandler):
   def get(self):
     html = render_template('add_location.html', {'title': ' - Add Location'})
     self.response.out.write(str(html))
+
+
+#==============================================================================
+# This handler will be used to set up the "Contact Us" form at contact_us.html.
+#==============================================================================
+class ContactPage(webapp2.RequestHandler):
+  def get(self):
+    usernick = ""
+    usermail = ""
+    user = users.get_current_user()
+    if user:
+      usernick = user.nickname()
+      usermail = user.email()
+    render_params = {
+      'title': ' - Contact Us',
+      'usernick': usernick,
+      'usermail': usermail
+    }
+    html = render_template('contact_us.html', render_params)
+    self.response.out.write(str(html))
+
+
+#==============================================================================
+# This handler will send feedback from the "Contact Us" page to admins via
+# email.
+#==============================================================================
+class SendFeedback(webapp2.RequestHandler):
+  def post(self):    
+    Email.send_feedback(self.request)
+    self.redirect("/")
 
 
 #==============================================================================
@@ -137,10 +167,10 @@ class LocationChecker(webapp2.RequestHandler):
   #     self.redirect("/submit/location")
 
 class MoreReviewsHandler(webapp2.RequestHandler):
-    def get(self):
-      location_id = self.request.get("id")
-      offset = self.request.get("offset")
-      self.response.out.write("Server says YES!")
+  def get(self):
+    location_id = self.request.get("id")
+    offset = self.request.get("offset")
+    self.response.out.write("Server says YES!")
 
 #       import json
 
@@ -182,6 +212,8 @@ app = webapp2.WSGIApplication([
   ('/search', SearchHandler),
   ('/test', TestHandler),
   ('/loc_checker', LocationChecker),
-  ('/get/reviews', MoreReviewsHandler)
+  ('/get/reviews', MoreReviewsHandler),
+  ('/contact', ContactPage),
+  ('/submit/feedback', SendFeedback)
 ],
 debug=True)
