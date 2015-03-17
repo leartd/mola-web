@@ -108,10 +108,6 @@ body .col-md-3,.col-md-9,.row{
 	margin-left: 1em;
 }
 
-.form_padding{
-	padding-left: 1em;
-	padding-right: 1em;
-}
 .location_form input[type=text]{
 /*	margin-left: 0.25em;
 	margin-right: 1em;*/
@@ -120,6 +116,26 @@ body .col-md-3,.col-md-9,.row{
 .location_form input[type=submit]{
 	margin: 1em 0em;
 	float:left;
+}
+
+.contact_form label{
+	float:left;
+	margin-left: 1em;
+}
+
+.contact_form input[type=text]{
+/*	margin-left: 0.25em;
+	margin-right: 1em;*/
+}
+
+.contact_form input[type=submit]{
+	margin: 1em 0em;
+	float:left;
+}
+
+.form_padding{
+	padding-left: 1em;
+	padding-right: 1em;
 }
 
 .secondary-nav {
