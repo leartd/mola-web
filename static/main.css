@@ -121,6 +121,25 @@ body .col-md-3,.col-md-9,.row{
 	margin: 1em 0em;
 	float:left;
 }
+
+.secondary-nav {
+    list-style: none;
+    float: right;
+    margin-bottom: 0px;
+}
+
+.secondary-nav li {
+    display: inline-block;
+}
+
+.secondary-nav .greeting {
+    font-size: 18px;
+    color: white;
+}
+
+.pac-container {
+    z-index: 5000;
+}
 /*		padding:5px 15px;
 	background:#b7b7b7;
 	border:0 none;
@@ -209,7 +228,7 @@ body .col-md-3,.col-md-9,.row{
     width: 16px;
     height: 16px;
     padding: 0;
-    margin: 0 0 0 -16px;
+    margin: 0 0 0 -8px;
     opacity: 0;
 }
 .rating:hover .rating-star:hover,

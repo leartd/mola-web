@@ -1,4 +1,5 @@
 import os
+from google.appengine.api import users 
 import webapp2
 from google.appengine.ext.webapp import template
 from utils import Formatter, DatabaseWriter, DatabaseReader
@@ -6,7 +7,16 @@ from utils import Formatter, DatabaseWriter, DatabaseReader
 #==============================================================================
 # Convenience function to retrieve and render a template.
 #==============================================================================
-def render_template(templatename, templatevalues):
+def render_template(templatename, templatevalues = {}):
+  user = users.get_current_user()
+  if user:
+    templatevalues['login_needed'] = False
+    templatevalues['login'] = users.create_logout_url("/")
+    templatevalues['user'] = user.nickname()
+  else:
+    templatevalues['login_needed'] = True
+    templatevalues['login'] = users.create_login_url("/")
+    
   path = os.path.join(os.path.dirname(__file__), 'templates/' + templatename)
   html = template.render(path, templatevalues)
   return html
@@ -36,23 +46,20 @@ class ProcessLocation(webapp2.RequestHandler):
     else:
       self.redirect("/submit/location")
 
-
 #==============================================================================
 # This is our location page handler. It will show the Location object linked
 # with the current url, and all Review objects belonging to it, in
 # location_page.html.
 #==============================================================================
 class LocationPage(webapp2.RequestHandler):
-  def get(self):
-    render_params = DatabaseReader.get_location(Formatter.get_location_id(
-                                                            self.request.url))
+  def get(self, location_id):
+    render_params = DatabaseReader.get_location(location_id)
     if render_params == None:
       self.redirect("/")
     else:
-      render_params['loc_id'] = Formatter.get_location_id(self.request.url)
+      render_params['loc_id'] = location_id
       render_params['post'] = self.request.get('post_review')
-      render_params['reviews'] = DatabaseReader.get_last_reviews(
-                                    Formatter.get_location_id(self.request.url))
+      render_params['reviews'] = DatabaseReader.get_last_reviews(location_id)
       render_params['title'] = ' - %s' % render_params['name']
       html = render_template('location_page.html', render_params)
       self.response.out.write(html)
@@ -95,6 +102,53 @@ class SearchHandler(webapp2.RequestHandler):
 
 
 #==============================================================================
+# Test Page for AutoComplete.
+#
+#==============================================================================
+class TestHandler(webapp2.RequestHandler):
+    def get(self):
+      html = render_template('test_page.html', {'title': ' - Test'})
+      self.response.out.write(str(html))
+
+#==============================================================================
+# Test Location Checker.
+#
+#==============================================================================      
+class LocationChecker(webapp2.RequestHandler):
+  def post(self):
+    url = DatabaseWriter.add_location_beta(self.request)
+    if url:
+      self.redirect("/location/" + url)
+    else:
+      self.redirect("/test")
+      # googlePlaceId = self.request.get("placeID")
+
+
+
+  #   class ProcessLocation(webapp2.RequestHandler):
+  # def post(self):    
+  #   url = DatabaseWriter.add_location(self.request)
+  #   if url:
+  #     self.redirect("/location/" + url)
+  #   else:
+  #     self.redirect("/submit/location")
+
+class MoreReviewsHandler(webapp2.RequestHandler):
+    def get(self):
+      location_id = self.request.get("id")
+      offset = self.request.get("offset")
+      self.response.out.write("Server says YES!")
+
+#       import json
+
+# self.response.headers['Content-Type'] = 'application/json'   
+# obj = {
+#     'success': 'some var', 
+#     'payload': 'some var',
+#   } 
+# self.response.out.write(json.dumps(obj))
+
+#==============================================================================
 # This is our main page handler.  It will show the most recent Review objects
 # in main_page.html.
 #==============================================================================
@@ -104,6 +158,8 @@ class MainPage(webapp2.RequestHandler):
     self.response.out.write(str(html))
   
   def get(self):
+    #location = self.request.headers.get("X-AppEngine-City")
+    #self.response.out.write(location)
     recent_locations = DatabaseReader.get_recent_locations()
     recent_reviews = DatabaseReader.get_recent_reviews()
     render_params = {
@@ -114,7 +170,6 @@ class MainPage(webapp2.RequestHandler):
     html = render_template('main_page.html', render_params)
     self.response.out.write(str(html))
 
-
 app = webapp2.WSGIApplication([
   ('/', MainPage),
   ('/submit/location', AddLocationPage),
@@ -122,6 +177,10 @@ app = webapp2.WSGIApplication([
   # ('/submit/review', AddReview),
     # Currently have copy/pasted code in location_page.html
   ('/submit/rev_handler', ProcessReview),
-  ('/location/.*', LocationPage),
-  ('/search', SearchHandler)
-])
+  ('/location/(.*)', LocationPage),
+  ('/search', SearchHandler),
+  ('/test', TestHandler),
+  ('/loc_checker', LocationChecker),
+  ('/get/reviews', MoreReviewsHandler)
+],
+debug=True)

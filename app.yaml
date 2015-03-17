@@ -1,5 +1,5 @@
 application: mola-web
-version: 1
+version: test
 runtime: python27
 api_version: 1
 threadsafe: no
@@ -7,6 +7,10 @@ threadsafe: no
 handlers:
 - url: /static
   static_dir: static
+
+- url: /history
+  script: maintenance.app
+  login: required
 
 - url: /.*
   script: main.app

@@ -21,11 +21,12 @@ class Location(ndb.Model):
 
 
 class Review(ndb.Model):
-  loc_id = ndb.StringProperty()
+  loc_id = ndb.StringProperty(required=True)
   loc_name = ndb.StringProperty()
   
   time_created = ndb.DateTimeProperty()
   user = ndb.StringProperty()
+  user_email = ndb.StringProperty()
   # rev_id = ndb.IntegerProperty()
   
   # Ratings are from a 1 to 5 scale, unless unrated(0).
@@ -35,3 +36,8 @@ class Review(ndb.Model):
   helpfulness_rating = ndb.IntegerProperty()
   
   text = ndb.TextProperty()
+
+class User(ndb.Model):
+  email = ndb.StringProperty()
+  name = ndb.StringProperty()
+  disability = ndb.StringProperty()

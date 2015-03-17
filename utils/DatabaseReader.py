@@ -1,8 +1,10 @@
 import models
+from google.appengine.ext import ndb
 
 def get_location(loc_id):
   try:
-    m = models.Location.get_by_id(long(loc_id))
+    key = ndb.Key(models.Location, loc_id)
+    m = key.get()
   except:
     return None
   if not m:
@@ -40,4 +42,8 @@ def get_last_reviews(loc_id):
   qry = models.Review.query(models.Review.loc_id == loc_id).order(-models.Review.time_created)
   for review in qry.fetch(5):
     reviews.append(review)
+  return reviews
+
+def get_user_posts(email):
+  reviews = models.Review.query(models.Review.user_email == email).order(-models.Review.time_created)
   return reviews

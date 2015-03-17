@@ -2,6 +2,8 @@ import models
 import time, random
 import DatabaseReader
 import datetime
+from google.appengine.ext import ndb
+from google.appengine.api import users 
 
 # @params: request containing the POSTed parameters
 # Returns true if the request is valid, false otherwise
@@ -27,6 +29,40 @@ def add_location(request):
   location.desc = desc
   location.time_created = post_time
   
+  if (location.name != "" and location.address != "" and
+      location.city != "" and location.state != ""):
+    location.put()
+    return str(location.key.id())
+  else:
+    return None
+
+import logging
+
+# @params: request containing the POSTed parameters
+# Returns true if the request is valid, false otherwise
+def add_location_beta(request):
+  # Current time in milliseconds
+  post_time = int(time.time() * 1000)
+  
+  name = request.get('PlaceName')
+  logging.info("Place name is %s" %name)
+  address = request.get('Street_number') + " "+ request.get('Street_name')
+  city = request.get('City')
+  state = request.get('State')
+  desc = ""#request.get('Description')
+
+  location = models.Location()
+  if len(name) <= 80:
+    location.name = name
+  if len(address) <= 48:
+    location.address = address
+  if len(city) <= 32:
+    location.city = city
+  if len(state) == 2 and state.isalpha():
+    location.state = state
+  location.desc = desc
+  location.time_created = post_time
+  location.key = ndb.Key(models.Location, request.get("PlaceID"))
   if (location.name != "" and location.address != "" and
       location.city != "" and location.state != ""):
     location.put()
@@ -81,7 +117,12 @@ def add_review(request):
   review.time_created = datetime.datetime.fromtimestamp(post_time)
   review.loc_id = loc_id
 
-  review.user = "Anonymous"
+  user = users.get_current_user()
+  if user:
+    review.user = user.nickname()
+    review.user_email = user.email()
+  else:
+    review.user = "Anonymous"
   
   if (review.vision_rating != None and review.mobility_rating != None and
       review.speech_rating != None and review.helpfulness_rating != None):
