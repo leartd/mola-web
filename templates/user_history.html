@@ -34,6 +34,14 @@
                         </p>
                     </div>
                 </div>
+                <div class="panel-footer clearfix">
+                    <div class="pull-right">
+                        <form action="/history/delete/" id="{{review.key.id}}" method="post">
+                            <input type="hidden" name="post_id" value="{{review.key.id}}">
+                            <button class="btn btn-default" onclick="document.getElementById('{{review.key.id}}').submit();">Delete</a>
+                        </form>
+                    </div>
+                </div>
             </div>
         {% endfor %}
     </div>

@@ -144,7 +144,7 @@ class TestHandler(webapp2.RequestHandler):
 # Test Location Checker.
 #==============================================================================      
 class LocationChecker(webapp2.RequestHandler):
-  def get(self):
+  def post(self):
     render_params = DatabaseReader.get_location(self.request.get('PlaceID'))
     if render_params == None:
       if LocationVerifier.VerifyLocation(self.request.get('PlaceID')):
