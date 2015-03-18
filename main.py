@@ -193,7 +193,7 @@ class RecentReviewsHandler(webapp2.RequestHandler):
   def get(self):
     prev_cursor = self.request.get("dbPage")
     if prev_cursor != "":
-      page_reviews_tuple = DatabaseReader.get_page_reviews(prev_cursor)
+      page_reviews_tuple = DatabaseReader.get_page_recent_reviews(prev_cursor)
     reviews = page_reviews_tuple[0]
     cursor = page_reviews_tuple[1]
     flag = page_reviews_tuple[2]
@@ -223,7 +223,7 @@ class MainPage(webapp2.RequestHandler):
     #location = self.request.headers.get("X-AppEngine-City")
     #self.response.out.write(location)
     # recent_locations = DatabaseReader.get_recent_locations()
-    page_reviews_tuple = DatabaseReader.get_page_reviews()
+    page_reviews_tuple = DatabaseReader.get_page_recent_reviews()
     reviews = page_reviews_tuple[0]
     cursor = page_reviews_tuple[1]
     flag = page_reviews_tuple[2] 
