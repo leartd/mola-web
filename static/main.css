@@ -11,28 +11,19 @@ html, body {
 }
 
 body .col-md-3,.col-md-9,.row{
-	/*Just for developing*/
-	/*border: solid 1px;*/
 	margin-top: 2em;
 }
 
 .small-border{
 	width:300px;
 	height:1px;
-	/*align:center;*/
-		/*padding:5px;*/
 	border-bottom:2px solid #ddd; 
-	/*-webkit-border-radius: 5px;*/
-	/*border-radius: 5px;	*/
 }
 .location-page-address{
 	padding:5px;
 	border-top:2px solid #ddd; 
 	-webkit-border-radius: 5px;
 	border-radius: 5px;	
-	/*float:left;*/
-	/*text-align: left;*/
-
 }
 
 .row-fix{
@@ -49,16 +40,10 @@ body .col-md-3,.col-md-9,.row{
 .main-bar{
 	padding:5px;
 	border-right:2px solid #ddd; 
-	-webkit-border-radius: 5px;
-	border-radius: 5px;	
 }
 .title{
-	/*padding-left:%;*/
 }
 
-.sidebar{
-	
-}
 .main {
   padding: 40px 15px;
   text-align: center;
@@ -96,7 +81,8 @@ body .col-md-3,.col-md-9,.row{
 }
 
 .sidebar{
-	padding-top: 20px;
+	/*padding-top: 20px;*/
+	padding-left: 0.3em;
 }
 
 .sidebar p{
@@ -156,79 +142,7 @@ body .col-md-3,.col-md-9,.row{
 .pac-container {
     z-index: 5000;
 }
-/*		padding:5px 15px;
-	background:#b7b7b7;
-	border:0 none;
-	cursor:pointer;
-	-webkit-border-radius: 5px;
-	border-radius: 5px; 
-	color:#fff;*/
-/*	margin-left: 0.25em;
-	margin-right: 1em;*/
-/*}*/
-/*
-.mola-nav {
-	background-image: linear-gradient(to bottom,#2ECC71 0,#00b16a 100%);
-	background-color: #2ECC71;
 
-}
-
-/*
-.location_form {
-	float:left;
-
-	text-align: left;
-	padding: 0.5em 1em;
-}
-
-.location_form input{
-	margin-top: 0.25em;
-	margin-bottom: 0.25em;
-}
-
-.location_form input, label{
-	display:block;
-}
-
-.location_form input[type=text]{
-	width: 27em;
-}
-
-.location_form input[type=text], textarea, select {
-	padding:5px;
-	border:2px solid #ddd; 
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-}
-
-.location_form select{
-    height:34px;
-    font-size:14px;
-}
-
-
-.location_form textarea{
-	padding:5px;
-	border:2px solid #ccc; 	
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-}
-.location_form textarea:focus,input[type=text]:focus {
-	border-radius: 5px;	
-	border-color:#333; 
-}
-
-.location_form input[type=submit] {
-	padding:5px 15px;
-	background:#b7b7b7;
-	border:0 none;
-	cursor:pointer;
-	-webkit-border-radius: 5px;
-	border-radius: 5px; 
-	color:#fff;
-
-}
-*/
 .ratings {
 	padding-top: 40px;
 }
@@ -261,11 +175,6 @@ body .col-md-3,.col-md-9,.row{
     height: 16px;
     background: url('http://kubyshkin.ru/samples/star-rating/star.png') 0 -16px;
 }
-
-/*
-.review {
-    border: 1px solid black;
-}*/
 .panel-heading {
     padding-bottom: 25px;
 }
@@ -292,4 +201,13 @@ body .col-md-3,.col-md-9,.row{
 #error-text {
     color: red;
     display: none;
+}
+
+@media (max-width: 978px) {
+		.main-bar{
+			border-right: 0px;
+		}
+		.sidebar{
+			padding-left: 15px;
+		}
 }
