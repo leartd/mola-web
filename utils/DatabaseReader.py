@@ -47,6 +47,15 @@ def get_page_reviews(loc_id, cursor=None):
     page_reviews_tuple = models.Review.query(models.Review.loc_id == loc_id).order(-models.Review.time_created).fetch_page(PAGESIZE, start_cursor=Cursor(urlsafe=cursor))
   return page_reviews_tuple
 
+def get_page_reviews(cursor=None):
+  PAGESIZE = 5
+  page_reviews_tuple = ()
+  if not cursor:
+    page_reviews_tuple = models.Review.query().order(-models.Review.time_created).fetch_page(PAGESIZE)
+  else:
+    page_reviews_tuple = models.Review.query().order(-models.Review.time_created).fetch_page(PAGESIZE, start_cursor=Cursor(urlsafe=cursor))
+  return page_reviews_tuple
+
 def get_last_reviews(loc_id):
   reviews = []
   qry = models.Review.query(models.Review.loc_id == loc_id).order(-models.Review.time_created)

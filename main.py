@@ -186,6 +186,29 @@ class MoreReviewsHandler(webapp2.RequestHandler):
     }
     self.response.out.write(json.dumps(return_info))
 
+#==============================================================================
+# This handler works with AJAX to load the next page of general recent reviews.
+#==============================================================================   
+class RecentReviewsHandler(webapp2.RequestHandler):
+  def get(self):
+    prev_cursor = self.request.get("dbPage")
+    if prev_cursor != "":
+      page_reviews_tuple = DatabaseReader.get_page_reviews(prev_cursor)
+    reviews = page_reviews_tuple[0]
+    cursor = page_reviews_tuple[1]
+    flag = page_reviews_tuple[2]
+    html = render_template('reviews_template.html', {'reviews': reviews})
+    if cursor is None:
+      reviewsCursor = ""
+    else:
+      reviewsCursor = cursor.urlsafe()
+    reviewsDBFlag = flag
+    return_info = {
+      "reviews": html,
+      "reviewsCursor": reviewsCursor,
+      "reviewsDBFlag": reviewsDBFlag
+    }
+    self.response.out.write(json.dumps(return_info))    
 
 #==============================================================================
 # This is our main page handler.  It will show the most recent Review objects
@@ -199,13 +222,19 @@ class MainPage(webapp2.RequestHandler):
   def get(self):
     #location = self.request.headers.get("X-AppEngine-City")
     #self.response.out.write(location)
-    recent_locations = DatabaseReader.get_recent_locations()
-    recent_reviews = DatabaseReader.get_recent_reviews()
-    render_params = {
-      'title': ' - Welcome',
-      'locations': recent_locations,
-      'reviews': recent_reviews
-    }
+    # recent_locations = DatabaseReader.get_recent_locations()
+    page_reviews_tuple = DatabaseReader.get_page_reviews()
+    reviews = page_reviews_tuple[0]
+    cursor = page_reviews_tuple[1]
+    flag = page_reviews_tuple[2] 
+    render_params = {} 
+    render_params['reviews'] = reviews
+    render_params['title'] = ' - Welcome'
+    if cursor is None:
+      render_params['reviewsCursor'] = ""
+    else:
+      render_params['reviewsCursor'] = cursor.urlsafe()
+    render_params['reviewsDBFlag'] = flag
     html = render_template('main_page.html', render_params)
     self.response.out.write(str(html))
 
@@ -221,6 +250,7 @@ app = webapp2.WSGIApplication([
   ('/test', TestHandler),
   ('/loc_checker', LocationChecker),
   ('/get/reviews', MoreReviewsHandler),
+  ('/get/recent_reviews', RecentReviewsHandler),
   ('/contact', ContactPage),
   ('/submit/feedback', SendFeedback)
 ],
