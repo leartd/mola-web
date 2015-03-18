@@ -16,20 +16,9 @@ def render_template(templatename, templatevalues = {}):
   else:
     templatevalues['login_needed'] = True
     templatevalues['login'] = users.create_login_url("/")
-    
   path = os.path.join(os.path.dirname(__file__), 'templates/' + templatename)
   html = template.render(path, templatevalues)
   return html
-
-
-#==============================================================================
-# This handler will be used to set up the "Add Location" form at
-# add_location.html.
-#==============================================================================
-class AddLocationPage(webapp2.RequestHandler):
-  def get(self):
-    html = render_template('add_location.html', {'title': ' - Add Location'})
-    self.response.out.write(str(html))
 
 
 #==============================================================================
@@ -87,6 +76,10 @@ class LocationPage(webapp2.RequestHandler):
     if render_params == None:
       self.redirect("/")
     else:
+      page_reviews_tuple = DatabaseReader.get_page_reviews(location_id)
+      reviews = page_reviews_tuple[0]
+      cursor = page_reviews_tuple[1]
+      flag = page_reviews_tuple[2]
       render_params['loc_id'] = location_id
       render_params['post'] = self.request.get('post_review')
       render_params['reviews'] = DatabaseReader.get_last_reviews(location_id)
@@ -118,6 +111,7 @@ class ProcessReview(webapp2.RequestHandler):
     else:
       self.redirect("/location/" + self.request.get('URL') + "?post_review=failure")
 
+
 class SearchHandler(webapp2.RequestHandler):
   def get(self):
     location = self.request.get('location-query')
@@ -133,16 +127,15 @@ class SearchHandler(webapp2.RequestHandler):
 
 #==============================================================================
 # Test Page for AutoComplete.
-#
 #==============================================================================
 class TestHandler(webapp2.RequestHandler):
-    def get(self):
-      html = render_template('test_page.html', {'title': ' - Test'})
-      self.response.out.write(str(html))
+  def get(self):
+    html = render_template('test_page.html', {'title': ' - Test'})
+    self.response.out.write(str(html))
+
 
 #==============================================================================
 # Test Location Checker.
-#
 #==============================================================================      
 class LocationChecker(webapp2.RequestHandler):
   def post(self):
@@ -151,17 +144,7 @@ class LocationChecker(webapp2.RequestHandler):
       self.redirect("/location/" + url)
     else:
       self.redirect("/test")
-      # googlePlaceId = self.request.get("placeID")
 
-
-
-  #   class ProcessLocation(webapp2.RequestHandler):
-  # def post(self):    
-  #   url = DatabaseWriter.add_location(self.request)
-  #   if url:
-  #     self.redirect("/location/" + url)
-  #   else:
-  #     self.redirect("/submit/location")
 
 class MoreReviewsHandler(webapp2.RequestHandler):
   def get(self):
@@ -200,9 +183,9 @@ class MainPage(webapp2.RequestHandler):
     html = render_template('main_page.html', render_params)
     self.response.out.write(str(html))
 
+
 app = webapp2.WSGIApplication([
   ('/', MainPage),
-  ('/submit/location', AddLocationPage),
   ('/submit/loc_handler', ProcessLocation),
   # ('/submit/review', AddReview),
     # Currently have copy/pasted code in location_page.html
