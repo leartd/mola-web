@@ -8,7 +8,7 @@ handlers:
 - url: /static
   static_dir: static
 
-- url: /history
+- url: /history(/.*)?
   script: maintenance.app
   login: required
 
