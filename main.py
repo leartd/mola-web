@@ -197,7 +197,7 @@ class RecentReviewsHandler(webapp2.RequestHandler):
     reviews = page_reviews_tuple[0]
     cursor = page_reviews_tuple[1]
     flag = page_reviews_tuple[2]
-    html = render_template('reviews_template.html', {'reviews': reviews})
+    html = render_template('recent_reviews_template.html', {'reviews': reviews})
     if cursor is None:
       reviewsCursor = ""
     else:
