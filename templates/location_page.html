@@ -138,7 +138,6 @@
 			</div>
 			<!-- END add_review.html copypasta -->
 			<h2>Recent Reviews:</h2>
-			There are {{reviews|length}} reviews for this location.
 			<div id="loc-page-reviews">
 				{% for review in reviews %}
 				<div class="panel panel-default review">
@@ -173,7 +172,12 @@
 		            </div>
 	        	</div>
 				{% endfor %}
-				<a href="#" class="more_reviews">Show More</a><br/>
 			</div>
+			<a href="" class="more_reviews">Show More</a><br/>
 		</div>
+			    
+		<script>
+			var reviewsDBPage = "{{reviewsCursor}}";
+			var reviewsDBFlag = "{{reviewsDBFlag}}" == "True" ? true : false;
+		</script>
 {% endblock content %}

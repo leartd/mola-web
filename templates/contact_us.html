@@ -1,0 +1,29 @@
+{% extends "base_template.html" %}
+{% block content %}
+    <div class="row form_padding top-padding-fix">
+            
+        <h2 style="margin-padding: 1.5%">Contact Us</h2>
+        <form role="form"  class="contact_form" name="contact_form" action="/submit/feedback" method="POST" id="co_form">
+			<div class="form-group">
+				<div class="col-sm-4">
+					<!-- Name -->
+					<label for="name_co_form">Name*</label>
+					<input class="form-control" type="text" name="Name" id="name_co_form" value="{{ usernick }}" onchange="removeError(this);">
+				</div>
+				<div class="col-sm-8">
+					<!-- E-mail -->
+					<label for="email_co_form">Email (for replies)</label>
+					<input class="form-control" type="text" name="Email" id="email_co_form" value="{{ usermail }}">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-12">
+					<label for="feedback_co_form">Feedback*</label>
+					<textarea class="form-control" name="Feedback" id="feedback_co_form" onchange="removeError(this);"></textarea>
+					<input type="button" id="form_submit" class="btn" value="Submit" onclick="checkFieldsContact(this);">
+				</div>
+			</div>
+        </form>
+        <div id="error-text">Please fill in all required fields.</div>
+    </div>
+{% endblock content %}
