@@ -8,9 +8,9 @@ def send_feedback(request):
   email = request.get('Email')
   feedback = request.get('Feedback')
   
-  message = mail.EmailMessage(sender="Administrator <JohnLeeSoftEng@gmail.com>",
+  message = mail.EmailMessage(sender="Mola Feedback <JWHagner@gmail.com>",
                               subject="Feedback from %s <%s>" % (name, email)) # admin sends
-  message.to = "Administrator <JohnLeeSoftEng@gmail.com>" # admin receives
+  message.to = "Administrator <drivebox.test@gmail.com>" # admin receives
   message.body = """
 Mola Feedback from: %s <%s>
 

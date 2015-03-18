@@ -2,21 +2,9 @@
 {% block content %}
     <div class="row">
         <div class="posts col-md-9 main-bar">
-            <h1 class="title">Recent Locations and Reviews</h1>
-            <div class="col-md-6">
-                {% for location in locations %}
-                <div class="panel panel-default front-page-post">   
-                    <h1><a href="/location/{{location.key.id}}">{{ location.name }}</a></h1>
-                    <label for="address">Address:</label>
-                    <div id="address">
-                        {{ location.address }} <br />
-                        {{ location.city }}, {{ location.state }}
-                    </div>
-                    <p>{{ location.desc }}</p>
-                </div>
-                {% endfor %}
-            </div>
-            <div class="col-md-6">
+            <h1 class="title">Recent Reviews</h1>
+            
+            <div class="col-md-12">
                 {% for review in reviews %}
                 <div class="panel panel-default front-page-post">
                     <div class="panel-heading" style="background-color:#e1e1e1">
