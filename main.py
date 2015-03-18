@@ -2,8 +2,8 @@ import os
 from google.appengine.api import users
 import webapp2
 from google.appengine.ext.webapp import template
-from utils import Formatter, DatabaseWriter, DatabaseReader, Email
 import json
+from utils import Formatter, DatabaseWriter, DatabaseReader, Email, LocationVerifier
 
 #==============================================================================
 # Convenience function to retrieve and render a template.
@@ -144,12 +144,21 @@ class TestHandler(webapp2.RequestHandler):
 # Test Location Checker.
 #==============================================================================      
 class LocationChecker(webapp2.RequestHandler):
-  def post(self):
-    url = DatabaseWriter.add_location_beta(self.request)
-    if url:
-      self.redirect("/location/" + url)
+  def get(self):
+    render_params = DatabaseReader.get_location(self.request.get('PlaceID'))
+    if render_params == None:
+      if LocationVerifier.VerifyLocation(self.request.get('PlaceID')):
+        url = DatabaseWriter.add_location_beta(self.request)
+        if url:
+          self.redirect("/location/" + url)
+        else:
+          self.redirect("/")
+      else:
+        self.error(404)  
     else:
-      self.redirect("/test")
+        # render_params = DatabaseReader.get_location(self.request.get('PlaceID'))
+        self.redirect("/location/" + self.request.get('PlaceID'))
+      # googlePlaceId = self.request.get("placeID")
 
 
 #==============================================================================
