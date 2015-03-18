@@ -173,7 +173,12 @@
 		            </div>
 	        	</div>
 				{% endfor %}
-				<a href="#" class="more_reviews">Show More</a><br/>
+				<a href="" class="more_reviews">Show More</a><br/>
 			</div>
 		</div>
+			    <!-- More Reviews Script -->
+		<script>
+			var reviewsDBPage = {{reviewsPage}};
+			var reviewsDBFlag = "{{reviewsDBFlag}}" == "True" ? true : false;
+		</script>
 {% endblock content %}

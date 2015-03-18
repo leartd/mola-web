@@ -84,6 +84,8 @@ class LocationPage(webapp2.RequestHandler):
       render_params['post'] = self.request.get('post_review')
       render_params['reviews'] = DatabaseReader.get_last_reviews(location_id)
       render_params['title'] = ' - %s' % render_params['name']
+      render_params['reviewsPage'] = 0
+      render_params['reviewsDBFlag'] = True
       html = render_template('location_page.html', render_params)
       self.response.out.write(html)
 
