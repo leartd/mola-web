@@ -5,7 +5,7 @@ $('.more_reviews').click(function(event){
 
 	var loc_id = $('#loc_id').val();
 
-	if(reviewsDBFlag == true{
+	if(reviewsDBFlag == true){
 		$.ajax({
 			type: "GET",
 			url: "../get/reviews?id=" + loc_id + "&dbPage=" + reviewsDBPage,
@@ -16,8 +16,8 @@ $('.more_reviews').click(function(event){
 				var obj = JSON.parse(data);
 				//define Json, get Reviews object
 				//update reviewsDBPage = json.dbasfsd;
-				$('#loc-page-reviews').append("<h1>"+obj.reviews+"</h1>");
-				reviewsDBPage = obj.reviewsPage;
+				$('#loc-page-reviews').append(obj.reviews);
+				reviewsDBPage = obj.reviewsCursor;
 				reviewsDBFlag = obj.reviewsDBFlag;
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown){

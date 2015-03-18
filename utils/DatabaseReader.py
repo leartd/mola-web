@@ -1,5 +1,6 @@
 import models
 from google.appengine.ext import ndb
+from google.appengine.datastore.datastore_query import Cursor
 
 def get_location(loc_id):
   try:
@@ -43,7 +44,7 @@ def get_page_reviews(loc_id, cursor=None):
   if not cursor:
     page_reviews_tuple = models.Review.query(models.Review.loc_id == loc_id).order(-models.Review.time_created).fetch_page(PAGESIZE)
   else:
-    page_reviews_tuple = models.Review.query(models.Review.loc_id == loc_id).order(-models.Review.time_created).fetch_page(PAGESIZE, start_cursor=cursor)
+    page_reviews_tuple = models.Review.query(models.Review.loc_id == loc_id).order(-models.Review.time_created).fetch_page(PAGESIZE, start_cursor=Cursor(urlsafe=cursor))
   return page_reviews_tuple
 
 def get_last_reviews(loc_id):
