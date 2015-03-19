@@ -169,11 +169,11 @@ class MoreReviewsHandler(webapp2.RequestHandler):
     location_id = self.request.get("id")
     prev_cursor = self.request.get("dbPage")
     if prev_cursor != "":
-      page_reviews_tuple = DatabaseReader.get_page_reviews(location_id,  prev_cursor)
+      page_reviews_tuple = DatabaseReader.get_page_reviews(location_id,  prev_cursor) 
     reviews = page_reviews_tuple[0]
     cursor = page_reviews_tuple[1]
     flag = page_reviews_tuple[2]
-    html = render_template('reviews_template.html', {'reviews': reviews})
+    html = render_template('recent_reviews_template.html', {'reviews': reviews})
     if cursor is None:
       reviewsCursor = ""
     else:
