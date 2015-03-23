@@ -147,7 +147,7 @@ class LocationChecker(webapp2.RequestHandler):
   def post(self):
     render_params = DatabaseReader.get_location(self.request.get('PlaceID'))
     if render_params == None:
-      if LocationVerifier.VerifyLocation(self.request.get('PlaceID')):
+      if LocationVerifier.VerifyLocation(self.request.get('PlaceID'), self.request.get('PlaceName')):
         url = DatabaseWriter.add_location_beta(self.request)
         if url:
           self.redirect("/location/" + url)
