@@ -241,13 +241,13 @@ class MainPage(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
   ('/', MainPage),
-  ('/submit/loc_handler', ProcessLocation),
+  # ('/submit/loc_handler', ProcessLocation),
   # ('/submit/review', AddReview),
     # Currently have copy/pasted code in location_page.html
   ('/submit/rev_handler', ProcessReview),
   ('/location/(.*)', LocationPage),
-  ('/search', SearchHandler),
-  ('/test', TestHandler),
+  # ('/search', SearchHandler),
+  # ('/test', TestHandler),
   ('/loc_checker', LocationChecker),
   ('/get/reviews', MoreReviewsHandler),
   ('/get/recent_reviews', RecentReviewsHandler),
