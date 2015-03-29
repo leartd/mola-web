@@ -31,9 +31,8 @@
             text = textArea.value.slice(0, position);
             text_replaced = text.replace(/[\.,-\/#!$%\^&\*;:{}=\_`~()\r\n]/g,' ');
             last_word = text_replaced.trim().split(' ').reverse()[0];
-            console.log(last_word);
             if (tags.indexOf(last_word.toUpperCase()) > -1) {
-                console.log("Tag!");
+                console.log(last_word);
             }
         }
         </script>

@@ -175,6 +175,7 @@ body .col-md-3,.col-md-9,.row{
     height: 16px;
     background: url('http://kubyshkin.ru/samples/star-rating/star.png') 0 -16px;
 }
+
 .panel-heading {
     padding-bottom: 25px;
 }
@@ -210,4 +211,8 @@ body .col-md-3,.col-md-9,.row{
 		.sidebar{
 			padding-left: 15px;
 		}
+}
+
+.review-section {
+    cursor: default;
 }
