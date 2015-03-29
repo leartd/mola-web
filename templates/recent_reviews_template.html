@@ -6,22 +6,26 @@
         </div>
         <div class="panel-body" style="margin-top:-0px; background-color:#f4f4f4">
 			<div class="col-md-4 well">
-				<div>
-					<label>Vision:</label>
-					<img class="user-reviews" src = "/static/images/{{review.vision_rating}}_star.gif" tile="{{review.vision_rating}} Star Rating" alt="{{review.vision_rating}} Stars" />
-				</div>
-				<div>
-					<label>Mobility:</label>
-					<img class="user-reviews" src = "/static/images/{{review.mobility_rating}}_star.gif" tile="{{review.mobility_rating}} Star Rating" alt="{{review.mobility_rating}} Stars" />
-				</div>
-				<div>
-					<label>Speech:</label>
-					<img class="user-reviews" src = "/static/images/{{review.speech_rating}}_star.gif" tile="{{review.speech_rating}} Star Rating" alt="{{review.speech_rating}} Stars" />
-				</div>
-				<div>
-					<label>Helpfulness:</label>
-					<img class="user-reviews" src = "/static/images/{{review.helpfulness_rating}}_star.gif" tile="{{review.helpfulness_rating}} Star Rating" alt="{{review.helpfulness_rating}} Stars" />
-				</div>
+                <div>
+                    <label>Vision:</label>
+                    <div class="rateit" data-rateit-value="{{review.vision_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                    <!-- <img class="user-reviews" src = "/static/images/{{review.vision_rating}}_star.gif" tile="{{review.vision_rating}} Star Rating" alt="{{review.vision_rating}} Stars" /> -->
+                </div>
+                <div>
+                    <label>Mobility:</label>
+                    <div class="rateit" data-rateit-value="{{review.mobility_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                    <!-- <img class="user-reviews" src = "/static/images/{{review.mobility_rating}}_star.gif" tile="{{review.mobility_rating}} Star Rating" alt="{{review.mobility_rating}} Stars" /> -->
+                </div>
+                <div>
+                    <label>Speech:</label>
+                    <div class="rateit" data-rateit-value="{{review.speech_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                    <!-- <img class="user-reviews" src = "/static/images/{{review.speech_rating}}_star.gif" tile="{{review.speech_rating}} Star Rating" alt="{{review.speech_rating}} Stars" /> -->
+                </div>
+                <div>
+                    <label>Helpfulness:</label>
+                    <div class="rateit" data-rateit-value="{{review.helpfulness_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                    <!-- <img class="user-reviews" src = "/static/images/{{review.helpfulness_rating}}_star.gif" tile="{{review.helpfulness_rating}} Star Rating" alt="{{review.helpfulness_rating}} Stars" /> -->
+                </div>
 			</div> 
 			<div class="col-md-8 text-review">
 				<p>

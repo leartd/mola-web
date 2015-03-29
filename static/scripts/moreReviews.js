@@ -17,6 +17,7 @@ $('.more_reviews').click(function(event){
 				//define Json, get Reviews object
 				//update reviewsDBPage = json.dbasfsd;
 				$('#loc-page-reviews').append(obj.reviews);
+				$('.rateit').rateit();
 				reviewsDBPage = obj.reviewsCursor;
 				reviewsDBFlag = obj.reviewsDBFlag;
 			},
@@ -48,6 +49,7 @@ $('.more_front_reviews').click(function(event){
 				//define Json, get Reviews object
 				//update reviewsDBPage = json.dbasfsd;
 				$('#front-page-reviews').append(obj.reviews);
+				$('.rateit').rateit();
 				reviewsDBPage = obj.reviewsCursor;
 				reviewsDBFlag = obj.reviewsDBFlag;
 			},
