@@ -75,12 +75,16 @@ class LocationPage(webapp2.RequestHandler):
   def get(self, location_id):
     render_params = DatabaseReader.get_location(location_id)
     if render_params == None:
+      logging.info(location_id)
       self.redirect("/")
     else:
-      page_reviews_tuple = DatabaseReader.get_page_reviews(location_id)
-      reviews = page_reviews_tuple[0]
-      cursor = page_reviews_tuple[1]
-      flag = page_reviews_tuple[2]
+      user = users.get_current_user()
+      if user:
+        user_posts = DatabaseReader.get_user_posts(user.email(), location_id)
+      else:
+        user_posts = []
+      reviews, cursor, flag = DatabaseReader.get_page_reviews(location_id)
+      render_params['user_posts'] = user_posts
       render_params['loc_id'] = location_id
       render_params['post'] = self.request.get('post_review')
       render_params['reviews'] = reviews
@@ -238,6 +242,11 @@ class MainPage(webapp2.RequestHandler):
     html = render_template('main_page.html', render_params)
     self.response.out.write(str(html))
 
+class EditHandler(webapp2.RequestHandler):
+  def post(self):
+    pid = self.request.get("post_id")
+    loc_id = self.request.get("URL")
+    self.redirect("/location/%s" % loc_id)
 
 app = webapp2.WSGIApplication([
   ('/', MainPage),
@@ -245,6 +254,7 @@ app = webapp2.WSGIApplication([
   # ('/submit/review', AddReview),
     # Currently have copy/pasted code in location_page.html
   ('/submit/rev_handler', ProcessReview),
+  ('/edit', EditHandler),
   ('/location/(.*)', LocationPage),
   ('/search', SearchHandler),
   ('/test', TestHandler),

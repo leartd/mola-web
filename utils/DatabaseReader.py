@@ -67,6 +67,9 @@ def get_last_reviews(loc_id):
     reviews.append(review)
   return reviews
 
-def get_user_posts(email):
-  reviews = models.Review.query(models.Review.user_email == email).order(-models.Review.time_created)
+def get_user_posts(email, location_id = None):
+  if location_id == None:
+    reviews = models.Review.query(models.Review.user_email == email).order(-models.Review.time_created)
+  else:
+    reviews = models.Review.query(models.Review.user_email == email and models.Review.loc_id == location_id).order(-models.Review.time_created)
   return reviews
