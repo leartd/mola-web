@@ -27,10 +27,9 @@
 					</div>
 				</div>	
 			</div>
-			{% if user_posts %}
+			{% if not user_posts %}
 			<button class="btn-lg btn-primary" type="button" data-toggle="collapse" data-target="#add-location-fix" aria-expanded="false" aria-controls="add-location-fix">Add Review</button>
 			<div class="row review row-fix form_padding collapse" id="add-location-fix">
-				<!-- <h2>Add Review</h2> -->
 
 				<!-- <div id="addReview" class="collapse"> -->
 					<form role="form" name="reviewform" action="/submit/rev_handler" class="reviewform" method="POST">
@@ -138,7 +137,9 @@
 			</div>
 			{% else %}
 			<h2>Your review</h2>
-				{% for review in user_posts %}
+			{% for review in user_posts %}
+            
+
             <div class="panel panel-default review" id="{{review.key.id}}">
                 <div class="panel-heading" style="background-color:#e1e1e1;" >
                     <span class="review-date">{{review.time_created.month}}/{{review.time_created.day}}/{{review.time_created.year}}</span>
