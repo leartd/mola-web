@@ -48,7 +48,21 @@ class DeleteHandler(webapp2.RequestHandler):
       # TODO: Check the email to make sure it is a legit request
       self.redirect("/history")
 
+class EditHandler(webapp2.RequestHandler):
+  def post(self):
+    pid = self.request.get("post_id")
+    review_params = {}
+    review_params["review_text"] = self.request.get("Text")
+    logging.info("\n\n%s\n\n" % review_params["review_text"])
+    review_params["vision_rating"] = self.request.get("Vision")
+    review_params["mobility_rating"] = self.request.get("Mobility")
+    review_params["speech_rating"] = self.request.get("Speech")
+    review_params["helpfulness_rating"] = self.request.get("Helpfulness")
+    DatabaseWriter.edit_review(pid, review_params)
+    self.redirect("/history")
+
 app = webapp2.WSGIApplication([
   ('/history/?', HistoryHandler),
-  ('/history/delete/?', DeleteHandler)
+  ('/history/delete/?', DeleteHandler),
+  ('/history/edit/?', EditHandler)
 ])

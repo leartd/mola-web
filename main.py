@@ -66,6 +66,8 @@ class ProcessLocation(webapp2.RequestHandler):
     else:
       self.redirect("/submit/location")
 
+import logging
+
 #==============================================================================
 # This is our location page handler. It will show the Location object linked
 # with the current url, and all Review objects belonging to it, in
@@ -75,12 +77,17 @@ class LocationPage(webapp2.RequestHandler):
   def get(self, location_id):
     render_params = DatabaseReader.get_location(location_id)
     if render_params == None:
+      logging.info(location_id)
       self.redirect("/")
     else:
-      page_reviews_tuple = DatabaseReader.get_page_reviews(location_id)
-      reviews = page_reviews_tuple[0]
-      cursor = page_reviews_tuple[1]
-      flag = page_reviews_tuple[2]
+      user = users.get_current_user()
+      if user:
+        user_posts = DatabaseReader.get_user_posts(user.email(), location_id)
+        user_posts = [x for x in user_posts]
+      else:
+        user_posts = []
+      reviews, cursor, flag = DatabaseReader.get_page_reviews(location_id)
+      render_params['user_posts'] = user_posts
       render_params['loc_id'] = location_id
       render_params['post'] = self.request.get('post_review')
       render_params['reviews'] = reviews
@@ -169,11 +176,11 @@ class MoreReviewsHandler(webapp2.RequestHandler):
     location_id = self.request.get("id")
     prev_cursor = self.request.get("dbPage")
     if prev_cursor != "":
-      page_reviews_tuple = DatabaseReader.get_page_reviews(location_id,  prev_cursor)
+      page_reviews_tuple = DatabaseReader.get_page_reviews(location_id,  prev_cursor) 
     reviews = page_reviews_tuple[0]
     cursor = page_reviews_tuple[1]
     flag = page_reviews_tuple[2]
-    html = render_template('reviews_template.html', {'reviews': reviews})
+    html = render_template('recent_reviews_template.html', {'reviews': reviews})
     if cursor is None:
       reviewsCursor = ""
     else:
@@ -238,6 +245,22 @@ class MainPage(webapp2.RequestHandler):
     html = render_template('main_page.html', render_params)
     self.response.out.write(str(html))
 
+class EditHandler(webapp2.RequestHandler):
+  def post(self):
+    pid = self.request.get("post_id")
+    loc_id = self.request.get("URL")
+    review_params = {}
+    review_params["vision_rating"] = self.request.get("Vision")
+    review_params["mobility_rating"] = self.request.get("Mobility")
+    review_params["speech_rating"] = self.request.get("Speech")
+    review_params["helpfulness_rating"] = self.request.get("Helpfulness")
+    review_params['review_text'] = self.request.get("Text")
+    try:
+      DatabaseWriter.edit_review(pid, review_params)
+    except:
+      self.error(403)
+      return
+    self.redirect("/location/%s" % loc_id)
 
 app = webapp2.WSGIApplication([
   ('/', MainPage),
@@ -245,6 +268,7 @@ app = webapp2.WSGIApplication([
   # ('/submit/review', AddReview),
     # Currently have copy/pasted code in location_page.html
   ('/submit/rev_handler', ProcessReview),
+  ('/edit', EditHandler),
   ('/location/(.*)', LocationPage),
   # ('/search', SearchHandler),
   # ('/test', TestHandler),
