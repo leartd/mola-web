@@ -16,12 +16,15 @@
 		<!-- Local Copy -->
 		<link rel="stylesheet" type="text/css" href="/static/main.css">
 
+		<!-- RateIt CSS -->
+		<link rel="stylesheet" type="text/css" href="/static/rateit.css">
+
 		<!-- Optional theme -->
 		<!-- <link rel="stylesheet" type="text/css" href="/static/lavish-bootstrap.css"> -->
 
 
 	</head>
-	<body onLoad="initialize();">
+	<body onLoad="initialize();setup()">
 		
 
 		<nav class="navbar navbar-inverse navbar-fixed-top mola-nav" style = "margin-bottom: 20px;">
@@ -92,6 +95,7 @@
 		</div>
 
 		<!-- /.container -->
+	    <script src="/static/scripts/reviewForm.js" type="text/javascript"></script>
 		
 				<!-- Bootstrap core JavaScript
 		================================================== -->
@@ -109,11 +113,16 @@
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 		<!-- <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
 		
+		<!-- Script for RateIt -->
+		<script src="/static/scripts/jquery.rateit.min.js" type="text/javascript"></script>
+		
+
+
 		<!-- Script for form error handling -->
 		<script src="/static/scripts/formError.js" type="text/javascript"></script>
 
-	    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyAAlSl0SOVllzOgIEJ93KmC4BUbFRiejLs"></script>
-	    <!-- AIzaSyAAlSl0SOVllzOgIEJ93KmC4BUbFRiejLs PLACES KEY -->
+	   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyAAlSl0SOVllzOgIEJ93KmC4BUbFRiejLs"></script>
+	    <!-- AIzaSyAAlSl0SOVllzOgIEJ93KmC4BUbFRiejLs PLACES KEY-->
 	    <script src="/static/scripts/autocomplete.js" type="text/javascript"></script>
 	    <!-- More Reviews Script -->
 	    <script src="/static/scripts/moreReviews.js" type="text/javascript"></script>

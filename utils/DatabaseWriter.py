@@ -70,6 +70,7 @@ def add_location_beta(request):
   else:
     return None
 
+
 def add_review(request):
   # Current time in milliseconds
   post_time = int(time.time())
@@ -130,3 +131,46 @@ def add_review(request):
     return loc_id  # For now?
   else:
     return None
+
+def edit_review(post_id, review_params):
+  review = DatabaseReader.get_review(post_id)
+  post_user = review.user_email
+  current_user = users.get_current_user().email()
+  if current_user != post_user:
+    raise Exception
+
+  try:
+    vision_rating = int(review_params["vision_rating"])
+  except:
+    vision_rating = 0
+  try:
+    mobility_rating = int(review_params["mobility_rating"])
+  except:
+    mobility_rating = 0
+  try:
+    speech_rating = int(review_params["speech_rating"])
+  except:
+    speech_rating = 0
+  try:
+    helpfulness_rating = int(review_params["helpfulness_rating"])
+  except:
+    helpfulness_rating = 0
+
+  review.text = review_params['review_text']
+  if vision_rating <= 5 and vision_rating >= 0:
+    review.vision_rating = vision_rating
+  else:
+    review.vision_rating = None
+  if mobility_rating <= 5 and mobility_rating >= 0:
+    review.mobility_rating = mobility_rating
+  else:
+    review.mobility_rating = None
+  if speech_rating <= 5 and speech_rating >= 0:
+    review.speech_rating = speech_rating
+  else:
+    review.speech_rating = None
+  if helpfulness_rating <= 5 and helpfulness_rating >= 0:
+    review.helpfulness_rating = helpfulness_rating
+  else:
+    review.helpfulness_rating = None
+  review.put()
