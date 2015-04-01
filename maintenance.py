@@ -52,7 +52,7 @@ class EditHandler(webapp2.RequestHandler):
   def post(self):
     pid = self.request.get("post_id")
     review_params = {}
-    review_params["review_text"] = self.request.get("text")
+    review_params["review_text"] = self.request.get("Text")
     logging.info("\n\n%s\n\n" % review_params["review_text"])
     review_params["vision_rating"] = self.request.get("Vision")
     review_params["mobility_rating"] = self.request.get("Mobility")
