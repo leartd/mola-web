@@ -39,7 +39,7 @@ class ContactPage(webapp2.RequestHandler):
       'usermail': usermail
     }
     html = render_template('contact_us.html', render_params)
-    self.response.out.write(str(html))
+    self.response.out.write(html)
 
 
 #==============================================================================
@@ -107,7 +107,7 @@ class LocationPage(webapp2.RequestHandler):
 class AddReview(webapp2.RequestHandler):
   def get(self):
     html = render_template('add_review.html', {'title': ' - Add Review'})
-    self.response.out.write(str(html))
+    self.response.out.write(html)
 
 
 #==============================================================================
@@ -144,7 +144,7 @@ class SearchHandler(webapp2.RequestHandler):
 class TestHandler(webapp2.RequestHandler):
   def get(self):
     html = render_template('test_page.html', {'title': ' - Test'})
-    self.response.out.write(str(html))
+    self.response.out.write(html)
 
 
 #==============================================================================
@@ -224,7 +224,7 @@ class RecentReviewsHandler(webapp2.RequestHandler):
 class MainPage(webapp2.RequestHandler):
   def post(self):
     html = render_template('main_page.html', {'title': ' - Welcome'})
-    self.response.out.write(str(html))
+    self.response.out.write(html)
   
   def get(self):
     #location = self.request.headers.get("X-AppEngine-City")
@@ -243,7 +243,7 @@ class MainPage(webapp2.RequestHandler):
       render_params['reviewsCursor'] = cursor.urlsafe()
     render_params['reviewsDBFlag'] = flag
     html = render_template('main_page.html', render_params)
-    self.response.out.write(str(html))
+    self.response.out.write(html)
 
 class EditHandler(webapp2.RequestHandler):
   def post(self):

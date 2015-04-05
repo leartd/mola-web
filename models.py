@@ -2,6 +2,11 @@ from google.appengine.api import users
 from google.appengine.ext import ndb
 
 
+class Tag(ndb.Model):
+  type = ndb.StringProperty()
+  votes_pos = ndb.IntegerProperty(default=0)
+  votes_neg = ndb.IntegerProperty(default=0)
+
 class Location(ndb.Model):
   name = ndb.StringProperty()
   address = ndb.StringProperty()
@@ -34,6 +39,7 @@ class Review(ndb.Model):
   mobility_rating = ndb.IntegerProperty()
   speech_rating = ndb.IntegerProperty()
   helpfulness_rating = ndb.IntegerProperty()
+  tags = ndb.StructuredProperty(Tag, repeated=True)
   
   text = ndb.TextProperty()
 
