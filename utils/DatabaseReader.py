@@ -2,6 +2,14 @@ import models
 from google.appengine.ext import ndb
 from google.appengine.datastore.datastore_query import Cursor
 
+def get_location_obj(loc_id):
+  try:
+    key = ndb.Key(models.Location, loc_id)
+    m = key.get()
+  except:
+    return None
+  return m
+
 def get_location(loc_id):
   try:
     key = ndb.Key(models.Location, loc_id)
@@ -66,10 +74,16 @@ def get_last_reviews(loc_id):
   for review in qry.fetch(5):
     reviews.append(review)
   return reviews
+import logging
 
 def get_user_posts(email, location_id = None):
   if location_id == None:
+    logging.info("\n\n--------1---------------\nUser email is %s\n\n" %str(email))
     reviews = models.Review.query(models.Review.user_email == email).order(-models.Review.time_created)
   else:
-    reviews = models.Review.query(models.Review.user_email == email and models.Review.loc_id == location_id).order(-models.Review.time_created)
+    logging.info("\n\n--------2---------------\nUser email is %s\n\n" %str(email))
+    reviews = models.Review.query(ndb.AND(models.Review.user_email == email, models.Review.loc_id == location_id)).order(-models.Review.time_created)
+  for review in reviews:
+    logging.info(review.user_email == email)
+    logging.info("\nUser email is %s and review email is %s\n\n" %(str(email), str(review.user_email)))
   return reviews

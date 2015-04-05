@@ -40,10 +40,10 @@ class DeleteHandler(webapp2.RequestHandler):
     key = ndb.Key(models.Review, long(pid))
     post = key.get()
     user = users.get_current_user()
-    logging.info("\nPost user: %s\nCurrent user: %s" %(user.email(), post.user_email))
     if not user or user.email() != post.user_email:
       self.error(403)
     else:
+      DatabaseWriter.update_location_average_delete(post)
       key.delete()
       # TODO: Check the email to make sure it is a legit request
       self.redirect("/history")
@@ -53,7 +53,6 @@ class EditHandler(webapp2.RequestHandler):
     pid = self.request.get("post_id")
     review_params = {}
     review_params["review_text"] = self.request.get("Text")
-    logging.info("\n\n%s\n\n" % review_params["review_text"])
     review_params["vision_rating"] = self.request.get("Vision")
     review_params["mobility_rating"] = self.request.get("Mobility")
     review_params["speech_rating"] = self.request.get("Speech")

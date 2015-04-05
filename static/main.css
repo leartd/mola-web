@@ -216,3 +216,11 @@ body .col-md-3,.col-md-9,.row{
 .review-section {
     cursor: default;
 }
+
+/* Front page posts */
+/*.front-page-post p {
+    max-height: 20em;
+    word-break: break-all;
+    overflow-y: scroll;
+}
+*/

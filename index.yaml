@@ -18,6 +18,13 @@ indexes:
 
 - kind: Review
   properties:
+  - name: loc_id
+  - name: user_email
+  - name: time_created
+    direction: desc
+
+- kind: Review
+  properties:
   - name: user_email
   - name: time_created
     direction: desc
