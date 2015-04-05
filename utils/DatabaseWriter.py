@@ -70,7 +70,7 @@ def add_location_beta(request):
     return None
 
 def update_location_average(review):
-  location = DatabaseReader.get_location_obj(review.loc_id)
+  location = DatabaseReader.get_location(review.loc_id)
   location.vision_rating += review.vision_rating
   location.num_vision += 1 if review.vision_rating else 0
   location.speech_rating += review.speech_rating
@@ -82,7 +82,7 @@ def update_location_average(review):
   location.put()
 
 def update_location_average_delete(review):
-  location = DatabaseReader.get_location_obj(review.loc_id)
+  location = DatabaseReader.get_location(review.loc_id)
   location.vision_rating -= review.vision_rating
   location.num_vision -= 1 if review.vision_rating else 0
   location.speech_rating -= review.speech_rating
@@ -94,7 +94,7 @@ def update_location_average_delete(review):
   location.put()
 
 def update_location_average_edit(new_review, old_review):
-  location = DatabaseReader.get_location_obj(new_review.loc_id)
+  location = DatabaseReader.get_location(new_review.loc_id)
   location.vision_rating += new_review.vision_rating - old_review["vision"]
   location.num_vision -= 1 if (not new_review.vision_rating) and old_review["vision"] else (-1 if new_review.vision_rating and not old_review["vision"] else 0)
   location.speech_rating += new_review.speech_rating - old_review["speech"]
