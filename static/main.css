@@ -217,35 +217,68 @@ body .col-md-3,.col-md-9,.row{
     cursor: default;
 }
 
-.tag {
+
+/*TAGS SECTION*/
+
+.tag, .tag-static {
     display: inline-block;
     margin: 0.5em;
     padding: 0.75em;
 }
-.tag-buttons {
+
+.tag-text, .tag-text-static{
+	margin:0.25em;
+}
+.tag-buttons, .tag-buttons-static {
     display:inline-block;
 }
-.tag-btn {
+.tag-btn, .tag-btn-static {
     background-color: #eee;
     padding: 5px;
     border:1px solid #ddd;
     -webkit-border-radius: 5px;
     border-radius: 5px;
     color: #888;
+    margin:0.15em
 }
+
 .tag-btn:hover {
     text-decoration: none;
     /* no underline */
 }
-.tag-pos:hover {
+
+.tag-btn-static:hover {
+	text-decoration: none;
+    color: inherit;
+    /* no underline */
+}
+
+.tag-pos:hover, .tag-pos-selected:hover {
     color: #fff;
     background-color:#00B16A;
 }
-.tag-neg:hover {
+
+.tag-pos-checked, .tag-pos-selected  {
+    color: #fff;
+    background-color:#00B16A;
+}
+
+.tag-neg:hover, .tag-neg-selected:hover {
     color: #fff;
     background-color:#EF4836
 }
+
+.tag-neg-checked, .tag-neg-selected {
+    color: #fff;
+    background-color:#EF4836
+}
+
 .tag-cancel:hover {
+    color: #fff;
+    background-color:#666;
+}
+
+.tag-cancel-checked {
     color: #fff;
     background-color:#666;
 }

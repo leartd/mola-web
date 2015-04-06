@@ -1,5 +1,5 @@
-var tags = ["wheelchair", "braille", "understanding", "autism"];
-var tags_text = ["wheelchair-friendly", "blind-friendly", "understanding", "autism-friendly"];	
+var tags = ["supercalifragilistic ", "wheelchair", "braille", "understanding", "autism"];
+var tags_text = ["placeholder", "wheelchair-friendly", "blind-friendly", "understanding", "autism-friendly"];	
 
 function getCaret(el) { 
   if (el.selectionStart) { 
@@ -53,27 +53,48 @@ $('#review_text').keyup(function(event){
    }
 });
 
-
 $("#current_post_tags").on('click', '.tag-btn', function (e) {
 		console.log('this is the click ' + $(this).parent().siblings(".tag-text").text());
 		e.preventDefault();	
+
+    	var thisTag = $(this, ".tag-btn.tag-pos").parent().closest(".tag");
+    	var thisTagText = $(thisTag).children(".tag-text").text();
+    	var tagValue = tags_text.indexOf(thisTagText.toLowerCase());
+
     if ($(this).hasClass("tag-pos")){
-        // "li", "li.item-ii"
-        $(this, ".tag-btn.tag-pos").css('background-color','#00B16A');
-        $(this, ".tag-btn.tag-pos").css('color','#fff');
-        // add hidden input here
+        $(this, ".tag-btn.tag-pos").toggleClass("tag-pos-checked");
+        if($(this, ".tag-btn.tag-pos").hasClass("tag-pos-checked")){
+        	$("#"+thisTagText+"-tag").remove();
+
+        	if($(this).siblings(".tag-neg-checked"))
+	    		$(this).siblings(".tag-neg-checked").toggleClass("tag-neg-checked");
+
+        	var inputForTag = "<input type='hidden' name='tags' value='"+ tagValue+"' id='"+ thisTagText +"-tag'>";
+        	thisTag.append(inputForTag);
+        }
+        else{
+        	console.log("#"+thisTagText+"-tag");
+        	$("#"+thisTagText+"-tag").remove();
+        }
     }
     if ($(this).hasClass("tag-neg")){
-	    // "li", "li.item-ii"
-	    $(this, ".tag-btn.tag-neg").css('background-color','#EF4836');
-	    $(this, ".tag-btn.tag-neg").css('color','#fff');
-	    // add hidden input here
+	    $(this, ".tag-btn.tag-neg").toggleClass("tag-neg-checked");
+	    if($(this, ".tag-btn.tag-neg").hasClass("tag-neg-checked")){
+	    	$("#"+thisTagText+"-tag").remove();
 
+	    	if($(this).siblings(".tag-pos-checked"))
+	    		$(this).siblings(".tag-pos-checked").toggleClass("tag-pos-checked");
+
+        	var inputForTag = "<input type='hidden' name='tags' value='" + "-" + tagValue+"' id='"+ thisTagText +"-tag'>";
+        	thisTag.append(inputForTag);
+        }
+        else{
+        	console.log("#"+thisTagText+"-tag");
+        	$("#"+thisTagText+"-tag").remove();
+        }
     }
     if ($(this).hasClass("tag-cancel")){
-	    // "li", "li.item-ii"
-	    $(this, ".tag-btn.tag-neg").css('background-color','#666');
-	    $(this, ".tag-btn.tag-neg").css('color','#fff');    
+	    $(this, ".tag-btn.tag-cancel").toggleClass("tag-cancel-checked");
 	    $(this).closest(".tag").remove();
     }    
 });

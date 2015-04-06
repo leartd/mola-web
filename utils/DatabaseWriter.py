@@ -167,10 +167,11 @@ def add_review(request):
     if(tag != ""):
       try:
         tag = int(tag)
+        tag_index = tag_ids[str(abs(tag))]
       except:
         continue
-      logging.info("%s value is %s" %(tag_ids[str(abs(tag))], tag))
-      append_tag_to_review(tag_ids[str(abs(tag))], tag, review)
+      logging.info("%s value is %s" %(tag_index, tag))
+      append_tag_to_review(tag_index, tag, review)
   
   if (review.vision_rating != None and review.mobility_rating != None and
       review.speech_rating != None and review.helpfulness_rating != None):
