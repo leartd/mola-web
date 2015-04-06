@@ -1,5 +1,5 @@
 import models
-import time, random
+import time, logging, random
 import DatabaseReader
 import datetime
 from google.appengine.ext import ndb
@@ -36,7 +36,6 @@ def add_location(request):
   else:
     return None
 
-import logging
 
 # @params: request containing the POSTed parameters
 # Returns true if the request is valid, false otherwise
@@ -70,13 +69,62 @@ def add_location_beta(request):
   else:
     return None
 
+def update_location_average(review):
+  location = DatabaseReader.get_location(review.loc_id)
+  location.vision_rating += review.vision_rating
+  location.num_vision += 1 if review.vision_rating else 0
+  location.speech_rating += review.speech_rating
+  location.num_speech += 1 if review.speech_rating else 0
+  location.mobility_rating += review.mobility_rating
+  location.num_mobility += 1 if review.mobility_rating else 0
+  location.helpfulness_rating += review.helpfulness_rating
+  location.num_helpfulness += 1 if review.helpfulness_rating else 0
+  location.put()
+
+def update_location_average_delete(review):
+  location = DatabaseReader.get_location(review.loc_id)
+  location.vision_rating -= review.vision_rating
+  location.num_vision -= 1 if review.vision_rating else 0
+  location.speech_rating -= review.speech_rating
+  location.num_speech -= 1 if review.speech_rating else 0
+  location.mobility_rating -= review.mobility_rating
+  location.num_mobility -= 1 if review.mobility_rating else 0
+  location.helpfulness_rating -= review.helpfulness_rating
+  location.num_helpfulness -= 1 if review.helpfulness_rating else 0
+  location.put()
+
+def update_location_average_edit(new_review, old_review):
+  location = DatabaseReader.get_location(new_review.loc_id)
+  location.vision_rating += new_review.vision_rating - old_review["vision"]
+  location.num_vision -= 1 if (not new_review.vision_rating) and old_review["vision"] else (-1 if new_review.vision_rating and not old_review["vision"] else 0)
+  location.speech_rating += new_review.speech_rating - old_review["speech"]
+  location.num_speech -= 1 if (not new_review.speech_rating) and old_review["speech"] else (-1 if new_review.speech_rating and not old_review["speech"] else 0)
+  location.mobility_rating += new_review.mobility_rating - old_review["mobility"]
+  location.num_mobility -= 1 if (not new_review.mobility_rating) and old_review["mobility"] else (-1 if new_review.mobility_rating and not old_review["mobility"] else 0)
+  location.helpfulness_rating += new_review.helpfulness_rating - old_review["helpfulness"]
+  location.num_helpfulness -= 1 if (not new_review.helpfulness_rating) and old_review["helpfulness"] else (-1 if new_review.helpfulness_rating and not old_review["helpfulness"] else 0)
+  location.put()
+
+def append_tag_to_review(type, value, review):
+  tag = models.Tag()
+  tag.type = type
+  try:
+    value = int(value)
+  except:
+    value = 0
+  if(value > 0):
+    tag.votes_pos = 1;
+  if(value < 0):
+    tag.votes_neg = 1;
+  review.tags.append(tag)
+  return review
 
 def add_review(request):
   # Current time in milliseconds
   post_time = int(time.time())
   
   loc_id = request.get('URL')
-  loc_name = DatabaseReader.get_location(loc_id)['name']
+  loc_name = DatabaseReader.get_location(loc_id).name
   try:
     vision_rating = int(request.get('Vision'))
   except:
@@ -94,6 +142,25 @@ def add_review(request):
   except:
     helpfulness_rating = 0
   text = request.get('Text')
+
+  tag_ids = {
+    '1': 'wheelchair-friendly',
+    '2': 'blind-friendly',
+    '3': 'understanding',
+    '4': 'autism-friendly',
+    '5': 'elevators',
+    '6': 'secret laboratory'
+  }
+
+  tags_list = request.get_all('tags')
+
+
+  # tags_list ={
+  #   'wheelchair-friendly': request.get('wheelchair-friendly').strip(),
+  #   'blind-friendly': request.get('blind-friendly').strip(),
+  #   'understanding': request.get('understanding').strip(),
+  #   'autism-friendly': request.get('autism-friendly').strip()
+  # }
   
   review = models.Review()
   review.loc_name = loc_name
@@ -101,22 +168,28 @@ def add_review(request):
   if vision_rating <= 5:
     review.vision_rating = vision_rating
   else:
-    review.vision_rating = None
+    review.vision_rating = 0
+    vision_rating = 0
   if mobility_rating <= 5:
     review.mobility_rating = mobility_rating
   else:
-    review.mobility_rating = None
+    review.mobility_rating = 0
+    mobility_rating = 0
   if speech_rating <= 5:
     review.speech_rating = speech_rating
   else:
-    review.speech_rating = None
+    review.speech_rating = 0
+    speech_rating = 0
   if helpfulness_rating <= 5:
     review.helpfulness_rating = helpfulness_rating
   else:
-    review.helpfulness_rating = None
+    review.helpfulness_rating = 0
+    helpfulness_rating = 0
   review.text = text
   review.time_created = datetime.datetime.fromtimestamp(post_time)
   review.loc_id = loc_id
+
+  update_location_average(review)
 
   user = users.get_current_user()
   if user:
@@ -124,6 +197,22 @@ def add_review(request):
     review.user_email = user.email()
   else:
     review.user = "Anonymous"
+
+  # Checking for tags Alpha
+  # for tag in tags_list.keys():
+  #   if(tags_list[tag] != ""):
+  #     logging.info("%s value is %s" %(tag, tags_list[tag]))
+  #     review = append_tag_to_review(tag, tags_list[tag], review)
+
+  for tag in tags_list:
+    if(tag != ""):
+      try:
+        tag = int(tag)
+        tag_index = tag_ids[str(abs(tag))]
+      except:
+        continue
+      logging.info("%s value is %s" %(tag_index, tag))
+      append_tag_to_review(tag_index, tag, review)
   
   if (review.vision_rating != None and review.mobility_rating != None and
       review.speech_rating != None and review.helpfulness_rating != None):
@@ -155,22 +244,28 @@ def edit_review(post_id, review_params):
     helpfulness_rating = int(review_params["helpfulness_rating"])
   except:
     helpfulness_rating = 0
-
+  old_review = {
+    "vision": review.vision_rating,
+    "mobility": review.mobility_rating,
+    "speech": review.speech_rating,
+    "helpfulness": review.helpfulness_rating
+  }
   review.text = review_params['review_text']
   if vision_rating <= 5 and vision_rating >= 0:
     review.vision_rating = vision_rating
   else:
-    review.vision_rating = None
+    review.vision_rating = 0
   if mobility_rating <= 5 and mobility_rating >= 0:
     review.mobility_rating = mobility_rating
   else:
-    review.mobility_rating = None
+    review.mobility_rating = 0
   if speech_rating <= 5 and speech_rating >= 0:
     review.speech_rating = speech_rating
   else:
-    review.speech_rating = None
+    review.speech_rating = 0
   if helpfulness_rating <= 5 and helpfulness_rating >= 0:
     review.helpfulness_rating = helpfulness_rating
   else:
-    review.helpfulness_rating = None
+    review.helpfulness_rating = 0
+  update_location_average_edit(review, old_review)
   review.put()

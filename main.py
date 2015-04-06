@@ -39,7 +39,7 @@ class ContactPage(webapp2.RequestHandler):
       'usermail': usermail
     }
     html = render_template('contact_us.html', render_params)
-    self.response.out.write(str(html))
+    self.response.out.write(html)
 
 
 #==============================================================================
@@ -68,6 +68,12 @@ class ProcessLocation(webapp2.RequestHandler):
 
 import logging
 
+def safe_avg(total, number):
+  if number == 0:
+    return 0
+  else:
+    return float(total) / number
+
 #==============================================================================
 # This is our location page handler. It will show the Location object linked
 # with the current url, and all Review objects belonging to it, in
@@ -75,8 +81,8 @@ import logging
 #==============================================================================
 class LocationPage(webapp2.RequestHandler):
   def get(self, location_id):
-    render_params = DatabaseReader.get_location(location_id)
-    if render_params == None:
+    location = DatabaseReader.get_location(location_id)
+    if location == None:
       logging.info(location_id)
       self.redirect("/")
     else:
@@ -86,12 +92,19 @@ class LocationPage(webapp2.RequestHandler):
         user_posts = [x for x in user_posts]
       else:
         user_posts = []
+
+      render_params = {"location": location}
       reviews, cursor, flag = DatabaseReader.get_page_reviews(location_id)
       render_params['user_posts'] = user_posts
       render_params['loc_id'] = location_id
       render_params['post'] = self.request.get('post_review')
       render_params['reviews'] = reviews
-      render_params['title'] = ' - %s' % render_params['name']
+      render_params['title'] = ' - %s' % location.name
+
+      render_params['avg_vision'] = safe_avg(location.vision_rating, location.num_vision)
+      render_params['avg_mobility'] = safe_avg(location.mobility_rating, location.num_mobility)
+      render_params['avg_speech'] = safe_avg(location.speech_rating, location.num_speech)
+      render_params['avg_helpfulness'] = safe_avg(location.helpfulness_rating, location.num_helpfulness)
       if cursor is None:
         render_params['reviewsCursor'] = ""
       else:
@@ -107,7 +120,7 @@ class LocationPage(webapp2.RequestHandler):
 class AddReview(webapp2.RequestHandler):
   def get(self):
     html = render_template('add_review.html', {'title': ' - Add Review'})
-    self.response.out.write(str(html))
+    self.response.out.write(html)
 
 
 #==============================================================================
@@ -144,7 +157,7 @@ class SearchHandler(webapp2.RequestHandler):
 class TestHandler(webapp2.RequestHandler):
   def get(self):
     html = render_template('test_page.html', {'title': ' - Test'})
-    self.response.out.write(str(html))
+    self.response.out.write(html)
 
 
 #==============================================================================
@@ -224,7 +237,7 @@ class RecentReviewsHandler(webapp2.RequestHandler):
 class MainPage(webapp2.RequestHandler):
   def post(self):
     html = render_template('main_page.html', {'title': ' - Welcome'})
-    self.response.out.write(str(html))
+    self.response.out.write(html)
   
   def get(self):
     #location = self.request.headers.get("X-AppEngine-City")
@@ -243,7 +256,7 @@ class MainPage(webapp2.RequestHandler):
       render_params['reviewsCursor'] = cursor.urlsafe()
     render_params['reviewsDBFlag'] = flag
     html = render_template('main_page.html', render_params)
-    self.response.out.write(str(html))
+    self.response.out.write(html)
 
 class EditHandler(webapp2.RequestHandler):
   def post(self):

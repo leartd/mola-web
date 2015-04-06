@@ -1,0 +1,69 @@
+<div>
+    <span class="tag well">
+        <span class="tag-text">Wheelchair-friendly</span>
+        <span class="tag-buttons">
+            <a class="tag-btn tag-pos glyphicon glyphicon-chevron-up"></a>
+            <a class="tag-btn tag-neg glyphicon glyphicon-chevron-down"></a>
+            <a class="tag-btn tag-cancel glyphicon glyphicon glyphicon-remove"></a>
+        </span>
+    </span>
+        <span class="tag well">
+        <span class="tag-text">Wheelchair-friendly</span>
+        <span class="glyphicon glyphicon-chevron-up"></span>
+        <span class="glyphicon glyphicon-chevron-down"></span>
+        <span class="glyphicon glyphicon glyphicon-remove"></span>
+    </span>
+</div>
+
+<style type="text/css">
+.tag {
+    display: inline-block;
+    margin: 2em;
+    padding: 0.75em;
+}
+.tag-buttons {
+    display:inline-block;
+}
+.tag-btn {
+    background-color: #eee;
+    padding: 5px;
+    border:1px solid #ddd;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    color: #888;
+}
+.tag-btn:hover {
+    text-decoration: none;
+    /* no underline */
+}
+.tag-pos:hover {
+    color: #fff;
+    background-color:#00B16A;
+}
+.tag-neg:hover {
+    color: #fff;
+    background-color:#EF4836
+}
+.tag-cancel:hover {
+    color: #fff;
+    background-color:#666;
+}
+
+</style>
+
+<script>
+$(".tag-btn").click(function () {
+    if ($(this).hasClass("tag-pos")){
+        "li", "li.item-ii"
+        $(this, ".tag-btn.tag-pos").css('background-color','#00B16A');
+        $(this, ".tag-btn.tag-pos").css('color','#fff');
+    
+    }
+        if ($(this).hasClass("tag-neg")){
+        "li", "li.item-ii"
+        $(this, ".tag-btn.tag-neg").css('background-color','#EF4836');
+        $(this, ".tag-btn.tag-neg").css('color','#fff');
+    
+    }
+});
+</script>

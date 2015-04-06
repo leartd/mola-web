@@ -13,16 +13,35 @@
 			<div class="row">
 				<div class="location-page-address">
 					<div class="top-padding-fix">
-						<h1>{{ name }}</h1>
+						<h1>{{ location.name }}</h1>
 						<label for="address">Address:</label>
 						<div id="address" class>
-							{{ address }} <br />
-							{{ city }}, {{ state }}
+							{{ location.address }} <br />
+							{{ location.city }}, {{ location.state }}
 
 						</div>
 						<label for="h3-test" class="small-border"></label for="h3-test">
-						<h3 id="h3-test">Description:</h3>
-						<p style="padding-top:0.5em;">{{ description }}</p>
+						<h3 id="h3-test">Average Scores:</h3>
+                            <div>
+                                <label>Vision:</label>
+                                <div class="rateit" data-rateit-value="{{avg_vision}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                                <!-- <img class="user-reviews" src = "/static/images/{{review.vision_rating}}_star.gif" tile="{{review.vision_rating}} Star Rating" alt="{{review.vision_rating}} Stars" /> -->
+                            </div>
+                            <div>
+                                <label>Mobility:</label>
+                                <div class="rateit" data-rateit-value="{{avg_mobility}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                                <!-- <img class="user-reviews" src = "/static/images/{{review.mobility_rating}}_star.gif" tile="{{review.mobility_rating}} Star Rating" alt="{{review.mobility_rating}} Stars" /> -->
+                            </div>
+                            <div>
+                                <label>Speech:</label>
+                                <div class="rateit" data-rateit-value="{{avg_speech}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                                <!-- <img class="user-reviews" src = "/static/images/{{review.speech_rating}}_star.gif" tile="{{review.speech_rating}} Star Rating" alt="{{review.speech_rating}} Stars" /> -->
+                            </div>
+                            <div>
+                                <label>Helpfulness:</label>
+                                <div class="rateit" data-rateit-value="{{avg_helpfulness}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                                <!-- <img class="user-reviews" src = "/static/images/{{review.helpfulness_rating}}_star.gif" tile="{{review.helpfulness_rating}} Star Rating" alt="{{review.helpfulness_rating}} Stars" /> -->
+                            </div>
 
 					</div>
 				</div>	
@@ -61,6 +80,14 @@
 							<div class="form-group">
 								<label for="review_text">Your Review</label>
 								<textarea name="Text" id="review_text" cols="50	" rows="8" class="form-control"></textarea>
+								<!-- WORKINGIN ON AGGING HERE -->
+								<label for="review_text" class="small-border"></label for="review_text">
+								<div class="review_tags" id="current_post_tags">
+									<!-- <span><input type="checkbox" value='1' name="tags" id="wheelchir">wheelchair-friendly</span>
+									<span><input type="checkbox" value='2' name="tags" id="blind">blind-friendly</span>
+									<span><input type="checkbox" value='3' name="tags" id="understanding">understanding</span>
+									<span><input type="checkbox" value='4' name="tags" id="autism">autism-friendly</span> -->
+								</div>
 							</div>  
 							<div class="form-group">
 								<input type="hidden" value="{{loc_id}}" id="loc_id" name="URL" />
@@ -165,6 +192,19 @@
 		                        <p>
 		                        	{{review.text}}
 		                        </p>
+		                        <label for="reviews_assoc_tags-{{review.key.urlsafe}}" class="small-border"></label>	
+	                        	<div class="reviews_assoc_tags" id="reviews_assoc_tags-{{review.key.urlsafe}}">
+		                        	
+		                        	{% for tag in review.tags %}
+		                        	<span class="tag-static well">
+								        <span class="tag-text-static">{{tag.type}}</span>
+								        <span class="tag-buttons-static">
+								            <a class="tag-btn-static glyphicon glyphicon-chevron-up {% if tag.votes_pos > 0 %} tag-pos-selected{% endif %}"></a>
+								            <a class="tag-btn-static glyphicon glyphicon-chevron-down {% if tag.votes_neg > 0 %} tag-neg-selected{% endif %}"></a>
+								        </span>
+								    </span>
+		                        	{% endfor %}
+		                        </div>
 		                    </div>
 		            </div>
 	        	</div>
