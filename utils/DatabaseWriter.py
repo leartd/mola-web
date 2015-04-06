@@ -105,6 +105,20 @@ def update_location_average_edit(new_review, old_review):
   location.num_helpfulness -= 1 if (not new_review.helpfulness_rating) and old_review["helpfulness"] else (-1 if new_review.helpfulness_rating and not old_review["helpfulness"] else 0)
   location.put()
 
+def append_tag_to_review(type, value, review):
+  tag = models.Tag()
+  tag.type = type
+  try:
+    value = int(value)
+  except:
+    value = 0
+  if(value > 0):
+    tag.votes_pos = 1;
+  if(value < 0):
+    tag.votes_neg = 1;
+  review.tags.append(tag)
+  return review
+
 def add_review(request):
   # Current time in milliseconds
   post_time = int(time.time())
@@ -128,6 +142,25 @@ def add_review(request):
   except:
     helpfulness_rating = 0
   text = request.get('Text')
+
+  tag_ids = {
+    '1': 'wheelchair-friendly',
+    '2': 'blind-friendly',
+    '3': 'understanding',
+    '4': 'autism-friendly',
+    '5': 'elevators',
+    '6': 'secret laboratory'
+  }
+
+  tags_list = request.get_all('tags')
+
+
+  # tags_list ={
+  #   'wheelchair-friendly': request.get('wheelchair-friendly').strip(),
+  #   'blind-friendly': request.get('blind-friendly').strip(),
+  #   'understanding': request.get('understanding').strip(),
+  #   'autism-friendly': request.get('autism-friendly').strip()
+  # }
   
   review = models.Review()
   review.loc_name = loc_name
@@ -164,6 +197,22 @@ def add_review(request):
     review.user_email = user.email()
   else:
     review.user = "Anonymous"
+
+  # Checking for tags Alpha
+  # for tag in tags_list.keys():
+  #   if(tags_list[tag] != ""):
+  #     logging.info("%s value is %s" %(tag, tags_list[tag]))
+  #     review = append_tag_to_review(tag, tags_list[tag], review)
+
+  for tag in tags_list:
+    if(tag != ""):
+      try:
+        tag = int(tag)
+        tag_index = tag_ids[str(abs(tag))]
+      except:
+        continue
+      logging.info("%s value is %s" %(tag_index, tag))
+      append_tag_to_review(tag_index, tag, review)
   
   if (review.vision_rating != None and review.mobility_rating != None and
       review.speech_rating != None and review.helpfulness_rating != None):

@@ -2,7 +2,6 @@ function setup() {
     $(".review-text").attr('readonly', true);
     $(".hidden-button").attr("style", "visibility:hidden;");
     $(".set-review").rateit('readonly', true);
-    console.log("Here");
 }
 function make_editable(post_id) {
     var current = $("#" + post_id + " textarea").attr("readonly");
