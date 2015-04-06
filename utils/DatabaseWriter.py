@@ -73,9 +73,13 @@ def add_location_beta(request):
 def append_tag_to_review(type, value, review):
   tag = models.Tag()
   tag.type = type
-  if(int(value) > 0):
+  try:
+    value = int(value)
+  except:
+    value = 0
+  if(value > 0):
     tag.votes_pos = 1;
-  if(int(value) < 0):
+  if(value < 0):
     tag.votes_neg = 1;
   review.tags.append(tag)
   return review
@@ -104,12 +108,24 @@ def add_review(request):
     helpfulness_rating = 0
   text = request.get('Text')
 
-  tags_list ={
-    'wheelchair-friendly': request.get('wheelchair-friendly').strip(),
-    'blind-friendly': request.get('blind-friendly').strip(),
-    'understanding': request.get('understanding').strip(),
-    'autism-friendly': request.get('autism-friendly').strip()
+  tag_ids = {
+    '1': 'wheelchair-friendly',
+    '2': 'blind-friendly',
+    '3': 'understanding',
+    '4': 'autism-friendly',
+    '5': 'elevators',
+    '6': 'secret laboratory'
   }
+
+  tags_list = request.get_all('tags')
+
+
+  # tags_list ={
+  #   'wheelchair-friendly': request.get('wheelchair-friendly').strip(),
+  #   'blind-friendly': request.get('blind-friendly').strip(),
+  #   'understanding': request.get('understanding').strip(),
+  #   'autism-friendly': request.get('autism-friendly').strip()
+  # }
   
   review = models.Review()
   review.loc_name = loc_name
@@ -141,11 +157,20 @@ def add_review(request):
   else:
     review.user = "Anonymous"
 
-  # Checking for tags
-  for tag in tags_list.keys():
-    if(tags_list[tag] != ""):
-      logging.info("%s value is %s" %(tag, tags_list[tag]))
-      review = append_tag_to_review(tag, tags_list[tag], review)
+  # Checking for tags Alpha
+  # for tag in tags_list.keys():
+  #   if(tags_list[tag] != ""):
+  #     logging.info("%s value is %s" %(tag, tags_list[tag]))
+  #     review = append_tag_to_review(tag, tags_list[tag], review)
+
+  for tag in tags_list:
+    if(tag != ""):
+      try:
+        tag = int(tag)
+      except:
+        continue
+      logging.info("%s value is %s" %(tag_ids[str(abs(tag))], tag))
+      append_tag_to_review(tag_ids[str(abs(tag))], tag, review)
   
   if (review.vision_rating != None and review.mobility_rating != None and
       review.speech_rating != None and review.helpfulness_rating != None):
