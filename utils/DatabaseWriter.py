@@ -70,6 +70,15 @@ def add_location_beta(request):
   else:
     return None
 
+def append_tag_to_review(type, value, review):
+  tag = models.Tag()
+  tag.type = type
+  if(int(value) > 0):
+    tag.votes_pos = 1;
+  if(int(value) < 0):
+    tag.votes_neg = 1;
+  review.tags.append(tag)
+  return review
 
 def add_review(request):
   # Current time in milliseconds
@@ -94,6 +103,13 @@ def add_review(request):
   except:
     helpfulness_rating = 0
   text = request.get('Text')
+
+  tags_list ={
+    'wheelchair-friendly': request.get('wheelchair-friendly').strip(),
+    'blind-friendly': request.get('blind-friendly').strip(),
+    'understanding': request.get('understanding').strip(),
+    'autism-friendly': request.get('autism-friendly').strip()
+  }
   
   review = models.Review()
   review.loc_name = loc_name
@@ -124,6 +140,12 @@ def add_review(request):
     review.user_email = user.email()
   else:
     review.user = "Anonymous"
+
+  # Checking for tags
+  for tag in tags_list.keys():
+    if(tags_list[tag] != ""):
+      logging.info("%s value is %s" %(tag, tags_list[tag]))
+      review = append_tag_to_review(tag, tags_list[tag], review)
   
   if (review.vision_rating != None and review.mobility_rating != None and
       review.speech_rating != None and review.helpfulness_rating != None):
