@@ -110,7 +110,7 @@ def add_review(request):
   post_time = int(time.time())
   
   loc_id = request.get('URL')
-  loc_name = DatabaseReader.get_location(loc_id)['name']
+  loc_name = DatabaseReader.get_location(loc_id).name
   try:
     vision_rating = int(request.get('Vision'))
   except:
