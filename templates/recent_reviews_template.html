@@ -32,6 +32,18 @@
 				<p>
 					{{review.text}}
 				</p>
+                <label for="reviews_assoc_tags-{{review.key.urlsafe}}" class="small-border"></label> 
+                <div class="reviews_assoc_tags" id="reviews_assoc_tags-{{review.key.urlsafe}}">
+                    
+                    {% for tag in review.tags %}
+                    <span class="tag-static well">
+                        <span class="tag-text-static">{{tag.type}}</span>
+                        <span class="tag-buttons-static">
+                            <a class="tag-btn-static glyphicon glyphicon-chevron-up {% if tag.votes_pos > 0 %} tag-pos-selected{% endif %}"></a>
+                            <a class="tag-btn-static glyphicon glyphicon-chevron-down {% if tag.votes_neg > 0 %} tag-neg-selected{% endif %}"></a>
+                        </span>
+                    </span>
+                    {% endfor %}
 			</div>
         </div>
 	</div>

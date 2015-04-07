@@ -1,13 +1,13 @@
-.form-control {
+/*.form-control {
 	display:inline;
-}
+}*/
 
 html, body {
 	height:100%;
 }
 
 .top-padding-fix {
-/*  padding*/-top: 35px;
+/*  padding-top: 35px; */
 }
 
 body .col-md-3,.col-md-9,.row{
@@ -45,8 +45,8 @@ body .col-md-3,.col-md-9,.row{
 }
 
 .main {
-/*  padding*/: 40px 15px;
-  text-align: center;
+/*  padding: 40px 15px;*/
+  	text-align: center;
 	/*padding:5px;*/
 	border-left:2px solid #ddd; 
 	border-right:2px solid #ddd; 
