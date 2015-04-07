@@ -18,11 +18,19 @@ class Location(ndb.Model):
   user = ndb.StringProperty()
   # location_id = ndb.IntegerProperty()
   # url = ndb.StringProperty()
-  
-  vision_rating = ndb.IntegerProperty()
-  mobility_rating = ndb.IntegerProperty()
-  speech_rating = ndb.IntegerProperty()
-  helpfulness_rating = ndb.IntegerProperty()
+  # tags_present =  "1" json!!!!
+  # tags_pos =      "2"
+  # tags_neg =      "1" tags = json
+  # {'wheelchair':1}
+  # query(location.tags['wheelchair'] and location.tags['wheelchair'][0] > location.tags['wheelchair'][1])
+  num_vision = ndb.IntegerProperty(default = 0)
+  vision_rating = ndb.IntegerProperty(default = 0)
+  num_mobility = ndb.IntegerProperty(default = 0)
+  mobility_rating = ndb.IntegerProperty(default = 0)
+  num_speech = ndb.IntegerProperty(default = 0)
+  speech_rating = ndb.IntegerProperty(default = 0)
+  num_helpfulness = ndb.IntegerProperty(default = 0)
+  helpfulness_rating = ndb.IntegerProperty(default = 0)
 
 
 class Review(ndb.Model):
