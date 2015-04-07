@@ -5,41 +5,10 @@ import datetime
 from google.appengine.ext import ndb
 from google.appengine.api import users 
 
+
 # @params: request containing the POSTed parameters
 # Returns true if the request is valid, false otherwise
 def add_location(request):
-  # Current time in milliseconds
-  post_time = int(time.time() * 1000)
-  
-  name = request.get('Name')
-  address = request.get('Address')
-  city = request.get('City')
-  state = request.get('State')
-  desc = request.get('Description')
-
-  location = models.Location()
-  if len(name) <= 32:
-    location.name = name
-  if len(address) <= 48:
-    location.address = address
-  if len(city) <= 32:
-    location.city = city
-  if len(state) == 2 and state.isalpha():
-    location.state = state
-  location.desc = desc
-  location.time_created = post_time
-  
-  if (location.name != "" and location.address != "" and
-      location.city != "" and location.state != ""):
-    location.put()
-    return str(location.key.id())
-  else:
-    return None
-
-
-# @params: request containing the POSTed parameters
-# Returns true if the request is valid, false otherwise
-def add_location_beta(request):
   # Current time in milliseconds
   post_time = int(time.time() * 1000)
   
