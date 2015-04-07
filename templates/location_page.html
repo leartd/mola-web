@@ -79,7 +79,7 @@
 						<div class="col-md-9">   
 							<div class="form-group">
 								<label for="review_text">Your Review</label>
-								<textarea name="Text" id="review_text" cols="50	" rows="8" class="form-control"></textarea>
+								<textarea name="Text" id="review_text" cols="30	" rows="8" class="form-control"></textarea>
 								<!-- WORKINGIN ON AGGING HERE -->
 								<label for="review_text" class="small-border"></label for="review_text">
 								<div class="review_tags" id="current_post_tags">
@@ -91,7 +91,7 @@
 							</div>  
 							<div class="form-group">
 								<input type="hidden" value="{{loc_id}}" id="loc_id" name="URL" />
-								<input type="submit" class="btn btn-default" value="Submit" style="float:right;">
+								<input type="submit" class="btn btn-default pull-right" value="Submit">
 							</div>
 						</div>
 					</form>
@@ -102,7 +102,8 @@
 			{% for review in user_posts %}
             <div class="panel panel-default review" id="{{review.key.id}}">
                 <div class="panel-heading" style="background-color:#e1e1e1;" >
-                    <span class="review-date">{{review.time_created.month}}/{{review.time_created.day}}/{{review.time_created.year}}</span>
+                    <span class="pull-right">{{review.time_created.month}}/{{review.time_created.day}}/{{review.time_created.year}}</span>
+                    <div class="clearfix"></div>
                 </div>
                     <form role="form" name="review_form" action="/edit" class="review_form" method="POST">
                         <div class="col-md-3">   
@@ -162,8 +163,9 @@
 				{% for review in reviews %}
 				<div class="panel panel-default review">
 		            <div class="panel-heading" style="background-color:#e1e1e1;" >
-		                <span class="user-name">{{review.user}}</span>
-		                <span class="review-date">{{review.time_created.month}}/{{review.time_created.day}}/{{review.time_created.year}}</span>
+		                <span class="pull-left" style="float:left;">{{review.user}}</span>
+		                <span class="pull-right">{{review.time_created.month}}/{{review.time_created.day}}/{{review.time_created.year}}</span>
+		                <div class="clearfix"></div>
 		            </div>
 		            <div class="panel-body" style="margin-top:-0px; background-color:#f4f4f4">
 		                    <div class="col-md-3 well">

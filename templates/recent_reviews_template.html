@@ -1,8 +1,9 @@
 {% for review in reviews %}
 	<div class="panel panel-default front-page-post">
         <div class="panel-heading" style="background-color:#e1e1e1;" >
-            <span class="user-name">{{review.user}}</span>
-            <span class="page-link"><a href="/location/{{review.loc_id}}">{{ review.loc_name }}</a></span>
+            <span class="pull-left">{{review.user}}</span>
+            <span class="pull-right"><a href="/location/{{review.loc_id}}">{{ review.loc_name }}</a></span>
+            <div class="clearfix"></div>
         </div>
         <div class="panel-body" style="margin-top:-0px; background-color:#f4f4f4">
 			<div class="col-md-4 well">
