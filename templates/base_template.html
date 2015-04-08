@@ -35,7 +35,7 @@
 				<a href="/" class="navbar-brand">Mola</a>
 			</div>
 			<div class="collapse navbar-collapse" id="navbar">
-				<form class="navbar-nav nav navbar-form navbar-left" role="search">
+				<form  action="/loc_checker" method="post" class="navbar-nav nav navbar-form navbar-left" id="search_form" role="search">
 				   	<div class="form-group">
 				    	<input id="autocomplete" class ="form-control" 	onFocus="geolocate()" name="search-query" type="text" placeholder="Search Places...">
 						<input id="placeName" name="PlaceName" type="hidden">
@@ -48,7 +48,7 @@
 						<input id="latitude" name="Latitude" type="hidden">
 						<input id="longitude" name="Longitude" type="hidden">
 				   </div>
-				   <button type="submit" class="btn btn-primary">Submit</button>
+				   <input type="submit" class="btn btn-primary" value="Search Mola"></input>
 			    </form>    
 			    <ul class="navbar-nav nav navbar-right" id="navbar-user-part">
 			    {% if not login_needed %}
