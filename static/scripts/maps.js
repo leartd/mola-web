@@ -3,37 +3,40 @@
 //=============================================================================
 var map;
 
-function initializeMap() {
-	var coords = new google.maps.LatLng(-34.397, 150.644);
+function locationMap() {
+	// Get the coordinates.
+	var coords = new google.maps.LatLng(latitude, longitude);
+	
+	// Set the map options. Interactivity for Location Page maps should be
+	// minimal.
 	var mapOptions = {
-		zoom: 15,
+		zoom: 17,
 		center: coords,
-		panControl: false
+		disableDoubleClickZoom: true,
+		draggable: false,
+		keyboardShortcuts: false,
+		maxZoom: 19,
+		minZoom: 15,
+		panControl: false,
+		rotateControl: false,
+		scaleControl: false,
+		scrollwheel: false,
+		streetViewControl: false,
+		zoomControl: false
 	}
 	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-	google.maps.event.addDomListener(map, 'idle', function() {
-	  calculateCenter();
-	});
-
+	// Set the marker on the location.
 	var marker = new google.maps.Marker({
 		position: coords,
 		map: map,
 		title: "{{ name }}"
 	});
+	
+	// Keep the center of the map at the location, even after resizing.
+	google.maps.event.addDomListener(window, 'resize', function() {
+		map.setCenter(coords);
+	});
 }
 
-//=============================================================================
-// calculateCenter always keeps a Google Map on the page centered.
-//=============================================================================
-var center;
-
-function calculateCenter() {
-  center = map.getCenter();
-}
-
-google.maps.event.addDomListener(window, 'resize', function() {
-  map.setCenter(center);
-});
-
-google.maps.event.addDomListener(window, 'load', initializeMap);
+google.maps.event.addDomListener(window, 'load', locationMap);

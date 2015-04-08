@@ -12,7 +12,8 @@ class Location(ndb.Model):
   address = ndb.StringProperty()
   city = ndb.StringProperty()
   state = ndb.StringProperty()
-  desc = ndb.TextProperty()
+  latitude = ndb.FloatProperty()
+  longitude = ndb.FloatProperty()
   
   time_created = ndb.IntegerProperty()
   user = ndb.StringProperty()

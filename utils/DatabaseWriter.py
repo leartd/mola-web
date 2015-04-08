@@ -5,9 +5,10 @@ import datetime
 from google.appengine.ext import ndb
 from google.appengine.api import users 
 
-
+#==============================================================================
 # @params: request containing the POSTed parameters
 # Returns true if the request is valid, false otherwise
+#==============================================================================
 def add_location(request):
   # Current time in milliseconds
   post_time = int(time.time() * 1000)
@@ -17,7 +18,8 @@ def add_location(request):
   address = request.get('Street_number') + " "+ request.get('Street_name')
   city = request.get('City')
   state = request.get('State')
-  desc = ""#request.get('Description')
+  latitude = request.get('Latitude')
+  longitude = request.get('Longitude')
 
   location = models.Location()
   if len(name) <= 80:
@@ -28,16 +30,28 @@ def add_location(request):
     location.city = city
   if len(state) == 2 and state.isalpha():
     location.state = state
-  location.desc = desc
   location.time_created = post_time
   location.key = ndb.Key(models.Location, request.get("PlaceID"))
-  if (location.name != "" and location.address != "" and
-      location.city != "" and location.state != ""):
+  try:
+    location.latitude = float(latitude)
+  except ValueError:
+    pass
+  try:
+    location.longitude = float(longitude)
+  except ValueError:
+    pass
+  if (location.name is not None and location.address is not None and
+      location.city is not None and location.state is not None and
+      location.latitude is not None and location.longitude is not None):
     location.put()
     return str(location.key.id())
   else:
     return None
-
+    
+#==============================================================================
+# @params: review containing one or more ratings
+# Updates the location's average ratings using the review's rating(s).
+#==============================================================================
 def update_location_average(review):
   location = DatabaseReader.get_location(review.loc_id)
   location.vision_rating += review.vision_rating
@@ -50,6 +64,10 @@ def update_location_average(review):
   location.num_helpfulness += 1 if review.helpfulness_rating else 0
   location.put()
 
+#==============================================================================
+# @params: review being deleted, containing one or more ratings
+# Updates the location's average ratings, removing the review's rating(s).
+#==============================================================================
 def update_location_average_delete(review):
   location = DatabaseReader.get_location(review.loc_id)
   location.vision_rating -= review.vision_rating
@@ -62,6 +80,10 @@ def update_location_average_delete(review):
   location.num_helpfulness -= 1 if review.helpfulness_rating else 0
   location.put()
 
+#==============================================================================
+# @params: review being edited, containing one or more ratings
+# Updates the location's average ratings, factoring in the new rating(s).
+#==============================================================================
 def update_location_average_edit(new_review, old_review):
   location = DatabaseReader.get_location(new_review.loc_id)
   location.vision_rating += new_review.vision_rating - old_review["vision"]
@@ -74,6 +96,10 @@ def update_location_average_edit(new_review, old_review):
   location.num_helpfulness -= 1 if (not new_review.helpfulness_rating) and old_review["helpfulness"] else (-1 if new_review.helpfulness_rating and not old_review["helpfulness"] else 0)
   location.put()
 
+#==============================================================================
+# @params: name of tag, positive or negative value, review submitting tag
+# Updates the location's tag values.
+#==============================================================================
 def append_tag_to_review(type, value, review):
   tag = models.Tag()
   tag.type = type
@@ -87,7 +113,11 @@ def append_tag_to_review(type, value, review):
     tag.votes_neg = 1;
   review.tags.append(tag)
   return review
-
+  
+#==============================================================================
+# @params: the HTTP request containing the review details.
+# Adds a review to the location page.
+#==============================================================================
 def add_review(request):
   # Current time in milliseconds
   post_time = int(time.time())
@@ -122,7 +152,6 @@ def add_review(request):
   }
 
   tags_list = request.get_all('tags')
-
 
   # tags_list ={
   #   'wheelchair-friendly': request.get('wheelchair-friendly').strip(),
@@ -190,6 +219,10 @@ def add_review(request):
   else:
     return None
 
+#==============================================================================
+# @params: id of review being edited, dictionary containing new review details
+# Updates an existing review.
+#==============================================================================
 def edit_review(post_id, review_params):
   review = DatabaseReader.get_review(post_id)
   post_user = review.user_email
