@@ -1,8 +1,8 @@
-//=============================================================================
-// initializeMap draws a Google Map on the current page.
-//=============================================================================
 var map;
 
+//=============================================================================
+// locationMap draws a Google Map on a Location Page.
+//=============================================================================
 function locationMap() {
 	// Get the coordinates.
 	var coords = new google.maps.LatLng(latitude, longitude);
