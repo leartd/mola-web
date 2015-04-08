@@ -6,8 +6,13 @@ html, body {
 	height:100%;
 }
 
-.top-padding-fix {
-/*  padding-top: 35px; */
+/*.top-padding-fix {
+  padding-top: 35px;
+}*/
+@media (min-width: 980px) {
+	body {
+		padding-top: 2em;
+	}
 }
 
 body .col-md-3,.col-md-9,.row{

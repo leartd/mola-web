@@ -1,5 +1,7 @@
-// This example displays an address form, using the autocomplete feature
+//=============================================================================
+// This code displays an address form, using the autocomplete feature
 // of the Google Places API to help users fill in the information.
+//=============================================================================
 
 var placeSearch, autocomplete;
 var componentForm = {
@@ -9,8 +11,9 @@ var componentForm = {
   administrative_area_level_1: 'short_name',
   country: 'long_name',
   placeName: 'place_name',
-  placeID: 'place_id'
-  // postal_code: 'short_name'
+  placeID: 'place_id',
+  latitude: 'latitude',
+  longitude: 'longitude'
 };
 submit=false;
 
@@ -38,23 +41,16 @@ function initialize() {
         e.preventDefault(); 
       } 
   });
-  // var form = document.getElementById('search_form');
-  // form.addEventListener('onSubmit', function(e) {
-  //   if ($('.pac-container:visible').length) {
-  //     return false;
-  //   }
-  // });
 }
 
+//=============================================================================
 // [START region_fillform]
 function fillInAddress() {
   submit = true;
   // Get the place details from the autocomplete object.
   var place = autocomplete.getPlace();
-  console.log(place)
   for (var component in componentForm) {
     document.getElementById(component).value = '';
-    // document.getElementById(component).disabled = false;
   }
 
   // Get each component of the address from the place details
@@ -67,12 +63,16 @@ function fillInAddress() {
     }
   }
   document.getElementById('placeName').value = place.name;
-  console.log(place.name);
   document.getElementById('placeID').value = place.place_id;
+  document.getElementById('latitude').value = place.geometry.location.k;
+  document.getElementById('longitude').value = place.geometry.location.D;
+  
   $("#search_form").submit()
 }
 // [END region_fillform]
+//=============================================================================
 
+//=============================================================================
 // [START region_geolocation]
 // Bias the autocomplete object to the user's geographical location,
 // as supplied by the browser's 'navigator.geolocation' object.
@@ -90,4 +90,4 @@ function geolocate() {
   }
 }
 // [END region_geolocation]
-
+//=============================================================================

@@ -3,7 +3,8 @@ from google.appengine.api import users
 import webapp2
 from google.appengine.ext.webapp import template
 import json
-from utils import Formatter, DatabaseWriter, DatabaseReader, Email, LocationVerifier
+from utils import Formatter, DatabaseWriter, DatabaseReader, Email, \
+  LocationVerifier
 
 #==============================================================================
 # Convenience function to retrieve and render a template.
@@ -66,7 +67,7 @@ class ProcessLocation(webapp2.RequestHandler):
     else:
       self.redirect("/submit/location")
 
-import logging
+# import logging
 
 def safe_avg(total, number):
   if number == 0:
@@ -83,7 +84,7 @@ class LocationPage(webapp2.RequestHandler):
   def get(self, location_id):
     location = DatabaseReader.get_location(location_id)
     if location == None:
-      logging.info(location_id)
+      # logging.info(location_id)
       self.redirect("/")
     else:
       user = users.get_current_user()
@@ -101,10 +102,14 @@ class LocationPage(webapp2.RequestHandler):
       render_params['reviews'] = reviews
       render_params['title'] = ' - %s' % location.name
 
-      render_params['avg_vision'] = safe_avg(location.vision_rating, location.num_vision)
-      render_params['avg_mobility'] = safe_avg(location.mobility_rating, location.num_mobility)
-      render_params['avg_speech'] = safe_avg(location.speech_rating, location.num_speech)
-      render_params['avg_helpfulness'] = safe_avg(location.helpfulness_rating, location.num_helpfulness)
+      render_params['avg_vision'] = safe_avg(location.vision_rating,
+                                             location.num_vision)
+      render_params['avg_mobility'] = safe_avg(location.mobility_rating,
+                                               location.num_mobility)
+      render_params['avg_speech'] = safe_avg(location.speech_rating,
+                                             location.num_speech)
+      render_params['avg_helpfulness'] = safe_avg(location.helpfulness_rating,
+                                                  location.num_helpfulness)
       if cursor is None:
         render_params['reviewsCursor'] = ""
       else:
@@ -115,29 +120,19 @@ class LocationPage(webapp2.RequestHandler):
 
 
 #==============================================================================
-# This handler will be used to set up the "Add Review" form at add_review.html.
-#==============================================================================
-class AddReview(webapp2.RequestHandler):
-  def get(self):
-    html = render_template('add_review.html', {'title': ' - Add Review'})
-    self.response.out.write(html)
-
-
-#==============================================================================
 # This will handle the "Add Location" form submission, then redirect the user
-# to either:
-#   - the location page if successful, or
-#   - back to the form if a field was invalid/missing.
+# to the location page. No distinction is made between whether the review was
+# stored successfully or not...
 #==============================================================================
 class ProcessReview(webapp2.RequestHandler):
   def post(self):
     url = DatabaseWriter.add_review(self.request)
-    if url:
-      self.redirect("/location/" + self.request.get('URL') + "?post_review=success")
-    else:
-      self.redirect("/location/" + self.request.get('URL') + "?post_review=failure")
+    self.redirect("/location/" + self.request.get('URL'))
 
 
+#==============================================================================
+# This will handle search functions.
+#==============================================================================
 class SearchHandler(webapp2.RequestHandler):
   def get(self):
     location = self.request.get('location-query')
@@ -161,14 +156,15 @@ class TestHandler(webapp2.RequestHandler):
 
 
 #==============================================================================
-# Test Location Checker.
+# Location Checker.
 #==============================================================================      
 class LocationChecker(webapp2.RequestHandler):
   def post(self):
     render_params = DatabaseReader.get_location(self.request.get('PlaceID'))
     if render_params == None:
-      if LocationVerifier.VerifyLocation(self.request.get('PlaceID'), self.request.get('PlaceName')):
-        url = DatabaseWriter.add_location_beta(self.request)
+      if LocationVerifier.VerifyLocation(self.request.get('PlaceID'),
+                                         self.request.get('PlaceName')):
+        url = DatabaseWriter.add_location(self.request)
         if url:
           self.redirect("/location/" + url)
         else:
@@ -176,9 +172,7 @@ class LocationChecker(webapp2.RequestHandler):
       else:
         self.error(404)  
     else:
-        # render_params = DatabaseReader.get_location(self.request.get('PlaceID'))
-        self.redirect("/location/" + self.request.get('PlaceID'))
-      # googlePlaceId = self.request.get("placeID")
+      self.redirect("/location/" + self.request.get('PlaceID'))
 
 
 #==============================================================================
@@ -189,7 +183,8 @@ class MoreReviewsHandler(webapp2.RequestHandler):
     location_id = self.request.get("id")
     prev_cursor = self.request.get("dbPage")
     if prev_cursor != "":
-      page_reviews_tuple = DatabaseReader.get_page_reviews(location_id,  prev_cursor) 
+      page_reviews_tuple = DatabaseReader.get_page_reviews(location_id,
+                                                           prev_cursor) 
     reviews = page_reviews_tuple[0]
     cursor = page_reviews_tuple[1]
     flag = page_reviews_tuple[2]
@@ -217,7 +212,8 @@ class RecentReviewsHandler(webapp2.RequestHandler):
     reviews = page_reviews_tuple[0]
     cursor = page_reviews_tuple[1]
     flag = page_reviews_tuple[2]
-    html = render_template('recent_reviews_template.html', {'reviews': reviews})
+    html = render_template('recent_reviews_template.html',
+                           {'reviews': reviews})
     if cursor is None:
       reviewsCursor = ""
     else:
@@ -228,7 +224,20 @@ class RecentReviewsHandler(webapp2.RequestHandler):
       "reviewsCursor": reviewsCursor,
       "reviewsDBFlag": reviewsDBFlag
     }
-    self.response.out.write(json.dumps(return_info))    
+    self.response.out.write(json.dumps(return_info))
+    
+
+#==============================================================================
+# MAP TESTING, REMOVE CODE LATER
+#==============================================================================   
+class MapTest(webapp2.RequestHandler):
+  def get(self):
+    render_params = {
+      'title': ' - Map Testing',
+    }
+    html = render_template('map_testing.html', render_params)
+    self.response.out.write(html)
+
 
 #==============================================================================
 # This is our main page handler.  It will show the most recent Review objects
@@ -277,14 +286,10 @@ class EditHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
   ('/', MainPage),
-  # ('/submit/loc_handler', ProcessLocation),
-  # ('/submit/review', AddReview),
-    # Currently have copy/pasted code in location_page.html
+  ('/map_test', MapTest), # PLEASE REMOVE
   ('/submit/rev_handler', ProcessReview),
   ('/edit', EditHandler),
   ('/location/(.*)', LocationPage),
-  # ('/search', SearchHandler),
-  # ('/test', TestHandler),
   ('/loc_checker', LocationChecker),
   ('/get/reviews', MoreReviewsHandler),
   ('/get/recent_reviews', RecentReviewsHandler),
