@@ -1,0 +1,41 @@
+{% extends "base_template.html" %}
+{% block content %}	
+	<style>
+	#map-canvas {
+		min-height: 15em;
+	}
+	#location-info {
+		min-height: 15em;
+	}
+    </style>
+	<div class="row">
+		<div class="col-md-8 col-xs-12" id="location-info">
+			<h1>TEST1</h1>
+			<label for="address">Address:</label>
+			<div id="address">
+				ADDRESS <br />
+				PITTSBURGH, PA
+			</div>
+			<h1>TEST2</h1>
+			<label for="address">Address:</label>
+			<div id="address">
+				ADDRESS <br />
+				PITTSBURGH, PA
+			</div>
+			<h1>TEST3</h1>
+			<label for="address">Address:</label>
+			<div id="address">
+				ADDRESS <br />
+				PITTSBURGH, PA
+			</div>
+			<h1>TEST4</h1>
+			<label for="address">Address:</label>
+			<div id="address">
+				ADDRESS <br />
+				PITTSBURGH, PA
+			</div>
+		</div>
+		<div class="col-md-4 col-xs-12 well" id="map-canvas">
+		</div>
+	</div>
+{% endblock content %}
