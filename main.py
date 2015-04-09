@@ -225,19 +225,6 @@ class RecentReviewsHandler(webapp2.RequestHandler):
       "reviewsDBFlag": reviewsDBFlag
     }
     self.response.out.write(json.dumps(return_info))
-    
-
-#==============================================================================
-# MAP TESTING, REMOVE CODE LATER
-#==============================================================================   
-class MapTest(webapp2.RequestHandler):
-  def get(self):
-    render_params = {
-      'title': ' - Map Testing',
-    }
-    html = render_template('map_testing.html', render_params)
-    self.response.out.write(html)
-
 
 #==============================================================================
 # This is our main page handler.  It will show the most recent Review objects
@@ -286,7 +273,6 @@ class EditHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
   ('/', MainPage),
-  ('/map_test', MapTest), # PLEASE REMOVE
   ('/submit/rev_handler', ProcessReview),
   ('/edit', EditHandler),
   ('/location/(.*)', LocationPage),
