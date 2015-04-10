@@ -16,7 +16,7 @@ class Location(ndb.Model):
   longitude = ndb.FloatProperty()
   
   time_created = ndb.IntegerProperty()
-  user = ndb.StringProperty()
+  tags = ndb.StructuredProperty(Tag, repeated=True)
   # location_id = ndb.IntegerProperty()
   # url = ndb.StringProperty()
   # tags_present =  "1" json!!!!

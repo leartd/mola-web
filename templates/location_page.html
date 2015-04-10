@@ -1,23 +1,6 @@
 {% extends "base_template.html" %}
 {% block content %}
-	{% if post_review %}
-		{% if post_review == "success" %}
-			Success! Your review was posted.<br>
-		{% else %}
-		    Sorry, your review was not posted successfully.<br>
-		{% endif %}
-	{% endif %}
 
-	<!-- Styling for Location Info and Google Maps insert -->
-	<style>
-	#map-canvas {
-		min-height: 20em;
-	}
-	#location-info {
-		min-height: 20em;
-	}
-    </style>
-	
 	<!-- Begin Location Info Section -->
 	<div class="row">
 		<div class="col-md-8 col-xs-12" id="location-info">
@@ -33,23 +16,37 @@
 				<div>
 					<label>Vision:</label>
 					<div class="rateit" data-rateit-value="{{avg_vision}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
-					<!-- <img class="user-reviews" src = "/static/images/{{review.vision_rating}}_star.gif" tile="{{review.vision_rating}} Star Rating" alt="{{review.vision_rating}} Stars" /> -->
 				</div>
 				<div>
 					<label>Mobility:</label>
 					<div class="rateit" data-rateit-value="{{avg_mobility}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
-					<!-- <img class="user-reviews" src = "/static/images/{{review.mobility_rating}}_star.gif" tile="{{review.mobility_rating}} Star Rating" alt="{{review.mobility_rating}} Stars" /> -->
 				</div>
 				<div>
 					<label>Speech:</label>
 					<div class="rateit" data-rateit-value="{{avg_speech}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
-					<!-- <img class="user-reviews" src = "/static/images/{{review.speech_rating}}_star.gif" tile="{{review.speech_rating}} Star Rating" alt="{{review.speech_rating}} Stars" /> -->
 				</div>
 				<div>
 					<label>Helpfulness:</label>
 					<div class="rateit" data-rateit-value="{{avg_helpfulness}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
-					<!-- <img class="user-reviews" src = "/static/images/{{review.helpfulness_rating}}_star.gif" tile="{{review.helpfulness_rating}} Star Rating" alt="{{review.helpfulness_rating}} Stars" /> -->
 				</div>
+			</div>
+			<label for="location_assoc_tags-{{location.key.urlsafe}}" class="small-border"></label>	
+			<div class="location_assoc_tags" id="location_assoc_tags-{{location.key.urlsafe}}">							
+				{% for tag in location.tags %}
+				{% if tag.votes_pos != tag.votes_neg %}
+				<span class="tag-static well">
+					<span class="tag-text-static">{{tag.type}}</span>
+					<span class="tag-buttons-static">
+						{% if tag.votes_pos > 0 and tag.votes_pos > tag.votes_neg %} 
+						<a class="tag-btn-static glyphicon glyphicon-chevron-up tag-pos-selected">{{tag.votes_pos}}</a>
+						{% endif %}
+						{% if tag.votes_neg > 0 and tag.votes_neg > tag.votes_pos %} 
+						<a class="tag-btn-static glyphicon glyphicon-chevron-down tag-neg-selected">{{tag.votes_neg}}</a>
+						{% endif %}
+					</span>
+				</span>
+				{% endif %}
+				{% endfor %}
 			</div>
 		</div>
 		<!-- MAP INSERT HERE -->
@@ -61,54 +58,60 @@
 	
 	<!-- Begin Review Section -->
 	{% if not user_posts %}
+		{% if not login_needed %}
 	<button class="btn-lg btn-primary" type="button" data-toggle="collapse" data-target="#add-location-fix" aria-expanded="false" aria-controls="add-location-fix">Add Review</button>
 	<div class="review well collapse" style="margin-top:2em;" id="add-location-fix">
-		<form role="form" name="reviewform" action="/submit/rev_handler" class="reviewform" method="POST">
-			<div class="col-md-3">   
-				<div class="form-group ratings">       
-					<div class="form-group form-inline">
-						<label for="vision_input">Vision:</label>
-						<input type="range" min="0" max="5" value="0" step="1" name="Vision" id="vision_input">
-						<div class="rateit" data-rateit-backingfld="#vision_input"></div>
-					</div>
-					<div class="form-group form-inline">
-						<label for="mobility_input">Mobility</label>
-						<input type="range" min="0" max="5" value="0" step="1" name="Mobility" id="mobility_input">
-						<div class="rateit" data-rateit-backingfld="#mobility_input"></div>	
-					</div>
-					<div class="form-group form-inline">
-						<label for="speech_input">Speech</label>
-						<input type="range" min="0" max="5" value="0" step="1" name="Speech" id="speech_input">
-						<div class="rateit" data-rateit-backingfld="#speech_input"></div>
-					</div>
-					<div class="form-group form-inline">
-						<label for="helpfulness_input">Helpfulness</label>
-						<input type="range" min="0" max="5" value="0" step="1" name="Helpfulness" id="helpfulness_input">
-						<div class="rateit" data-rateit-backingfld="#helpfulness_input"></div>
+		<div class="row">
+			<form role="form" name="reviewform" action="/submit/rev_handler" class="reviewform" method="POST">
+				<div class="col-md-3"> 
+					<div class="well">
+						<div class="form-group ratings">       
+							<div class="form-group form-inline">
+								<label for="vision_input">Vision:</label>
+								<input type="range" min="0" max="5" value="0" step="1" name="Vision" id="vision_input">
+								<div class="rateit" data-rateit-backingfld="#vision_input"></div>
+							</div>
+							<div class="form-group form-inline">
+								<label for="mobility_input">Mobility</label>
+								<input type="range" min="0" max="5" value="0" step="1" name="Mobility" id="mobility_input">
+								<div class="rateit" data-rateit-backingfld="#mobility_input"></div>	
+							</div>
+							<div class="form-group form-inline">
+								<label for="speech_input">Speech</label>
+								<input type="range" min="0" max="5" value="0" step="1" name="Speech" id="speech_input">
+								<div class="rateit" data-rateit-backingfld="#speech_input"></div>
+							</div>
+							<div class="form-group form-inline">
+								<label for="helpfulness_input">Helpfulness</label>
+								<input type="range" min="0" max="5" value="0" step="1" name="Helpfulness" id="helpfulness_input">
+								<div class="rateit" data-rateit-backingfld="#helpfulness_input"></div>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-9">   
-				<div class="form-group">
-					<label for="review_text">Your Review</label>
-					<textarea name="Text" id="review_text" cols="30	" rows="8" class="form-control"></textarea>
-					<!-- WORKINGIN ON TAGGING HERE -->
-					<label for="review_text" class="small-border"></label for="review_text">
-					<div class="review_tags" id="current_post_tags">
-						<!-- <span><input type="checkbox" value='1' name="tags" id="wheelchir">wheelchair-friendly</span>
-						<span><input type="checkbox" value='2' name="tags" id="blind">blind-friendly</span>
-						<span><input type="checkbox" value='3' name="tags" id="understanding">understanding</span>
-						<span><input type="checkbox" value='4' name="tags" id="autism">autism-friendly</span> -->
+				<div class="col-md-9">   
+					<div class="form-group">
+						<label for="review_text">Your Review</label>
+						<textarea name="Text" id="review_text" cols="30	" rows="8" class="form-control"></textarea>
+						<!-- WORKINGIN ON TAGGING HERE -->
+						<label for="review_text" class="small-border"></label for="review_text">
+						<div class="review_tags" id="current_post_tags">
+							<!-- <span><input type="checkbox" value='1' name="tags" id="wheelchir">wheelchair-friendly</span>
+							<span><input type="checkbox" value='2' name="tags" id="blind">blind-friendly</span>
+							<span><input type="checkbox" value='3' name="tags" id="understanding">understanding</span>
+							<span><input type="checkbox" value='4' name="tags" id="autism">autism-friendly</span> -->
+						</div>
+					</div>  
+					<div class="form-group">
+						<input type="hidden" value="{{loc_id}}" id="loc_id" name="URL" />
+						<input type="submit" class="btn btn-default pull-right" value="Submit">
 					</div>
-				</div>  
-				<div class="form-group">
-					<input type="hidden" value="{{loc_id}}" id="loc_id" name="URL" />
-					<input type="submit" class="btn btn-default pull-right" value="Submit">
 				</div>
-			</div>
-			<div class="clearfix"></div>
-		</form>
+				<div class="clearfix"></div>
+			</form>
+		</div>
 	</div>
+		{% endif %}
 	{% else %}
 	<h2>Your review</h2>
 	{% for review in user_posts %}
@@ -117,43 +120,69 @@
 			<span class="pull-right">{{review.time_created.month}}/{{review.time_created.day}}/{{review.time_created.year}}</span>
 			<div class="clearfix"></div>
 		</div>
-			<form role="form" name="review_form" action="/edit" class="review_form" method="POST">
-				<div class="col-md-3">   
-					<div class="form-group ratings">       
-						<div class="form-group form-inline">
-							<label for="vision_input">Vision:</label>
-							<input type="range" min="0" max="5" value="{{review.vision_rating}}" step="1" name="Vision" id="vision_input">
-							<div class="rateit set-review" data-rateit-backingfld="#vision_input"></div>
+			<div class="row">
+				<form role="form" name="review_form" action="/edit" class="review_form" method="POST">
+					<div class="panel-body panel-mola">
+						<div class="col-md-3">   
+							<div class="well">
+								<div class="form-group ratings">       
+									<div class="form-group form-inline">
+										<label for="vision_input">Vision:</label>
+										<input type="range" min="0" max="5" value="{{review.vision_rating}}" step="1" name="Vision" id="vision_input">
+										<div class="rateit set-review" data-rateit-backingfld="#vision_input"></div>
+									</div>
+									<div class="form-group form-inline">
+										<label for="mobility_input">Mobility</label>
+										<input type="range" min="0" max="5" value="{{review.mobility_rating}}" step="1" name="Mobility" id="mobility_input">
+										<div class="rateit set-review" data-rateit-backingfld="#mobility_input"></div> 
+									</div>
+									<div class="form-group form-inline">
+										<label for="speech_input">Speech</label>
+										<input type="range" min="0" max="5" value="{{review.speech_rating}}" step="1" name="Speech" id="speech_input">
+										<div class="rateit set-review" data-rateit-backingfld="#speech_input"></div>
+									</div>
+									<div class="form-group form-inline">
+										<label for="helpfulness_input">Helpfulness</label>
+										<input type="range" min="0" max="5" value="{{review.helpfulness_rating}}" step="1" name="Helpfulness" id="helpfulness_input">
+										<div class="rateit set-review" data-rateit-backingfld="#helpfulness_input"></div>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div class="form-group form-inline">
-							<label for="mobility_input">Mobility</label>
-							<input type="range" min="0" max="5" value="{{review.mobility_rating}}" step="1" name="Mobility" id="mobility_input">
-							<div class="rateit set-review" data-rateit-backingfld="#mobility_input"></div> 
-						</div>
-						<div class="form-group form-inline">
-							<label for="speech_input">Speech</label>
-							<input type="range" min="0" max="5" value="{{review.speech_rating}}" step="1" name="Speech" id="speech_input">
-							<div class="rateit set-review" data-rateit-backingfld="#speech_input"></div>
-						</div>
-						<div class="form-group form-inline">
-							<label for="helpfulness_input">Helpfulness</label>
-							<input type="range" min="0" max="5" value="{{review.helpfulness_rating}}" step="1" name="Helpfulness" id="helpfulness_input">
-							<div class="rateit set-review" data-rateit-backingfld="#helpfulness_input"></div>
+						<div class="col-md-9">   
+							<div class="form-group">
+								<label for="review_text">Your Review</label>
+								<textarea name="Text" id="review_text" cols="50 " rows="8" class="review-text form-control">{{review.text}}</textarea>
+							</div>
+
+		<!-- EDITING TAGS Kinda Hard -->
+							<label for="reviews_assoc_tags-{{review.key.urlsafe}}" class="small-border"></label>	
+							<div class="reviews_assoc_tags" id="current_post_tags">							
+								{% for tag in review.tags %}
+								<span class="tag well">
+									<span class="tag-text">{{tag.type}}</span>
+									<span class="tag-buttons">
+
+										
+										<input type='hidden' name='tags' value ="{% if tag.votes_pos > 0 %}{{tag.votes_pos}}{%else%}{% if tag.votes_neg > 0 %}-{{tag.votes_neg}}{%endif%}{%endif%}" id="{{tag.type}}-tag">
+										
+
+										<a class="tag-btn glyphicon glyphicon-chevron-up {% if tag.votes_pos > 0 %} tag-pos-selected{% endif %}"></a>								
+										<a class="tag-btn glyphicon glyphicon-chevron-down {% if tag.votes_neg > 0 %} tag-neg-selected{% endif %}"></a>
+									</span>
+								</span>
+								{% endfor %}
+							</div>  
+
+							<div>
+								<input type="hidden" value="{{loc_id}}" id="loc_id" name="URL" />
+								<input type="hidden" name="post_id" value="{{review.key.id}}">
+								<input type="submit" class="pull-right hidden-button btn btn-default" value="Submit" >
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-md-9">   
-					<div class="form-group">
-						<label for="review_text">Your Review</label>
-						<textarea name="Text" id="review_text" cols="50 " rows="8" class="review-text form-control">{{review.text}}</textarea>
-					</div>  
-					<div class="form-group">
-						<input type="hidden" value="{{loc_id}}" id="loc_id" name="URL" />
-						<input type="hidden" name="post_id" value="{{review.key.id}}">
-						<input type="submit" class="hidden-button btn btn-default" value="Submit" >
-					</div>
-				</div>
-			</form>
+				</form>
+			</div>
 		<div class="panel-footer clearfix">
 			<div class="pull-right button-group">
 				<form action="/history/delete/" id="{{review.key.id}}" method="post">
@@ -179,26 +208,25 @@
 				<div class="clearfix"></div>
 			</div>
 			<div class="panel-body panel-mola">
-					<div class="col-md-3 well">
-						<div>
-							<label>Vision:</label>
-							<div class="rateit" data-rateit-value="{{review.vision_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
-							<!-- <img class="user-reviews" src = "/static/images/{{review.vision_rating}}_star.gif" tile="{{review.vision_rating}} Star Rating" alt="{{review.vision_rating}} Stars" /> -->
-						</div>
-						<div>
-							<label>Mobility:</label>
-							<div class="rateit" data-rateit-value="{{review.mobility_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
-							<!-- <img class="user-reviews" src = "/static/images/{{review.mobility_rating}}_star.gif" tile="{{review.mobility_rating}} Star Rating" alt="{{review.mobility_rating}} Stars" /> -->
-						</div>
-						<div>
-							<label>Speech:</label>
-							<div class="rateit" data-rateit-value="{{review.speech_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
-							<!-- <img class="user-reviews" src = "/static/images/{{review.speech_rating}}_star.gif" tile="{{review.speech_rating}} Star Rating" alt="{{review.speech_rating}} Stars" /> -->
-						</div>
-						<div>
-							<label>Helpfulness:</label>
-							<div class="rateit" data-rateit-value="{{review.helpfulness_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
-							<!-- <img class="user-reviews" src = "/static/images/{{review.helpfulness_rating}}_star.gif" tile="{{review.helpfulness_rating}} Star Rating" alt="{{review.helpfulness_rating}} Stars" /> -->
+				<div class="row">
+					<div class="col-md-3">
+						<div class="well">
+							<div>
+								<label>Vision:</label>
+								<div class="rateit" data-rateit-value="{{review.vision_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+							</div>
+							<div>
+								<label>Mobility:</label>
+								<div class="rateit" data-rateit-value="{{review.mobility_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+							</div>
+							<div>
+								<label>Speech:</label>
+								<div class="rateit" data-rateit-value="{{review.speech_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+							</div>
+							<div>
+								<label>Helpfulness:</label>
+								<div class="rateit" data-rateit-value="{{review.helpfulness_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+							</div>
 						</div>
 					</div> 
 					<div class="col-md-9 text-review">
@@ -206,8 +234,7 @@
 							{{review.text}}
 						</p>
 						<label for="reviews_assoc_tags-{{review.key.urlsafe}}" class="small-border"></label>	
-						<div class="reviews_assoc_tags" id="reviews_assoc_tags-{{review.key.urlsafe}}">
-							
+						<div class="reviews_assoc_tags" id="reviews_assoc_tags-{{review.key.urlsafe}}">							
 							{% for tag in review.tags %}
 							<span class="tag-static well">
 								<span class="tag-text-static">{{tag.type}}</span>
@@ -219,6 +246,7 @@
 							{% endfor %}
 						</div>
 					</div>
+				</div>
 			</div>
 		</div>
 		{% endfor %}

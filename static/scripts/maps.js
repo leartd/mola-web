@@ -13,16 +13,16 @@ function locationMap() {
 		zoom: 17,
 		center: coords,
 		disableDoubleClickZoom: true,
-		draggable: false,
+		draggable: true,
 		keyboardShortcuts: false,
 		maxZoom: 19,
 		minZoom: 15,
-		panControl: false,
+		panControl: true,
 		rotateControl: false,
-		scaleControl: false,
+		scaleControl: true,
 		scrollwheel: false,
 		streetViewControl: false,
-		zoomControl: false
+		zoomControl: true
 	}
 	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 

@@ -98,7 +98,7 @@ def update_location_average_edit(new_review, old_review):
 
 #==============================================================================
 # @params: name of tag, positive or negative value, review submitting tag
-# Updates the location's tag values.
+# Updates the reviews's tag values.
 #==============================================================================
 def append_tag_to_review(type, value, review):
   tag = models.Tag()
@@ -112,8 +112,32 @@ def append_tag_to_review(type, value, review):
   if(value < 0):
     tag.votes_neg = 1;
   review.tags.append(tag)
-  return review
   
+#==============================================================================
+# @params: location to add/edit tags to/of and the review responsilbe
+# Updates the location's tag values.
+#==============================================================================  
+def add_review_tags_to_location(location, review):
+  location_edited = False
+  for rev_tag in review.tags:
+    rev_tag_found = False
+    for loc_tag in location.tags:
+      if rev_tag.type == loc_tag.type:
+        loc_tag.votes_pos += rev_tag.votes_pos
+        loc_tag.votes_neg += rev_tag.votes_neg
+        location_edited = True
+        rev_tag_found = True
+        break
+    if (rev_tag_found == False):
+      loc_tag = models.Tag()
+      loc_tag.type = rev_tag.type
+      loc_tag.votes_pos = rev_tag.votes_pos
+      loc_tag.votes_neg = rev_tag.votes_neg
+      location.tags.append(loc_tag)
+      location_edited = True
+  if(location_edited == True):
+    location.put()        
+
 #==============================================================================
 # @params: the HTTP request containing the review details.
 # Adds a review to the location page.
@@ -123,7 +147,8 @@ def add_review(request):
   post_time = int(time.time())
   
   loc_id = request.get('URL')
-  loc_name = DatabaseReader.get_location(loc_id).name
+  loc_obj = DatabaseReader.get_location(loc_id)
+  loc_name = loc_obj.name
   try:
     vision_rating = int(request.get('Vision'))
   except:
@@ -211,6 +236,8 @@ def add_review(request):
         continue
       logging.info("%s value is %s" %(tag_index, tag))
       append_tag_to_review(tag_index, tag, review)
+
+  add_review_tags_to_location(loc_obj, review)
   
   if (review.vision_rating != None and review.mobility_rating != None and
       review.speech_rating != None and review.helpfulness_rating != None):
