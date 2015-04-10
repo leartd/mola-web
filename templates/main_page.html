@@ -1,80 +1,113 @@
 {% extends "base_template.html" %}
 {% block content %}
-    <div class="row">
-        <div class="posts col-md-9 main-bar">
-            <script>
-                var reviewsDBPage = "{{reviewsCursor}}";
-                var reviewsDBFlag = "{{reviewsDBFlag}}" == "True" ? true : false;
-            </script>
-            <h1 class="title">Recent Reviews</h1>
-            
-            <div id="front-page-reviews">
-                {% for review in reviews %}
-                <div class="panel panel-default front-page-post">
-                    <div class="panel-heading" style="background-color:#e1e1e1">
-                        <span class="pull-left">{{review.user}}</span>
-                        <span class="pull-right"><a href="/location/{{review.loc_id}}">{{ review.loc_name }}</a></span>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="panel-body mola-panel">
-                        <div class="row">
-                            <div class="col-md-4 ">
-                                <div class="well">
-                                    <div>
-                                        <label>Vision:</label>
-                                        <div class="rateit" data-rateit-value="{{review.vision_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
-                                    </div>
-                                    <div>
-                                        <label>Mobility:</label>
-                                        <div class="rateit" data-rateit-value="{{review.mobility_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
-                                    </div>
-                                    <div>
-                                        <label>Speech:</label>
-                                        <div class="rateit" data-rateit-value="{{review.speech_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
-                                    </div>
-                                    <div>
-                                        <label>Helpfulness:</label>
-                                        <div class="rateit" data-rateit-value="{{review.helpfulness_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
-                                    </div>
-                                </div>
-                            </div> 
-                            <div class="col-md-8 text-review">
-                                <p>
-                                    {{review.text}}
-                                </p>
-                                <label for="reviews_assoc_tags-{{review.key.urlsafe}}" class="small-border"></label>
-                                <div class="reviews_assoc_tags" id="reviews_assoc_tags-{{review.key.urlsafe}}">
-                                    
-                                    {% for tag in review.tags %}
-                                    <span class="tag-static well">
-                                        <span class="tag-text-static">{{tag.type}}</span>
-                                        <span class="tag-buttons-static">
-                                            <a class="tag-btn-static glyphicon glyphicon-chevron-up {% if tag.votes_pos > 0 %} tag-pos-selected{% endif %}"></a>
-                                            <a class="tag-btn-static glyphicon glyphicon-chevron-down {% if tag.votes_neg > 0 %} tag-neg-selected{% endif %}"></a>
-                                        </span>
-                                    </span>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>    
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            <a href="" class="more_front_reviews">Show More</a><br/>
-        </div>
-        <div class="sidebar col-md-3">
-            <!-- <div id="submit_review">
-                <a class="btn btn-primary" href="/submit/location">Add a Location</a>
-            </div> -->
-            <div id="Statement" class="panel panel-default" style="margin-top: 1.5em;">
-                <div class="panel-heading" style="padding-bottom:0.75em;"><h2 class="panel-title">Who We Are</h2></div>
-                <div class="panel-body" style="padding-top:0.25em;">
-                    <p>
-                        We're a group of individuals who wanted to put together a simple online service: help persons with disabilities to find out if a location provides accommodations catering to their needs. Our approach is simple and versatile, allowing users to indicate exactly what the location has and doesn't have. We hope this will serve as a convenient tool, and encourages businesses to provide their services equally to those disabled and nondisabled.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-md-9 main-bar">
+			<ul id="mola-tabs" class="nav nav-pills nav-justified">
+			   <li >
+				  <a href="#front-page-reviews-tab" data-toggle="tab">Recent Reviews</a>
+			   </li>
+			   <li class="active">
+				  <a href="#front-page-maps-tab"  data-toggle="tab">Nearby Places</a>
+			   </li>
+			</ul>
+			<label for="mola-tabs" class="small-border"></label>
+			<!-- tab-content DIV -->
+			<div id="myTabContent" class="tab-content">
+			<!-- RECENT REVIEWS DIV -->
+				<div id="front-page-reviews-tab" class="posts col-md-12 tab-pane fade">
+					<script>
+						var reviewsDBPage = "{{reviewsCursor}}";
+						var reviewsDBFlag = "{{reviewsDBFlag}}" == "True" ? true : false;
+					</script>
+					<h1 class="title">Recent Reviews</h1>
+					
+					<div id="front-page-reviews">
+						{% for review in reviews %}
+						<div class="panel panel-default front-page-post">
+							<div class="panel-heading" style="background-color:#e1e1e1">
+								<span class="pull-left">{{review.user}}</span>
+								<span class="pull-right"><a href="/location/{{review.loc_id}}">{{ review.loc_name }}</a></span>
+								<div class="clearfix"></div>
+							</div>
+							<div class="panel-body mola-panel">
+								<div class="row">
+									<div class="col-md-4 ">
+										<div class="well">
+											<div>
+												<label>Vision:</label>
+												<div class="rateit" data-rateit-value="{{review.vision_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+											</div>
+											<div>
+												<label>Mobility:</label>
+												<div class="rateit" data-rateit-value="{{review.mobility_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+											</div>
+											<div>
+												<label>Speech:</label>
+												<div class="rateit" data-rateit-value="{{review.speech_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+											</div>
+											<div>
+												<label>Helpfulness:</label>
+												<div class="rateit" data-rateit-value="{{review.helpfulness_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+											</div>
+										</div>
+									</div> 
+									<div class="col-md-8 text-review">
+										<p>
+											{{review.text}}
+										</p>
+										<label for="reviews_assoc_tags-{{review.key.urlsafe}}" class="small-border"></label>
+										<div class="reviews_assoc_tags" id="reviews_assoc_tags-{{review.key.urlsafe}}">
+											
+											{% for tag in review.tags %}
+											<span class="tag-static well">
+												<span class="tag-text-static">{{tag.type}}</span>
+												<span class="tag-buttons-static">
+													<a class="tag-btn-static glyphicon glyphicon-chevron-up {% if tag.votes_pos > 0 %} tag-pos-selected{% endif %}"></a>
+													<a class="tag-btn-static glyphicon glyphicon-chevron-down {% if tag.votes_neg > 0 %} tag-neg-selected{% endif %}"></a>
+												</span>
+											</span>
+											{% endfor %}
+										</div>
+									</div>
+								</div>    
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+					<a href="" class="more_front_reviews">Show More</a><br/>
+				</div>
+				<!-- END OF RECENT REVIEWS DIV -->
+				<!-- BEGIN OF MAP TAB -->
+				<div id="front-page-maps-tab" class="active tab-pane fade in col-md-12">
+					<script>
+						var latitude;
+						var longitude;
+						if (navigator.geolocation){
+							navigator.geolocation.getCurrentPosition(success);
+						}
+						function success(position) {							
+							latitude = position.coords.latitude; 
+							longitude = position.coords.longitude;
+						}
+
+					</script>
+					<div class="mola-map" id="map-canvas"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="sidebar col-md-3">
+			<!-- <div id="submit_review">
+				<a class="btn btn-primary" href="/submit/location">Add a Location</a>
+			</div> -->
+			<div id="Statement" class="panel panel-default" style="margin-top: 1.5em;">
+				<div class="panel-heading" style="padding-bottom:0.75em;"><h2 class="panel-title">Who We Are</h2></div>
+				<div class="panel-body" style="padding-top:0.25em;">
+					<p>
+						We're a group of individuals who wanted to put together a simple online service: help persons with disabilities to find out if a location provides accommodations catering to their needs. Our approach is simple and versatile, allowing users to indicate exactly what the location has and doesn't have. We hope this will serve as a convenient tool, and encourages businesses to provide their services equally to those disabled and nondisabled.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock content %}
