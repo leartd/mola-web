@@ -30,6 +30,24 @@
 					<div class="rateit" data-rateit-value="{{avg_helpfulness}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
 				</div>
 			</div>
+			<label for="location_assoc_tags-{{location.key.urlsafe}}" class="small-border"></label>	
+			<div class="location_assoc_tags" id="location_assoc_tags-{{location.key.urlsafe}}">							
+				{% for tag in location.tags %}
+				{% if tag.votes_pos != tag.votes_neg %}
+				<span class="tag-static well">
+					<span class="tag-text-static">{{tag.type}}</span>
+					<span class="tag-buttons-static">
+						{% if tag.votes_pos > 0 and tag.votes_pos > tag.votes_neg %} 
+						<a class="tag-btn-static glyphicon glyphicon-chevron-up tag-pos-selected">{{tag.votes_pos}}</a>
+						{% endif %}
+						{% if tag.votes_neg > 0 and tag.votes_neg > tag.votes_pos %} 
+						<a class="tag-btn-static glyphicon glyphicon-chevron-down tag-neg-selected">{{tag.votes_neg}}</a>
+						{% endif %}
+					</span>
+				</span>
+				{% endif %}
+				{% endfor %}
+			</div>
 		</div>
 		<!-- MAP INSERT HERE -->
 		<div class="col-md-4 col-xs-12 well">
