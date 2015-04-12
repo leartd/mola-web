@@ -40,6 +40,7 @@ class Review(ndb.Model):
   # Latitude and longitude for querying nearby reviews
   loc_lat = ndb.FloatProperty()
   loc_long = ndb.FloatProperty()
+  geo_hash = ndb.StringProperty()
   
   time_created = ndb.DateTimeProperty()
   user = ndb.StringProperty()

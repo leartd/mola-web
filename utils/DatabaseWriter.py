@@ -4,6 +4,7 @@ import DatabaseReader
 import datetime
 from google.appengine.ext import ndb
 from google.appengine.api import users 
+import geohash
 
 #==============================================================================
 # @params: request containing the location details
@@ -191,6 +192,7 @@ def add_review(request):
   loc_name = loc_obj.name
   loc_lat = loc_obj.latitude
   loc_long = loc_obj.longitude
+  geo_hash = geohash.encode(loc_lat, loc_long)[:4]
   try:
     vision_rating = int(request.get('Vision'))
   except:
@@ -255,6 +257,7 @@ def add_review(request):
   review.loc_id = loc_id
   review.loc_lat = loc_lat
   review.loc_long = loc_long
+  review.geo_hash = geo_hash
 
   update_location_average(review)
 
