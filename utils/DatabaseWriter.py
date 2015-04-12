@@ -22,15 +22,10 @@ def add_location_new(details):
     address = None
   else:
     address = details['street_no'] + " " + details['street_name']
-  address = request.get('Street_number') + " "+ request.get('Street_name')
-
   city = details['city']
   state = details['state']
   latitude = details['latitude']
   longitude = details['longitude']
-  state = request.get('State')
-  latitude = request.get('Latitude')
-  longitude = request.get('Longitude')
 
   location = models.Location()
   location.name = name
@@ -38,7 +33,7 @@ def add_location_new(details):
   location.city = city
   location.state = state
   location.time_created = post_time
-  location.key = ndb.Key(models.Location, request.get("PlaceID"))
+  location.key = ndb.Key(models.Location, details['place_id'])
   try:
     location.latitude = float(latitude)
   except ValueError:

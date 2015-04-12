@@ -8,8 +8,8 @@
 				<h1>{{ location.name }}</h1>
 				<label for="address">Address:</label>
 				<div id="address" class>
-					{{ location.address }} <br />
-					{{ location.city }}, {{ location.state }}
+					{% if location.address %}{{ location.address }} <br />{% endif %}
+					{% if location.city %}{{ location.city }}{% endif %} {% if location.state %}{{ location.state }}{% endif %}
 				</div>
 				<label for="h3-test" class="small-border"></label for="h3-test">
 				<h3 id="h3-test">Average Scores:</h3>
