@@ -25,8 +25,6 @@ def VerifyLocation(place_id, name):
     url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=%s&key=%s" % (place_id ,  key)
     response = urllib.urlopen(url)
     data = json.loads(response.read())
-    # logging.info("\n\n%s\n\n" % str(return_data))
-    #what we need: place_id, location name, Street_number, Street_name, City, State, lat/long
     if data['status'] != "OK" and data['name'] != name:
         return None
     else:

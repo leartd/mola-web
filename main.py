@@ -16,7 +16,7 @@ def render_template(templatename, templatevalues = {}):
     templatevalues['login'] = users.create_logout_url("/")
     templatevalues['user'] = user.nickname()
   else:
-    templatevalues['login_needed'] = False #Change back later!
+    templatevalues['login_needed'] = True
     templatevalues['login'] = users.create_login_url("/")
   path = os.path.join(os.path.dirname(__file__), 'templates/' + templatename)
   html = template.render(path, templatevalues)

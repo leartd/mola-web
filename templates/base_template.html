@@ -47,9 +47,10 @@
 			    {% if not login_needed %}
 			    	<li><p class="navbar-text">Welcome <a class="navbar-link" href="/history">{{user}}</a></p></li>
 		        {% endif %}
-					<li><form class="navbar-form" action="{{login}}">
-					    <input class="btn btn-primary" type="submit" value="{% if login_needed %}Login{% else %}Logout{% endif %}">
-					</form>
+					<li>
+						<p class="navbar-btn">
+							<a href="{{login}}" class="btn btn-primary">{% if login_needed %}Login{% else %}Logout{% endif %}</a>
+						</p>
 					</li>
 			   </ul>
 			</div>
