@@ -6,6 +6,51 @@ from google.appengine.ext import ndb
 from google.appengine.api import users 
 
 #==============================================================================
+# @params: request containing the location details
+# Returns url if the request is valid, None otherwise
+#==============================================================================
+def add_location_new(details):
+  # Current time in milliseconds
+  post_time = int(time.time() * 1000)
+  
+  name = details['name']
+
+  # If we don't have the street name, we don't want the address field to have
+  # anything in it at all. However, if we have the street name and no street
+  # number, we still want an address that contains only the street name
+  if not details['street_name']:
+    address = None
+  else:
+    address = details['street_no'] + " " + details['street_name']
+  address = request.get('Street_number') + " "+ request.get('Street_name')
+
+  city = details['city']
+  state = details['state']
+  latitude = details['latitude']
+  longitude = details['longitude']
+  state = request.get('State')
+  latitude = request.get('Latitude')
+  longitude = request.get('Longitude')
+
+  location = models.Location()
+  location.name = name
+  location.address = address
+  location.city = city
+  location.state = state
+  location.time_created = post_time
+  location.key = ndb.Key(models.Location, request.get("PlaceID"))
+  try:
+    location.latitude = float(latitude)
+  except ValueError:
+    pass
+  try:
+    location.longitude = float(longitude)
+  except ValueError:
+    pass
+  location.put()
+  return str(location.key.id())
+    
+#==============================================================================
 # @params: request containing the POSTed parameters
 # Returns true if the request is valid, false otherwise
 #==============================================================================
