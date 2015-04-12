@@ -189,6 +189,8 @@ def add_review(request):
   loc_id = request.get('URL')
   loc_obj = DatabaseReader.get_location(loc_id)
   loc_name = loc_obj.name
+  loc_lat = loc_obj.latitude
+  loc_long = loc_obj.longitude
   try:
     vision_rating = int(request.get('Vision'))
   except:
@@ -251,6 +253,8 @@ def add_review(request):
   review.text = text
   review.time_created = datetime.datetime.fromtimestamp(post_time)
   review.loc_id = loc_id
+  review.loc_lat = loc_lat
+  review.loc_long = loc_long
 
   update_location_average(review)
 
