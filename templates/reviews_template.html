@@ -9,21 +9,21 @@
             <div class="row">
     			<div class="col-md-3">
                     <div class="well">
-                        <div>
-                            <label>Vision:</label>
-                            <div class="rateit" data-rateit-value="{{review.vision_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                        <div class="row">
+                            <label class="col-md-3 col-xs-12">Vision:</label>
+                            <div class="col-md-9 col-xs-12 rateit" data-rateit-value="{{review.vision_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
                         </div>
-                        <div>
-                            <label>Mobility:</label>
-                            <div class="rateit" data-rateit-value="{{review.mobility_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                        <div class="row">
+                            <label class="col-md-3 col-xs-12">Mobility:</label>
+                            <div class="col-md-9 col-xs-12 rateit" data-rateit-value="{{review.mobility_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
                         </div>
-                        <div>
-                            <label>Speech:</label>
-                            <div class="rateit" data-rateit-value="{{review.speech_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                        <div class="row">
+                            <label class="col-md-3 col-xs-12">Speech:</label>
+                            <div class="col-md-9 col-xs-12 rateit" data-rateit-value="{{review.speech_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
                         </div>
-                        <div>
-                            <label>Helpfulness:</label>
-                            <div class="rateit" data-rateit-value="{{review.helpfulness_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                        <div class="row">
+                            <label class="col-md-3 col-xs-12">Helpfulness:</label>
+                            <div class="col-md-9 col-xs-12 rateit" data-rateit-value="{{review.helpfulness_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
                         </div>
                     </div>
     			</div> 
@@ -38,8 +38,12 @@
                         <span class="tag-static well">
                             <span class="tag-text-static">{{tag.type}}</span>
                             <span class="tag-buttons-static">
-                                <a class="tag-btn-static glyphicon glyphicon-chevron-up {% if tag.votes_pos > 0 %} tag-pos-selected{% endif %}"></a>
-                                <a class="tag-btn-static glyphicon glyphicon-chevron-down {% if tag.votes_neg > 0 %} tag-neg-selected{% endif %}"></a>
+                                {% if tag.votes_pos > 0 and tag.votes_pos > tag.votes_neg %} 
+                                <a class="tag-btn-static glyphicon glyphicon-chevron-up tag-pos-selected"></a>
+                                {% endif %}
+                                {% if tag.votes_neg > 0 and tag.votes_neg > tag.votes_pos %} 
+                                <a class="tag-btn-static glyphicon glyphicon-chevron-down tag-neg-selected"></a>
+                                {% endif %}
                             </span>
                         </span>
                         {% endfor %}
