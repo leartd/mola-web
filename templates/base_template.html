@@ -42,13 +42,6 @@
 				    	<input id="autocomplete" class ="form-control" 	onFocus="geolocate()" name="search-query" type="text" placeholder="Search Places...">
 						<input id="placeName" name="PlaceName" type="hidden">
 						<input id="placeID" name="PlaceID" type="hidden">
-						<input id="street_number" name="Street_number" type="hidden">
-						<input id="route" name="Street_name" type="hidden">
-						<input id="locality" name="City" type="hidden">
-						<input id="administrative_area_level_1" name="State" type="hidden">
-						<input id="country" name="Country" type="hidden">
-						<input id="latitude" name="Latitude" type="hidden">
-						<input id="longitude" name="Longitude" type="hidden">
 				   </div>
 				   <input type="submit" class="btn btn-primary" id="search-button" value="Search Mola"></input>
 			    </form>    
@@ -63,14 +56,6 @@
 							<input class="btn btn-primary" id="login-logout-button" type="submit" value="{% if login_needed %}Login{% else %}Logout{% endif %}">
 						</form>
 					</li>
-<!-- 				
-					<a class="btn btn-primary" href="{{login}}">
-						{% if login_needed %}
-							Login
-							{% else %}
-							Logout
-						{% endif %}
-					</a> -->
 			   </ul>
 			</div>
 			</div>
@@ -82,7 +67,7 @@
 			<!-- Content ends here -->
 		</div>
 		<div class="container"> 
-			<div class="row footer" s@tyle="text-align:center;">
+			<div class="row footer" style="text-align:center;">
 					<p><strong>Mola</strong> by Joseph Hagner, Leart Doko and John Lee. <a href="/contact">Contact Us</a></p>
 			</div>
 		</div>
@@ -127,6 +112,7 @@
 		
 		<!-- Script for map loading -->
 	    <script src="/static/scripts/maps.js" type="text/javascript"></script>
+	    <script src="/static/scripts/konami.js" type="text/javascript"></script>
 		
 	</body>
 </html>
