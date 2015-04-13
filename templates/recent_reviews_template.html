@@ -39,8 +39,12 @@
                     <span class="tag-static well">
                         <span class="tag-text-static">{{tag.type}}</span>
                         <span class="tag-buttons-static">
-                            <a class="tag-btn-static glyphicon glyphicon-chevron-up {% if tag.votes_pos > 0 %} tag-pos-selected{% endif %}"></a>
-                            <a class="tag-btn-static glyphicon glyphicon-chevron-down {% if tag.votes_neg > 0 %} tag-neg-selected{% endif %}"></a>
+							{% if tag.votes_pos > 0 %}
+                            <a class="tag-btn-static glyphicon glyphicon-chevron-up tag-pos-selected"></a>
+							{% endif %}
+							{% if tag.votes_neg > 0 %}
+                            <a class="tag-btn-static glyphicon glyphicon-chevron-down tag-neg-selected"></a>
+							{% endif %}
                         </span>
                     </span>
                     {% endfor %}

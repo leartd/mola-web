@@ -12,17 +12,18 @@ function locationMap() {
 	var mapOptions = {
 		zoom: 17,
 		center: coords,
-		disableDoubleClickZoom: true,
-		draggable: false,
-		keyboardShortcuts: false,
+		disableDefaultUI: true,
+		disableDoubleClickZoom: false,
+		draggable: true,
+		keyboardShortcuts: true,
 		maxZoom: 19,
-		minZoom: 15,
-		panControl: false,
+		minZoom: 12,
+		panControl: true,
 		rotateControl: false,
-		scaleControl: false,
-		scrollwheel: false,
+		scaleControl: true,
+		scrollwheel: true,
 		streetViewControl: false,
-		zoomControl: false
+		zoomControl: true
 	}
 	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
@@ -30,7 +31,7 @@ function locationMap() {
 	var marker = new google.maps.Marker({
 		position: coords,
 		map: map,
-		title: "{{ name }}"
+		title: name
 	});
 	
 	// Keep the center of the map at the location, even after resizing.
