@@ -53,7 +53,7 @@ class Review(ndb.Model):
   speech_rating = ndb.IntegerProperty()
   helpfulness_rating = ndb.IntegerProperty()
   tags = ndb.StructuredProperty(Tag, repeated=True)
-  
+  reported = ndb.BooleanProperty(default=False)
   text = ndb.TextProperty()
 
 class User(ndb.Model):

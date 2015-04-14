@@ -34,8 +34,8 @@ function checkWord(textArea) {
 	    console.log(last_word);
 
 	    var flagForTag = 0;
-            $("#current_post_tags").children(".tag").each(function(){
-                console.log($(this).text() +"TEXT");
+
+        $(".tag-text").each(function(){
         	if ($(this).text() == tags_text[indexOfTag])
         		flagForTag = 1;
         });
@@ -46,22 +46,10 @@ function checkWord(textArea) {
 }
 
 $('#review_text').keyup(function(event){
-    event = event || window.event;
-    var key = event.keyCode || ev.which;
-    if (String.fromCharCode(key).match(/[\.,-\/#!$%\^&\*;:{}=\_`~() \r\n]/)) {
-                checkWord(this);
-                // console.log(this);
-   }
-});
-
-
-
-$('.review-text').keyup(function(event){
 	event = event || window.event;
 	var key = event.keyCode || ev.which;
 	if (String.fromCharCode(key).match(/[\.,-\/#!$%\^&\*;:{}=\_`~() \r\n]/)) {
                 checkWord(this);
-                // console.log(this);
    }
 });
 
