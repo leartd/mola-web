@@ -5,15 +5,8 @@
 
 var placeSearch, autocomplete;
 var componentForm = {
-  street_number: 'short_name',
-  route: 'long_name',
-  locality: 'long_name',
-  administrative_area_level_1: 'short_name',
-  country: 'long_name',
   placeName: 'place_name',
-  placeID: 'place_id',
-  latitude: 'latitude',
-  longitude: 'longitude'
+  placeID: 'place_id'
 };
 submit=false;
 
@@ -53,19 +46,8 @@ function fillInAddress() {
     document.getElementById(component).value = '';
   }
 
-  // Get each component of the address from the place details
-  // and fill the corresponding field on the form.
-  for (var i = 0; i < place.address_components.length; i++) {
-    var addressType = place.address_components[i].types[0];
-    if (componentForm[addressType]) {
-      var val = place.address_components[i][componentForm[addressType]];
-      document.getElementById(addressType).value = val;
-    }
-  }
   document.getElementById('placeName').value = place.name;
   document.getElementById('placeID').value = place.place_id;
-  document.getElementById('latitude').value = place.geometry.location.k;
-  document.getElementById('longitude').value = place.geometry.location.D;
   
   $("#search_form").submit()
 }

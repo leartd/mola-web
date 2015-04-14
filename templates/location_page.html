@@ -8,8 +8,8 @@
 				<h1>{{ location.name }}</h1>
 				<label for="address">Address:</label>
 				<div id="address" class>
-					{{ location.address }} <br />
-					{{ location.city }}, {{ location.state }}
+					{% if location.address %}{{ location.address }} <br />{% endif %}
+					{% if location.city %}{{ location.city }}{% endif %} {% if location.state %}{{ location.state }}{% endif %}
 				</div>
 				<label for="h3-test" class="small-border"></label for="h3-test">
 				<h3 id="h3-test">Average Scores:</h3>
@@ -109,6 +109,7 @@
 	</div>
 		{% endif %}
 	{% else %}
+	<!-- EDITING SECTION -->
 	<h2>Your review</h2>
 	{% for review in user_posts %}
 	<div class="panel panel-default review" id="{{review.key.id}}">
@@ -157,8 +158,8 @@
 								{% for tag in review.tags %}
 								<span class="tag well">
 									<span class="tag-text">{{tag.type}}</span>
-									<span class="tag-buttons">									
-										<input type='hidden' name='tags' value ="{% if tag.votes_pos > 0 %}{{tag.votes_pos}}{%else%}{% if tag.votes_neg > 0 %}-{{tag.votes_neg}}{%endif%}{%endif%}" id="{{tag.type}}-tag">									
+
+									<span class="tag-buttons">																		
 										{% if tag.votes_pos > 0 and tag.votes_pos > tag.votes_neg %} 
 										<a class="tag-btn glyphicon glyphicon-chevron-up tag-pos-selected"></a>
 										{% endif %}
@@ -191,6 +192,7 @@
 	</div>
 	{% endfor %}
 	{% endif %}
+	<!-- END OF EDITING SECTION -->
 	<!-- START add_review.html copypast	a, with added script -->
 	
 	<!-- END add_review.html copypasta -->
