@@ -115,10 +115,18 @@ function checkAllWords(textArea) {
 
             var flagForTag = 0;
 
-            $(".tag-text").each(function(){
-                if ($(this).text() == tags_text[indexOfTag])
+            if((window.location.pathname) == ("/history")){
+                $("#current_post_tags").children(".tag").each(function(){
+                    if ($(this).text() == tags_text[indexOfTag])
                     flagForTag = 1;
-            });
+                });
+            }
+            else{ 
+                $(".tag-text").each(function(){
+                    if ($(this).text() == tags_text[indexOfTag])
+                        flagForTag = 1;
+                });
+            }
 
             if (flagForTag == 0)
                 $("#current_post_tags").append(newTag);
