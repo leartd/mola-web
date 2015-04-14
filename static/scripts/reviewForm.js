@@ -2,22 +2,23 @@
 // var tags_text = ["placeholder", "wheelchair-friendly", "blind-friendly", "understanding", "autism-friendly"];   
 
 var tags_array = {};
+var original_tags = $("#current_post_tags").children(".tag");
 // getCurrentTags();
 
 function getCurrentTags(){
-    tags_array = {};
     var present_tags = $("#current_post_tags").children(".tag");
     for( var j = 0; j < present_tags.length; j++){
         var tag_in_review = $(present_tags[j]).children(".tag-text").text();
-        var this_tags_value = tags_text.indexOf(tag_in_review);
+        var this_tags_value = 0; 
         console.log($(present_tags[j]).children(".tag-text").text());
         $(present_tags[j]).children().children(".tag-btn").each(function(){
             if($(this).hasClass("tag-pos-selected")){
+               this_tags_value = tags_text.indexOf(tag_in_review);
                console.log("positive");               
             }
-           else if ($(this).hasClass("tag-neg-selected")){
-            console.log("negative");
-                this_tags_value = 0 - this_tags_value;
+           if ($(this).hasClass("tag-neg-selected")){
+                console.log("negative");
+                this_tags_value = 0 -  tags_text.indexOf(tag_in_review);
             }
         });
         tags_array[tag_in_review] = this_tags_value;
@@ -28,7 +29,6 @@ function setup() {
     $(".review-text").attr('readonly', true);
     $(".hidden-button").attr("style", "visibility: hidden;");
     $(".set-review").rateit('readonly', true);
-    getCurrentTags();
 }
 function make_editable(post_id) {
     var current = $("#" + post_id + " textarea").attr("readonly");
@@ -38,28 +38,52 @@ function make_editable(post_id) {
     $("#" + post_id + " .set-review").rateit('readonly', !$("#" + post_id + " .set-review").rateit("readonly"));
 
     // console.log(current);
-    if(current){
+    tags_array = {};
+    getCurrentTags(post_id);
+    if(current != undefined){
         if(! $.isEmptyObject(tags_array)){
             var present_tags = $("#current_post_tags").children(".tag");
             present_tags.remove();
             checkAllWords($("#" + post_id + " textarea"));
-                
+            present_tags = $("#current_post_tags").children(".tag");
+            // $( document ).ready(function() {
+                // present_tags = $("#current_post_tags").closest(".tag");
+            // });
+
+            for(var i = 0; i < present_tags.length; i++){
+                var text_from_tag = $(present_tags[i]).children(".tag-text").text();
+                if(tags_array[text_from_tag]){
+                    console.log(tags_array[text_from_tag]);
+                    if(tags_array[text_from_tag] > 0){
+                        console.log("DETECTING POSITIVE BUTTON");
+                       console.log(present_tags[i]);
+                       console.log($(present_tags[i]).children(".tag-buttons").children(".tag-pos")[0].click());
+                        // tagButton.click();
+                    }
+                    if(tags_array[text_from_tag] < 0){
+                        console.log("DETECTING NEGATIVE BUTTON");
+                       console.log(present_tags[i]);
+                       console.log($(present_tags[i]).children(".tag-buttons").children(".tag-neg")[0].click());
+                        // tagButton.click();
+                    }
+                    // if(tags_array[text_from_tag] < 0){
+                    //     console.log("DETECTING NEGATIVE BUTTON");
+                    //     console.log(present_tags[i]);
+                    //     console.log("");
+                    //     var temporary = $(present_tags[i]);
+
+                    //     // $(present_tags[i]).children(".tag-buttons").children(".tag-neg")[0].click();
+                    //     // $(present_tags[i]).children(".tag-buttons").children(".tag-neg").trigger("click");
+                    //     // tagButton.clcik();
+                    // }
+                }
+            }    
         }
         else{
+
             console.log("There are no tags in this review.");
         }
     }
-    //TAG Editing messy
-    // var editable_post_children = $("#"+post_id).find(".tag-btn");
-    // if(editable_post_children.hasClass("tag-pos-selected")){
-    // 	alert(editable_post_children);	
-    // 	editable_post_children.addClass("tag-pos-checked");
-    // 	editable_post_children.toggleClass("tag-pos-selected");
-    // }
-    // if(editable_post_children.hasClass("tag-neg-selected")){
-    // 	editable_post_children.addClass("tag-neg-checked");
-    // 	editable_post_children.toggleClass("tag-neg-selected");
-    // }
 };
 
 function checkAllWords(textArea) {
