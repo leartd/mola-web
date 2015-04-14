@@ -6,6 +6,15 @@ from google.appengine.ext import ndb
 from google.appengine.api import users 
 import geohash
 
+tag_ids = {
+    '1': 'wheelchair-friendly',
+    '2': 'blind-friendly',
+    '3': 'understanding',
+    '4': 'autism-friendly',
+    '5': 'elevators',
+    '6': 'secret laboratory'
+  }
+
 #==============================================================================
 # @params: request containing the location details
 # Returns url if the request is valid, None otherwise
@@ -211,15 +220,6 @@ def add_review(request):
     helpfulness_rating = 0
   text = request.get('Text')
 
-  tag_ids = {
-    '1': 'wheelchair-friendly',
-    '2': 'blind-friendly',
-    '3': 'understanding',
-    '4': 'autism-friendly',
-    '5': 'elevators',
-    '6': 'secret laboratory'
-  }
-
   tags_list = request.get_all('tags')
 
   # tags_list ={
@@ -344,4 +344,18 @@ def edit_review(post_id, review_params):
   else:
     review.helpfulness_rating = 0
   update_location_average_edit(review, old_review)
+  # Tag section
+  tags_list = review_params['tags']
+  review.tags = []
+  for tag in tags_list:
+    if(tag != ""):
+      try:
+        tag = int(tag)
+        tag_index = tag_ids[str(abs(tag))]
+      except:
+        continue
+      logging.info("%s value is %s" %(tag_index, tag))
+      append_tag_to_review(tag_index, tag, review)
+
+
   review.put()

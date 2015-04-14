@@ -275,6 +275,7 @@ class EditHandler(webapp2.RequestHandler):
     review_params["speech_rating"] = self.request.get("Speech")
     review_params["helpfulness_rating"] = self.request.get("Helpfulness")
     review_params['review_text'] = self.request.get("Text")
+    review_params['tags'] = self.request.get_all('tags')
     try:
       DatabaseWriter.edit_review(pid, review_params)
     except:
