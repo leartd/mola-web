@@ -12,6 +12,12 @@ indexes:
 
 - kind: Review
   properties:
+  - name: geo_hash
+  - name: time_created
+    direction: desc
+
+- kind: Review
+  properties:
   - name: loc_id
   - name: time_created
     direction: desc
