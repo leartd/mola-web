@@ -10,29 +10,29 @@
             <span class="pull-right">{{review.time_created.month}}/{{review.time_created.day}}/{{review.time_created.year}}</span>
             <div class="clearfix"></div>
         </div>
-            <form role="form" name="review_form" action="/edit" class="review_form" method="POST">
+            <form role="form" name="review_form" action="/history/edit" class="review_form" method="POST">
                 <div class="panel-body panel-mola">
                     <div class="col-md-3 well">   
                         <div class="form-group ratings">       
                             <div class="form-group form-inline">
-                                <label for="vision_input">Vision:</label>
-                                <input type="range" min="0" max="5" value="{{review.vision_rating}}" step="1" name="Vision" id="vision_input">
-                                <div class="rateit set-review" data-rateit-backingfld="#vision_input"></div>
+                                <label for="vision_input-{{review.key.urlsafe}}">Vision:</label>
+                                <input type="range" min="0" max="5" value="{{review.vision_rating}}" step="1" name="Vision" id="vision_input-{{review.key.urlsafe}}">
+                                <div class="rateit set-review" data-rateit-backingfld="#vision_input-{{review.key.urlsafe}}"></div>
                             </div>
                             <div class="form-group form-inline">
-                                <label for="mobility_input">Mobility</label>
-                                <input type="range" min="0" max="5" value="{{review.mobility_rating}}" step="1" name="Mobility" id="mobility_input">
-                                <div class="rateit set-review" data-rateit-backingfld="#mobility_input"></div> 
+                                <label for="mobility_input-{{review.key.urlsafe}}">Mobility</label>
+                                <input type="range" min="0" max="5" value="{{review.mobility_rating}}" step="1" name="Mobility" id="mobility_input-{{review.key.urlsafe}}">
+                                <div class="rateit set-review" data-rateit-backingfld="#mobility_input-{{review.key.urlsafe}}"></div> 
                             </div>
                             <div class="form-group form-inline">
-                                <label for="speech_input">Speech</label>
-                                <input type="range" min="0" max="5" value="{{review.speech_rating}}" step="1" name="Speech" id="speech_input">
-                                <div class="rateit set-review" data-rateit-backingfld="#speech_input"></div>
+                                <label for="speech_input-{{review.key.urlsafe}}">Speech</label>
+                                <input type="range" min="0" max="5" value="{{review.speech_rating}}" step="1" name="Speech" id="speech_input-{{review.key.urlsafe}}">
+                                <div class="rateit set-review" data-rateit-backingfld="#speech_input-{{review.key.urlsafe}}"></div>
                             </div>
                             <div class="form-group form-inline">
-                                <label for="helpfulness_input">Helpfulness</label>
-                                <input type="range" min="0" max="5" value="{{review.helpfulness_rating}}" step="1" name="Helpfulness" id="helpfulness_input">
-                                <div class="rateit set-review" data-rateit-backingfld="#helpfulness_input"></div>
+                                <label for="helpfulness_input-{{review.key.urlsafe}}">Helpfulness</label>
+                                <input type="range" min="0" max="5" value="{{review.helpfulness_rating}}" step="1" name="Helpfulness" id="helpfulness_input-{{review.key.urlsafe}}">
+                                <div class="rateit set-review" data-rateit-backingfld="#helpfulness_input-{{review.key.urlsafe}}"></div>
                             </div>
                         </div>
                     </div>
