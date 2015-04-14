@@ -31,16 +31,29 @@ function setup() {
     $(".set-review").rateit('readonly', true);
 }
 function make_editable(post_id) {
+
     var current = $("#" + post_id + " textarea").attr("readonly");
     var display = current ? "visibility:normal;" : "visibility:hidden;"
     $("#" + post_id + " textarea").attr("readonly", !current);
     $("#" + post_id + " .hidden-button").attr("style", display);
     $("#" + post_id + " .set-review").rateit('readonly', !$("#" + post_id + " .set-review").rateit("readonly"));
-
+    
+    if((window.location.pathname) == ("/history")){
+        // alert("I'm the history page");
+        if(current){
+            // console.log(post_id + " This is the post id");
+            // $("#review_text-" +post_id).attr()
+            $(".reviews_assoc_tags-" + post_id).attr("id", "current_post_tags");
+            // $(".reviews_assoc_tags-agxkZXZ-bW9sYS12ZWJyEwsSBlJldmlldxiAgICAgMjjCAw")
+        }
+        else{
+            $(".reviews_assoc_tags-" + post_id).attr("id", "");
+        }
+    }
     // console.log(current);
     tags_array = {};
     getCurrentTags(post_id);
-    if(current != undefined){
+    if(current){
         if(! $.isEmptyObject(tags_array)){
             var present_tags = $("#current_post_tags").children(".tag");
             present_tags.remove();
@@ -80,7 +93,6 @@ function make_editable(post_id) {
             }    
         }
         else{
-
             console.log("There are no tags in this review.");
         }
     }
