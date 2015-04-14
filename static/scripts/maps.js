@@ -27,17 +27,32 @@ function locationMap() {
 	}
 	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-	// Set the marker on the location.
+	var curMarker = createMarker(coords, map, name);
+	
+	// Keep the center of the map at the location, even after resizing.
+	// google.maps.event.addDomListener(window, 'resize', function() {
+		// map.setCenter(coords);
+	// });
+}
+
+// Create a marker and infowindow for a location.
+function createMarker(coords, map, name){
+	// Create the actual marker.
 	var marker = new google.maps.Marker({
 		position: coords,
 		map: map,
 		title: name
 	});
-	
-	// Keep the center of the map at the location, even after resizing.
-	google.maps.event.addDomListener(window, 'resize', function() {
-		map.setCenter(coords);
+	// Create the associated InfoWindow.
+	infoContent = "<h4>" + name + "</h4>"
+	var info = new google.maps.InfoWindow({
+		content: infoContent
 	});
+	google.maps.event.addListener(marker, 'click', function() {
+		info.open(map, this);
+	});
+	
+	return marker;
 }
 
 google.maps.event.addDomListener(window, 'load', locationMap);
