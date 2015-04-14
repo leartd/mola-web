@@ -54,8 +54,17 @@ $('.review-text').keyup(function(event){
                 // console.log(this);
    }
 });
+$('#review_text').keyup(function(event){
+    event = event || window.event;
+    var key = event.keyCode || ev.which;
+    if (String.fromCharCode(key).match(/[\.,-\/#!$%\^&\*;:{}=\_`~() \r\n]/)) {
+                checkWord(this);
+                // console.log(this);
+   }
+});
 
-$("#current_post_tags").on('click', '.tag-btn', function (e) {
+
+$(" body").on('click', '.tag-btn', function (e) {
 		console.log('this is the click ' + $(this).parent().siblings(".tag-text").text());
 		e.preventDefault();	
 
