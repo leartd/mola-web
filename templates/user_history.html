@@ -38,13 +38,13 @@
                     </div>
                     <div class="col-md-9">   
                         <div class="form-group">
-                            <label for="review_text">Your Review</label>
-                            <textarea name="Text" id="review_text" cols="50 " rows="8" class="review-text form-control">{{review.text}}</textarea>
+                            <label for="review_text-{{review.key.id}}">Your Review</label>
+                            <textarea name="Text" id="review_text-{{review.key.id}}" cols="50 " rows="8" class="review-text form-control">{{review.text}}</textarea>
                         </div>
 
     <!-- EDITING TAGS Kinda Hard -->
-                        <label for="reviews_assoc_tags-{{review.key.urlsafe}}" class="small-border"></label>    
-                        <div  style="display: inline" class="reviews_assoc_tags" id="current_post_tags">                         
+                        <label for="reviews_assoc_tags-{{review.key.id}}" class="small-border"></label>    
+                        <div  style="display: inline" class="reviews_assoc_tags-{{review.key.id}}">                         
                             {% for tag in review.tags %}
                             <span class="tag well">
                                 <span class="tag-text">{{tag.type}}</span>
