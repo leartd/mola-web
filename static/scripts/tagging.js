@@ -45,16 +45,6 @@ function checkWord(textArea) {
     }
 }
 
-// $('#review_text').keyup(function(event){
-//     event = event || window.event;
-//     var key = event.keyCode || ev.which;
-//     if (String.fromCharCode(key).match(/[\.,-\/#!$%\^&\*;:{}=\_`~() \r\n]/)) {
-//                 checkWord(this);
-//                 // console.log(this);
-//    }
-// });
-
-
 
 $('.review-text').keyup(function(event){
 	event = event || window.event;
