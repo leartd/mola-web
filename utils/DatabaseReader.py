@@ -51,8 +51,10 @@ def get_page_recent_reviews(coords, cursor=None):
 
 # John Lee's guess at a functional function
 def get_page_nearby_locations(coords, cursor=None):
+  logging.info("Made it to nearby locations method.");
   PAGESIZE = 20
   page_reviews_tuple = ()
+  logging.info(coords[0] + ", AND " + coords[1])
   g_hash = geohash.encode(coords[0], coords[1])[:5]
   logging.info("\n\nGeohash is %s \n\n" % g_hash)
   if not cursor:

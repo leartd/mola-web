@@ -80,19 +80,44 @@
 				<!-- BEGIN OF MAP TAB -->
 				<div id="front-page-maps-tab" class="active tab-pane fade in col-md-12">
 					<script>
-						var latitude = {{ lat }};
-						var longitude = {{ lon }};
+						var latitude = {{ curLat }};
+						var longitude = {{ curLon }};
 						if (latitude == null || longitude == null)
 						{
+							<!-- navigator.geolocation is our fallback, because getCurrentPosition is highly unreliable -->
 							if (navigator.geolocation){
-								navigator.geolocation.getCurrentPosition(success);
+								var geoOptions = {
+									maximumAge:15000,
+									timeout:10000
+								}
+								navigator.geolocation.getCurrentPosition(success, error, geoOptions);
 							}
 						}
-						function success(position) {							
+						function success(position) {
 							latitude = position.coords.latitude; 
 							longitude = position.coords.longitude;
-							<!-- AJAX call to retrieve page of nearby locations -->
-							
+							alert(latitude + ", " + longitude);
+							// AJAX call to retrieve page of nearby locations
+							$.ajax({
+								type: "GET",
+								url: "../get/nearby_locations?" +
+									"latitude=" + latitude +
+									"&longitude=" + longitude,
+								async: true,
+
+								success: function(data){
+									alert(data);
+									var obj = JSON.parse(data);
+									// update reviewsDBPage = json.dbasfsd;
+									// var locObjs = obj[0]
+								},
+								error: function(XMLHttpRequest, textStatus, errorThrown){
+									alert("Ajax error");
+								}
+							});
+						}
+						function error(err) {
+							alert("Error: " + err.code);
 						}
 					</script>
 					<div class="mola-map" id="map-canvas"></div>

@@ -34,7 +34,6 @@ class Location(ndb.Model):
   num_helpfulness = ndb.IntegerProperty(default = 0)
   helpfulness_rating = ndb.IntegerProperty(default = 0)
 
-
 class Review(ndb.Model):
   loc_id = ndb.StringProperty(required=True)
   loc_name = ndb.StringProperty()

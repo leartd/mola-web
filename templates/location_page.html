@@ -264,5 +264,7 @@
 		var latitude = "{{ location.latitude }}";
 		var longitude = "{{ location.longitude }}";
 		var name = "{{ location.name }}";
+		var id = "{{ location.key.urlsafe }}";
+		var address = "{{ location.address }}" == "None" ? null : "{{ location.address }}";
 	</script>
 {% endblock content %}

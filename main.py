@@ -210,7 +210,7 @@ class RecentReviewsHandler(webapp2.RequestHandler):
   def get(self):
     prev_cursor = self.request.get("dbPage")
     if prev_cursor != "":
-      page_reviews_tuple = DatabaseReader.get_page_recent_reviews(prev_cursor)
+      page_reviews_tuple = DatabaseReader.get_page_recent_reviews(coords, prev_cursor)
     reviews = page_reviews_tuple[0]
     cursor = page_reviews_tuple[1]
     flag = page_reviews_tuple[2]
@@ -229,6 +229,41 @@ class RecentReviewsHandler(webapp2.RequestHandler):
     self.response.out.write(json.dumps(return_info))
 
 #==============================================================================
+# This handler works with AJAX to get nearby locations.
+#============================================================================== 
+import logging  
+class NearbyLocationsHandler(webapp2.RequestHandler):
+  def get(self):
+    locations = "null"
+    cursor = None
+    flag = "null"
+    
+    latitude = self.request.get("latitude")
+    longitude = self.request.get("longitude")
+    logging.info(latitude + ", anddd " + longitude)
+    coords = [latitude, longitude]
+    logging.info(coords)
+    nearby_locations_tuple = DatabaseReader.get_page_nearby_locations(coords)
+    locations = nearby_locations_tuple[0]
+    cursor = nearby_locations_tuple[1]
+    flag = nearby_locations_tuple[2]
+    locations
+    # except:
+      # logging.info("ERROR")
+      # pass
+    if cursor is None:
+      locationsCursor = ""
+    else:
+      locationsCursor = cursor.urlsafe()
+    locationsDBFlag = flag
+    return_info = {
+      "locations": locations,
+      "locationsCursor": locationsCursor,
+      "locationsDBFlag": locationsDBFlag
+    }
+    self.response.out.write(json.dumps(return_info))
+
+#==============================================================================
 # This is our main page handler.  It will show the most recent Review objects
 # in main_page.html.
 #==============================================================================
@@ -238,23 +273,26 @@ class MainPage(webapp2.RequestHandler):
     self.response.out.write(html)
   
   def get(self):
-    #location = self.request.headers.get("X-AppEngine-City")
-    #self.response.out.write(location)
-    # recent_locations = DatabaseReader.get_recent_locations()
+    coords = ["null","null"]
+    reviews = "null"
+    cursor = None
+    flag = "null"
+    # Getting the user's current coordinates. All try-catch.
     try:
       coords_str = self.request.headers["X-AppEngine-CityLatLong"]
+        # "X-AppEngine-CityLatLong" only returns when online.
       coords = [float(x) for x in coords_str.split(",")]
-    except ValueError:
-      coords = [40.440625,-79.995886] # Random location in Oakland
-    except KeyError:
-      coords = [40.440625,-79.995886] # Random location in Oakland
-
-
-    page_reviews_tuple = DatabaseReader.get_page_recent_reviews(coords)
-    reviews = page_reviews_tuple[0]
-    cursor = page_reviews_tuple[1]
-    flag = page_reviews_tuple[2] 
+      page_reviews_tuple = DatabaseReader.get_page_recent_reviews(coords)
+      reviews = page_reviews_tuple[0]
+      cursor = page_reviews_tuple[1]
+      flag = page_reviews_tuple[2]
+    except:
+      # Not online.
+      pass
+  
     render_params = {} 
+    render_params['curLat'] = coords[0]
+    render_params['curLon'] = coords[1]
     render_params['reviews'] = reviews
     render_params['title'] = ' - Welcome'
     if cursor is None:
@@ -290,6 +328,7 @@ app = webapp2.WSGIApplication([
   ('/loc_checker', LocationChecker),
   ('/get/reviews', MoreReviewsHandler),
   ('/get/recent_reviews', RecentReviewsHandler),
+  ('/get/nearby_locations', NearbyLocationsHandler),
   ('/contact', ContactPage),
   ('/submit/feedback', SendFeedback)
 ],
