@@ -202,15 +202,24 @@ class MoreReviewsHandler(webapp2.RequestHandler):
       "reviewsDBFlag": reviewsDBFlag
     }
     self.response.out.write(json.dumps(return_info))
-
+import logging
 #==============================================================================
 # This handler works with AJAX to load the next page of general recent reviews.
 #==============================================================================   
 class RecentReviewsHandler(webapp2.RequestHandler):
   def get(self):
+    try:
+      coords_str = self.request.headers["X-AppEngine-CityLatLong"]
+      coords = [float(x) for x in coords_str.split(",")]
+    except ValueError:
+      coords = [40.440625,-79.995886] # Random location in Oakland
+    except KeyError:
+      coords = [40.440625,-79.995886] # Random location in Oakland
+
+    page_reviews_tuple = DatabaseReader.get_page_recent_reviews(coords)
     prev_cursor = self.request.get("dbPage")
     if prev_cursor != "":
-      page_reviews_tuple = DatabaseReader.get_page_recent_reviews(prev_cursor)
+      page_reviews_tuple = DatabaseReader.get_page_recent_reviews(coords, prev_cursor)
     reviews = page_reviews_tuple[0]
     cursor = page_reviews_tuple[1]
     flag = page_reviews_tuple[2]
