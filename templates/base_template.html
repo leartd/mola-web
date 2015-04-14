@@ -47,9 +47,10 @@
 			    {% if not login_needed %}
 			    	<li><p class="navbar-text">Welcome <a class="navbar-link" href="/history">{{user}}</a></p></li>
 		        {% endif %}
-					<li><p class="navbar-btn">
-					    <a class="btn btn-primary" href="{{login}}">{% if login_needed %}Login{% else %}Logout{% endif %}</a>
-					</p>
+					<li>
+						<p class="navbar-btn">
+							<a href="{{login}}" class="btn btn-primary">{% if login_needed %}Login{% else %}Logout{% endif %}</a>
+						</p>
 					</li>
 			   </ul>
 			</div>
