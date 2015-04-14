@@ -1,4 +1,5 @@
 import os
+import logging
 from google.appengine.api import users
 import webapp2
 from google.appengine.ext.webapp import template
@@ -12,6 +13,7 @@ from utils import Formatter, DatabaseWriter, DatabaseReader, Email, \
 def render_template(templatename, templatevalues = {}):
   user = users.get_current_user()
   if user:
+    templatevalues['admin'] = users.is_current_user_admin()
     templatevalues['login_needed'] = False
     templatevalues['login'] = users.create_logout_url("/")
     templatevalues['user'] = user.nickname()
@@ -67,7 +69,6 @@ class ProcessLocation(webapp2.RequestHandler):
     else:
       self.redirect("/submit/location")
 
-# import logging
 
 def safe_avg(total, number):
   if number == 0:
@@ -84,7 +85,6 @@ class LocationPage(webapp2.RequestHandler):
   def get(self, location_id):
     location = DatabaseReader.get_location(location_id)
     if location == None:
-      # logging.info(location_id)
       self.redirect("/")
     else:
       user = users.get_current_user()
@@ -282,6 +282,15 @@ class EditHandler(webapp2.RequestHandler):
       return
     self.redirect("/location/%s" % loc_id)
 
+import models
+class ReportHandler(webapp2.RequestHandler):
+  def post(self):
+    pid = self.request.get("post_id")
+    review = DatabaseReader.get_review(pid)
+    review.reported = True
+    review.put()
+    self.redirect("/location/%s" % review.loc_id)
+
 app = webapp2.WSGIApplication([
   ('/', MainPage),
   ('/submit/rev_handler', ProcessReview),
@@ -291,6 +300,7 @@ app = webapp2.WSGIApplication([
   ('/get/reviews', MoreReviewsHandler),
   ('/get/recent_reviews', RecentReviewsHandler),
   ('/contact', ContactPage),
-  ('/submit/feedback', SendFeedback)
+  ('/submit/feedback', SendFeedback),
+  ('/report', ReportHandler)
 ],
 debug=True)

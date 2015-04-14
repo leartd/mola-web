@@ -42,7 +42,7 @@ function make_editable(post_id) {
     if((window.location.pathname) == ("/history")){
         // alert("I'm the history page");
         if(current){
-            // console.log(post_id + " This is the post id");
+            console.log(post_id + " This is the post id");
             // $("#review_text-" +post_id).attr()
             $(".reviews_assoc_tags-" + post_id).attr("id", "current_post_tags");
             // $(".reviews_assoc_tags-agxkZXZ-bW9sYS12ZWJyEwsSBlJldmlldxiAgICAgMjjCAw")
