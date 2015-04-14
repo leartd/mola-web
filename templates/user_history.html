@@ -44,7 +44,7 @@
 
     <!-- EDITING TAGS Kinda Hard -->
                         <label for="reviews_assoc_tags-{{review.key.urlsafe}}" class="small-border"></label>    
-                        <div class="reviews_assoc_tags" id="current_post_tags">                         
+                        <div  style="display: inline" class="reviews_assoc_tags" id="current_post_tags">                         
                             {% for tag in review.tags %}
                             <span class="tag well">
                                 <span class="tag-text">{{tag.type}}</span>
@@ -61,7 +61,7 @@
                             {% endfor %}
                         </div>  
 
-                        <div>
+                        <div style="margin-top: 5px;" >
                             <input type="hidden" value="{{loc_id}}" id="loc_id" name="URL" />
                             <input type="hidden" name="post_id" value="{{review.key.id}}">
                             <input type="submit" class="pull-right hidden-button btn btn-default" value="Submit" >
