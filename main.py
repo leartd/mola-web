@@ -210,6 +210,15 @@ class MoreReviewsHandler(webapp2.RequestHandler):
 class RecentReviewsHandler(webapp2.RequestHandler):
   def get(self):
     prev_cursor = self.request.get("dbPage")
+    # Getting the user's current coordinates. All try-catch.
+    try:
+      coords_str = self.request.headers["X-AppEngine-CityLatLong"]
+        # "X-AppEngine-CityLatLong" only returns when online.
+      coords = [float(x) for x in coords_str.split(",")]
+    except:
+      # Demo coordinates (WPU).
+      coords = [40.4433, -79.9547]
+      
     if prev_cursor != "":
       page_reviews_tuple = DatabaseReader.get_page_recent_reviews(coords, prev_cursor)
     reviews = page_reviews_tuple[0]
@@ -284,8 +293,6 @@ class MainPage(webapp2.RequestHandler):
     self.response.out.write(html)
   
   def get(self):
-    # coords = ["null","null"]
-    coords = [40.4433, -79.9547]
     reviews = "null"
     cursor = None
     flag = "null"
@@ -295,8 +302,8 @@ class MainPage(webapp2.RequestHandler):
         # "X-AppEngine-CityLatLong" only returns when online.
       coords = [float(x) for x in coords_str.split(",")]
     except:
-      pass
-      # Not online.
+      # Demo coordinates (WPU).
+      coords = [40.4433, -79.9547]
       
     page_reviews_tuple = DatabaseReader.get_page_recent_reviews(coords)
     reviews = page_reviews_tuple[0]
