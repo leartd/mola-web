@@ -1,5 +1,5 @@
-var tags = ["supercalifragilistic ", "wheelchair", "braille", "understanding", "autism"];
-var tags_text = ["placeholder", "wheelchair-friendly", "blind-friendly", "understanding", "autism-friendly"];	
+var tags = ["supercalifragilistic ", "ramp", "elevator", "braille", "autism"];
+var tags_text = ["placeholder", "ramps", "elevators", "braille-signs", "autism-friendly"];
 
 function getCaret(el) { 
   if (el.selectionStart) { 

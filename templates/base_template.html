@@ -13,14 +13,16 @@
 		<!-- Local Copy -->
 		<!-- <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css"> -->
 
+			<!-- Optional theme -->
+		<link rel="stylesheet" type="text/css" href="/static/lavish-bootstrap.css">
+		
 		<!-- Local Copy -->
 		<link rel="stylesheet" type="text/css" href="/static/main.css">
 
 		<!-- RateIt CSS -->
 		<link rel="stylesheet" type="text/css" href="/static/rateit.css">
 
-		<!-- Optional theme -->
-		<!-- <link rel="stylesheet" type="text/css" href="/static/lavish-bootstrap.css"> -->
+
 	</head>
 	<body onLoad="initialize();setup()">
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -41,15 +43,16 @@
 						<input id="placeName" name="PlaceName" type="hidden">
 						<input id="placeID" name="PlaceID" type="hidden">
 				   </div>
-				   <input type="submit" class="btn btn-primary" value="Search Mola"></input>
+				   <input type="submit" class="btn btn-primary" id="search-button" value="Search Mola"></input>
 			    </form>    
 			    <ul class="navbar-nav nav navbar-right" id="navbar-user-part">
 			    {% if not login_needed %}
-			    	<li><p class="navbar-text">Welcome <a class="navbar-link" href="/history">{{user}}</a></p></li>
+			    	<li><p class="navbar-text">Welcome <a class="navbar-link" href="/history">{{user}}</a></p>{% if admin %}<li><p class="navbar-text"><a href="/admin">Admin</a></p></li>{% endif %}</li>
+			    	
 		        {% endif %}
 					<li>
 						<p class="navbar-btn">
-							<a href="{{login}}" class="btn btn-primary">{% if login_needed %}Login{% else %}Logout{% endif %}</a>
+							<a href="{{login}}" class="btn btn-primary" id="login-logout-button">{% if login_needed %}Login{% else %}Logout{% endif %}</a>
 						</p>
 					</li>
 			   </ul>
@@ -107,6 +110,8 @@
 		
 		<!-- Script for map loading -->
 	    <script src="/static/scripts/maps.js" type="text/javascript"></script>
+		
+		<!-- Script for secret stuff -->
 	    <script src="/static/scripts/konami.js" type="text/javascript"></script>
 		
 		<!-- Editing Forms  -->
