@@ -278,8 +278,8 @@ class MainPage(webapp2.RequestHandler):
     self.response.out.write(html)
   
   def get(self):
-    # coords = ["null","null"]
-    coords = [40.4433, -79.9547]
+    coords = ["null","null"]
+    # coords = [40.4433, -79.9547]
     reviews = "null"
     cursor = None
     flag = "null"
