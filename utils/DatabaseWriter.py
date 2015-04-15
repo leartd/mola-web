@@ -1,10 +1,13 @@
 import models
-import time, logging, random
+import time
+import logging
+import random
 import DatabaseReader
 import datetime
+import geohash
+
 from google.appengine.ext import ndb
 from google.appengine.api import users 
-import geohash
 
 #==============================================================================
 # @params: request containing the location details
@@ -40,6 +43,7 @@ def add_location_new(details):
     location.longitude = float(longitude)
     location.geo_hash = geohash.encode(location.latitude, location.longitude)[:5]
   except ValueError:
+    logging.info("Error getting lat, long, or geo_hash")
     pass
   
   location.put()
@@ -49,44 +53,42 @@ def add_location_new(details):
 # @params: request containing the POSTed parameters
 # Returns true if the request is valid, false otherwise
 #==============================================================================
-def add_location(request):
-  # Current time in milliseconds
-  post_time = int(time.time() * 1000)
+# def add_location(request):
+  # post_time = int(time.time() * 1000)
   
-  name = request.get('PlaceName')
-  logging.info("Place name is %s" %name)
-  address = request.get('Street_number') + " "+ request.get('Street_name')
-  city = request.get('City')
-  state = request.get('State')
-  latitude = request.get('Latitude')
-  longitude = request.get('Longitude')
+  # name = request.get('PlaceName')
+  # logging.info("Place name is %s" %name)
+  # address = request.get('Street_number') + " "+ request.get('Street_name')
+  # city = request.get('City')
+  # state = request.get('State')
+  # latitude = request.get('Latitude')
+  # longitude = request.get('Longitude')
 
-  location = models.Location()
-  if len(name) <= 80:
-    location.name = name
-  if len(address) <= 48:
-    location.address = address
-  if len(city) <= 32:
-    location.city = city
-  if len(state) == 2 and state.isalpha():
-    location.state = state
-  location.time_created = post_time
-  location.key = ndb.Key(models.Location, request.get("PlaceID"))
-  try:
-    location.latitude = float(latitude)
-  except ValueError:
-    pass
-  try:
-    location.longitude = float(longitude)
-  except ValueError:
-    pass
-  if (location.name is not None and location.address is not None and
-      location.city is not None and location.state is not None and
-      location.latitude is not None and location.longitude is not None):
-    location.put()
-    return str(location.key.id())
-  else:
-    return None
+  # location = models.Location()
+  # if len(name) <= 80:
+    # location.name = name
+  # if len(address) <= 48:
+    # location.address = address
+  # if len(city) <= 32:
+    # location.city = city
+  # if len(state) == 2 and state.isalpha():
+    # location.state = state
+  # location.time_created = post_time
+  # location.key = ndb.Key(models.Location, request.get("PlaceID"))
+  # try:
+    # location.latitude = float(latitude)
+    # location.longitude = float(longitude)
+    # location.geo_hash = geohash.encode(latitude, longitude)[:4]
+  # except ValueError:
+    # pass
+    # location.geo_hash = None
+  # if (location.name is not None and location.address is not None and
+      # location.city is not None and location.state is not None and
+      # location.latitude is not None and location.longitude is not None):
+    # location.put()
+    # return str(location.key.id())
+  # else:
+    # return None
     
 #==============================================================================
 # @params: review containing one or more ratings

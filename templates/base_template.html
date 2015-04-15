@@ -52,9 +52,9 @@
 					</li>
 		        {% endif %}
 					<li>
-						<form class="navbar-form" action="{{login}}">
-							<input class="btn btn-primary" id="login-logout-button" type="submit" value="{% if login_needed %}Login{% else %}Logout{% endif %}">
-						</form>
+						<p class="navbar-btn" >
+							<a href="{{login}}" class="btn btn-primary" id="login-logout-button">{% if login_needed %}Login{% else %}Logout{% endif %}</a>
+						</p>
 					</li>
 			   </ul>
 			</div>

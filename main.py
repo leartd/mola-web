@@ -238,29 +238,34 @@ class NearbyLocationsHandler(webapp2.RequestHandler):
     cursor = None
     flag = "null"
     
-    latitude = self.request.get("latitude")
-    longitude = self.request.get("longitude")
-    logging.info(latitude + ", anddd " + longitude)
+    latitude = float(self.request.get("latitude"))
+    longitude = float(self.request.get("longitude"))
+    logging.info(str(latitude) + ", anddd " + str(longitude))
     coords = [latitude, longitude]
     logging.info(coords)
     nearby_locations_tuple = DatabaseReader.get_page_nearby_locations(coords)
     locations = nearby_locations_tuple[0]
+    logging.info(locations)
     cursor = nearby_locations_tuple[1]
     flag = nearby_locations_tuple[2]
-    locations
-    # except:
-      # logging.info("ERROR")
-      # pass
     if cursor is None:
       locationsCursor = ""
     else:
       locationsCursor = cursor.urlsafe()
     locationsDBFlag = flag
+    location_objs = [{
+                      "url": x.key.id(),
+                      "name": x.name,
+                      "latitude": x.latitude,
+                      "longitude": x.longitude,
+                      "tags": x.tags
+                     } for x in locations]
     return_info = {
-      "locations": locations,
+      "locations": location_objs,
       "locationsCursor": locationsCursor,
       "locationsDBFlag": locationsDBFlag
     }
+      
     self.response.out.write(json.dumps(return_info))
 
 #==============================================================================
@@ -273,7 +278,8 @@ class MainPage(webapp2.RequestHandler):
     self.response.out.write(html)
   
   def get(self):
-    coords = ["null","null"]
+    # coords = ["null","null"]
+    coords = [40.4433, -79.9547]
     reviews = "null"
     cursor = None
     flag = "null"
@@ -282,13 +288,14 @@ class MainPage(webapp2.RequestHandler):
       coords_str = self.request.headers["X-AppEngine-CityLatLong"]
         # "X-AppEngine-CityLatLong" only returns when online.
       coords = [float(x) for x in coords_str.split(",")]
-      page_reviews_tuple = DatabaseReader.get_page_recent_reviews(coords)
-      reviews = page_reviews_tuple[0]
-      cursor = page_reviews_tuple[1]
-      flag = page_reviews_tuple[2]
     except:
-      # Not online.
       pass
+      # Not online.
+      
+    page_reviews_tuple = DatabaseReader.get_page_recent_reviews(coords)
+    reviews = page_reviews_tuple[0]
+    cursor = page_reviews_tuple[1]
+    flag = page_reviews_tuple[2]
   
     render_params = {} 
     render_params['curLat'] = coords[0]
