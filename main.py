@@ -1,8 +1,10 @@
 import os
 import logging
+import models
 from google.appengine.api import users
 import webapp2
 from google.appengine.ext.webapp import template
+from google.appengine.ext import ndb
 import json
 from utils import Formatter, DatabaseWriter, DatabaseReader, Email, \
   LocationVerifier
@@ -291,7 +293,6 @@ class EditHandler(webapp2.RequestHandler):
       return
     self.redirect("/location/%s" % loc_id)
 
-import models
 class ReportHandler(webapp2.RequestHandler):
   def post(self):
     pid = self.request.get("post_id")
@@ -299,6 +300,21 @@ class ReportHandler(webapp2.RequestHandler):
     review.reported = True
     review.put()
     self.redirect("/location/%s" % review.loc_id)
+
+class DeleteHandler(webapp2.RequestHandler):
+  def post(self):
+    pid = self.request.get("post_id")
+    key = ndb.Key(models.Review, long(pid))
+    post = key.get()
+    user = users.get_current_user()
+    if not user or user.email() != post.user_email:
+      self.error(403)
+    else:
+      DatabaseWriter.update_location_average_delete(post)
+      redirect = post.loc_id
+      key.delete()
+      # TODO: Check the email to make sure it is a legit request
+      self.redirect("/location/%s" % redirect)
 
 app = webapp2.WSGIApplication([
   ('/', MainPage),
@@ -310,6 +326,7 @@ app = webapp2.WSGIApplication([
   ('/get/recent_reviews', RecentReviewsHandler),
   ('/contact', ContactPage),
   ('/submit/feedback', SendFeedback),
-  ('/report', ReportHandler)
+  ('/report', ReportHandler),
+  ('/delete', DeleteHandler)
 ],
 debug=True)
