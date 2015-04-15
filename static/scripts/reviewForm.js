@@ -1,5 +1,5 @@
-// var tags = ["supercalifragilistic ", "wheelchair", "braille", "understanding", "autism"];
-// var tags_text = ["placeholder", "wheelchair-friendly", "blind-friendly", "understanding", "autism-friendly"];   
+// var tags = ["supercalifragilistic ", "ramp", "elevator", "braille", "autism"];
+// var tags_text = ["placeholder", "has ramps", "has elevator", "has braille signs", "is autism-friendly"];	   
 
 var tags_array = {};
 var original_tags = $("#current_post_tags").children(".tag");
@@ -37,7 +37,6 @@ function make_editable(post_id) {
     $("#" + post_id + " textarea").attr("readonly", !current);
     $("#" + post_id + " .hidden-button").attr("style", display);
     $("#" + post_id + " .set-review").rateit('readonly', !$("#" + post_id + " .set-review").rateit("readonly"));
-
     
     if((window.location.pathname) == ("/history")){
         // alert("I'm the history page");
@@ -54,11 +53,8 @@ function make_editable(post_id) {
     // console.log(current);
     tags_array = {};
     getCurrentTags(post_id);
-    console.log(tags_array);
     if(current){
-        console.log("IN CURRENT");
         if(! $.isEmptyObject(tags_array)){
-            console.log("DOWN THE RABBIT HOLE");
             var present_tags = $("#current_post_tags").children(".tag");
             present_tags.remove();
             checkAllWords($("#" + post_id + " textarea"));
@@ -68,7 +64,6 @@ function make_editable(post_id) {
             // });
 
             for(var i = 0; i < present_tags.length; i++){
-                console.log("LOOPING");
                 var text_from_tag = $(present_tags[i]).children(".tag-text").text();
                 if(tags_array[text_from_tag]){
                     console.log(tags_array[text_from_tag]);
@@ -101,9 +96,6 @@ function make_editable(post_id) {
             console.log("There are no tags in this review.");
         }
     }
-    else{
-        console.log("NOT CURRENT");
-    }
 };
 
 function checkAllWords(textArea) {
@@ -123,10 +115,18 @@ function checkAllWords(textArea) {
 
             var flagForTag = 0;
 
-            $("#current_post_tags").children(".tag").each(function(){
-                if ($(this).text() == tags_text[indexOfTag])
+            if((window.location.pathname) == ("/history")){
+                $("#current_post_tags").children(".tag").each(function(){
+                    if ($(this).text() == tags_text[indexOfTag])
                     flagForTag = 1;
-            });
+                });
+            }
+            else{ 
+                $(".tag-text").each(function(){
+                    if ($(this).text() == tags_text[indexOfTag])
+                        flagForTag = 1;
+                });
+            }
 
             if (flagForTag == 0)
                 $("#current_post_tags").append(newTag);

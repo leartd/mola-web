@@ -18,62 +18,63 @@
 					<script>
 						var reviewsDBPage = "{{reviewsCursor}}";
 						var reviewsDBFlag = "{{reviewsDBFlag}}" == "True" ? true : false;
+						var latitude = {{ curLat }};
+						var longitude = {{ curLon }};
 					</script>
 					<h1 class="title">Recent Reviews</h1>
 					
 					<div id="front-page-reviews">
 						{% for review in reviews %}
-						<div class="panel panel-default front-page-post">
-							<div class="panel-heading" style="background-color:#e1e1e1">
-								<span class="pull-left">{{review.user}}</span>
+						<div class="panel panel-default review">
+							<div class="panel-heading" style="background-color:#e1e1e1;" >
+								<span class="pull-left" style="float:left;">{{review.user}}</span>
 								<span class="pull-right"><a href="/location/{{review.loc_id}}">{{ review.loc_name }}</a></span>
 								<div class="clearfix"></div>
 							</div>
-							<div class="panel-body mola-panel">
+							<div class="panel-body panel-mola">
 								<div class="row">
-									<div class="col-md-4 ">
+									<div class="col-lg-4 col-md-5 col-sm-3">
 										<div class="well">
 											<div class="row">
-												<label class="col-md-3 col-xs-12">Vision:</label>
-												<div class="col-md-9 col-xs-12 rateit" data-rateit-value="{{review.vision_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+												<label class="col-md-6 col-xs-12">Vision:</label>
+												<div class="col-md-6 col-xs-12 rateit" data-rateit-value="{{review.vision_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
 											</div>
 											<div class="row">
-												<label class="col-md-3 col-xs-12">Mobility:</label>
-												<div class="col-md-9 col-xs-12 rateit" data-rateit-value="{{review.mobility_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+												<label class="col-md-6 col-xs-12">Mobility:</label>
+												<div class="col-md-6 col-xs-12 rateit" data-rateit-value="{{review.mobility_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
 											</div>
 											<div class="row">
-												<label class="col-md-3 col-xs-12">Speech:</label>
-												<div class="col-md-9 col-xs-12 rateit" data-rateit-value="{{review.speech_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+												<label class="col-md-6 col-xs-12">Speech:</label>
+												<div class="col-md-6 col-xs-12 rateit" data-rateit-value="{{review.speech_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
 											</div>
 											<div class="row">
-												<label class="col-md-3 col-xs-12">Helpfulness:</label>
-												<div class="col-md-9 col-xs-12 rateit" data-rateit-value="{{review.helpfulness_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+												<label class="col-md-6 col-xs-12">Helpfulness:</label>
+												<div class="col-md-6 col-xs-12 rateit" data-rateit-value="{{review.helpfulness_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
 											</div>
 										</div>
 									</div> 
-									<div class="col-md-8 text-review">
+									<div class="col-lg-8 col-md-7 col-sm-9 text-review">
 										<p>
 											{{review.text}}
 										</p>
-										<label for="reviews_assoc_tags-{{review.key.urlsafe}}" class="small-border"></label>
-										<div class="reviews_assoc_tags" id="reviews_assoc_tags-{{review.key.urlsafe}}">
-											
+										<label for="reviews_assoc_tags-{{review.key.urlsafe}}" class="small-border"></label>	
+										<div class="reviews_assoc_tags" id="reviews_assoc_tags-{{review.key.urlsafe}}">							
 											{% for tag in review.tags %}
 											<span class="tag-static well">
 												<span class="tag-text-static">{{tag.type}}</span>
 												<span class="tag-buttons-static">
-													{% if tag.votes_pos > 0 and tag.votes_pos > tag.votes_neg %} 
-													<a class="tag-btn-static glyphicon glyphicon-chevron-up tag-pos-selected"></a>
-													{% endif %}
-													{% if tag.votes_neg > 0 and tag.votes_neg > tag.votes_pos %} 
-													<a class="tag-btn-static glyphicon glyphicon-chevron-down tag-neg-selected"></a>
-													{% endif %}
+												{% if tag.votes_pos > 0 and tag.votes_pos > tag.votes_neg %} 
+												<a class="tag-btn-static glyphicon glyphicon-chevron-up tag-pos-selected"></a>
+												{% endif %}
+												{% if tag.votes_neg > 0 and tag.votes_neg > tag.votes_pos %} 
+												<a class="tag-btn-static glyphicon glyphicon-chevron-down tag-neg-selected"></a>
+												{% endif %}
 												</span>
 											</span>
 											{% endfor %}
 										</div>
 									</div>
-								</div>    
+								</div>
 							</div>
 						</div>
 						{% endfor %}
@@ -83,18 +84,6 @@
 				<!-- END OF RECENT REVIEWS DIV -->
 				<!-- BEGIN OF MAP TAB -->
 				<div id="front-page-maps-tab" class="active tab-pane fade in col-md-12">
-					<script>
-						var latitude;
-						var longitude;
-						if (navigator.geolocation){
-							navigator.geolocation.getCurrentPosition(success);
-						}
-						function success(position) {							
-							latitude = position.coords.latitude; 
-							longitude = position.coords.longitude;
-						}
-
-					</script>
 					<div class="mola-map" id="map-canvas"></div>
 				</div>
 			</div>
@@ -108,7 +97,7 @@
 				<div class="panel-heading" style="padding-bottom:0.75em;"><h2 class="panel-title">Who We Are</h2></div>
 				<div class="panel-body" style="padding-top:0.25em;">
 					<p>
-						We're a group of individuals who wanted to put together a simple online service: help persons with disabilities to find out if a location provides accommodations catering to their needs. Our approach is simple and versatile, allowing users to indicate exactly what the location has and doesn't have. We hope this will serve as a convenient tool, and encourages businesses to provide their services equally to those disabled and nondisabled.
+						We're a group of individuals who wanted to put together a simple online service: help persons with disabilities to find out if a location provides accommodations catering to their needs. Our approach is simple and versatile, allowing users to indicate exactly what the location has and doesn't have. We hope this will serve as a convenient tool, and encourage businesses to provide their services equally to those disabled and nondisabled.
 					</p>
 				</div>
 			</div>

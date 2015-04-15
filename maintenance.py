@@ -58,6 +58,7 @@ class EditHandler(webapp2.RequestHandler):
     review_params["mobility_rating"] = self.request.get("Mobility")
     review_params["speech_rating"] = self.request.get("Speech")
     review_params["helpfulness_rating"] = self.request.get("Helpfulness")
+    review_params["tags"] = self.request.get_all('tags')
     DatabaseWriter.edit_review(pid, review_params)
     self.redirect("/history")
 
