@@ -47,8 +47,8 @@
 			    </form>    
 			    <ul class="navbar-nav nav navbar-right" id="navbar-user-part">
 			    {% if not login_needed %}
-			    	<li><p class="navbar-text">Welcome <a class="navbar-link" href="/history">{{user}}</a></p></li>
-			    	{% if admin %}<li><p class="navbar-text"><a href="/admin">Admin</a></p></li>{% endif %}
+			    	<li><p class="navbar-text">Welcome <a class="navbar-link" href="/history">{{user}}</a></p>{% if admin %}<li><p class="navbar-text"><a href="/admin">Admin</a></p></li>{% endif %}</li>
+			    	
 		        {% endif %}
 					<li>
 						<p class="navbar-btn">
