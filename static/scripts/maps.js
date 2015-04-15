@@ -104,7 +104,7 @@ function mainPageMap() {
 			for (var i=0; i < obj.locations.length; i++) {
 				var loc = (obj.locations[i]);
 				var coords = new google.maps.LatLng(parseFloat(loc.latitude), parseFloat(loc.longitude));
-				marker = createMarker(coords, map, "ann");
+				marker = createMarker(coords, map, loc.name);
 				// var locTags = [];
 				// for (var j=0; j < loc.locTags.length; j++)
 					// locTags.append(loc.locTags[0]);
