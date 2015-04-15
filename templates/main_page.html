@@ -3,18 +3,18 @@
 	<div class="row">
 		<div class="col-md-9 main-bar">
 			<ul id="mola-tabs" class="nav nav-pills nav-justified">
-			   <li >
+			   <li class="active">
 				  <a href="#front-page-reviews-tab" data-toggle="tab">Recent Reviews</a>
 			   </li>
-			   <li class="active">
-				  <a href="#front-page-maps-tab"  data-toggle="tab">Nearby Places</a>
+			   <li>
+				  <a href="#front-page-maps-tab" onFocus="refreshMap();" data-toggle="tab">Nearby Places</a>
 			   </li>
 			</ul>
 			<label for="mola-tabs" class="small-border"></label>
 			<!-- tab-content DIV -->
 			<div id="myTabContent" class="tab-content">
 			<!-- RECENT REVIEWS DIV -->
-				<div id="front-page-reviews-tab" class="posts col-md-12 tab-pane fade">
+				<div id="front-page-reviews-tab" class="active in posts col-md-12 tab-pane fade">
 					<script>
 						var reviewsDBPage = "{{reviewsCursor}}";
 						var reviewsDBFlag = "{{reviewsDBFlag}}" == "True" ? true : false;
@@ -27,7 +27,7 @@
 						{% for review in reviews %}
 						<div class="panel panel-default review">
 							<div class="panel-heading" style="background-color:#e1e1e1;" >
-								<span class="pull-left" style="float:left;">{{review.user}}</span>
+								<span class="pull-left review-username" style="float:left;">{{review.user}}</span>
 								<span class="pull-right"><a href="/location/{{review.loc_id}}">{{ review.loc_name }}</a></span>
 								<div class="clearfix"></div>
 							</div>
@@ -83,7 +83,7 @@
 				</div>
 				<!-- END OF RECENT REVIEWS DIV -->
 				<!-- BEGIN OF MAP TAB -->
-				<div id="front-page-maps-tab" class="active tab-pane fade in col-md-12">
+				<div id="front-page-maps-tab" class="tab-pane fade col-md-12">
 					<div class="mola-map" id="map-canvas"></div>
 				</div>
 			</div>

@@ -369,6 +369,28 @@ body {
   }
 }
 
+.review-username {
+  width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media only screen and (max-width: 1199px) {
+  .review-username {
+    width: 300px;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .review-username {
+    width: 240px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .review-username {
+    width: 150px;
+  }
+}
+
 /*Autocomplete SECTION*/
 @media only screen and (min-width : 992px) {
 	#autocomplete{
