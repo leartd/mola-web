@@ -10,12 +10,12 @@ from google.appengine.ext import ndb
 from google.appengine.api import users 
 
 tag_ids = {
-    '1': 'wheelchair-friendly',
-    '2': 'blind-friendly',
-    '3': 'understanding',
-    '4': 'autism-friendly',
-    '5': 'elevators',
-    '6': 'secret laboratory'
+    '1': 'has ramps',
+    '2': 'has elevator',
+    '3': 'has braille signs',
+    '4': 'is autism-friendly'
+    # '5': 'elevators',
+    # '6': 'secret laboratory'
   }
 
 #==============================================================================
@@ -360,6 +360,5 @@ def edit_review(post_id, review_params):
         continue
       logging.info("%s value is %s" %(tag_index, tag))
       append_tag_to_review(tag_index, tag, review)
-
 
   review.put()

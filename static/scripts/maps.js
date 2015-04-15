@@ -105,7 +105,10 @@ function mainPageMap() {
 				var loc = (obj.locations[i]);
 				var coords = new google.maps.LatLng(parseFloat(loc.latitude), parseFloat(loc.longitude));
 				marker = createMarker(coords, map, "ann");
-				createInfoWindow(marker, map, loc.name, loc.url)
+				// var locTags = [];
+				// for (var j=0; j < loc.locTags.length; j++)
+					// locTags.append(loc.locTags[0]);
+				createInfoWindow(marker, map, loc.name, loc.url, loc.locTags)
 			}
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown){
@@ -126,11 +129,21 @@ function createMarker(coords, map, name){
 }
 
 // Create an InfoWindow for a marker.
-function createInfoWindow(marker, map, name, url){
-	// alert(tags);
+function createInfoWindow(marker, map, name, url, locTags){
+	var tagsHTML = "";
+	for (var i=0; i < locTags.length; i++) {
+		tagsHTML += "<span class=\"tag-static well\"><span class=\"tag-text-static\">";
+		tagsHTML += locTags[i].type;
+		tagsHTML += "</span><span class=\"tag-buttons-static\">";
+		if (locTags[i].votes_pos > 0 && locTags[i].votes_pos > locTags[i].votes_neg)
+			tagsHTML += "<a class=\"tag-btn-static glyphicon glyphicon-chevron-up tag-pos-selected\"></a>";
+		if (locTags[i].votes_neg > 0 && locTags[i].votes_neg > locTags[i].votes_pos)
+			tagsHTML += "<a class=\"tag-btn-static glyphicon glyphicon-chevron-down tag-neg-selected\"></a>";
+		tagsHTML += "</span></span>";
+	}
 	try {
-		infoContent = "<h5><a href=\"/location/" + url + "\">" + name + "</a></h5>";
-						// "<div>" + tags + "</div>";
+		infoContent = "<h4><a href=\"/location/" + url + "\">" + name + "</a></h4>" +
+						"<div>" + tagsHTML + "</div>";
 	}
 	catch(err) {
 		return;

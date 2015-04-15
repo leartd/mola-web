@@ -254,12 +254,16 @@ class NearbyLocationsHandler(webapp2.RequestHandler):
       locationsCursor = cursor.urlsafe()
     locationsDBFlag = flag
     location_objs = [{
-                      "url": x.key.id(),
-                      "name": x.name,
-                      "latitude": x.latitude,
-                      "longitude": x.longitude,
-                      "tags": x.tags
-                     } for x in locations]
+      "url": x.key.id(),
+      "name": x.name,
+      "latitude": x.latitude,
+      "longitude": x.longitude,
+      "locTags": [{
+        "type": tag.type,
+        "votes_neg": tag.votes_neg,
+        "votes_pos": tag.votes_pos
+      } for tag in x.tags]
+    } for x in locations]
     return_info = {
       "locations": location_objs,
       "locationsCursor": locationsCursor,
@@ -278,8 +282,8 @@ class MainPage(webapp2.RequestHandler):
     self.response.out.write(html)
   
   def get(self):
-    coords = ["null","null"]
-    # coords = [40.4433, -79.9547]
+    # coords = ["null","null"]
+    coords = [40.4433, -79.9547]
     reviews = "null"
     cursor = None
     flag = "null"

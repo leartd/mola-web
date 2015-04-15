@@ -1,5 +1,5 @@
-var tags = ["supercalifragilistic ", "wheelchair", "braille", "understanding", "autism"];
-var tags_text = ["placeholder", "wheelchair-friendly", "blind-friendly", "understanding", "autism-friendly"];	
+var tags = ["supercalifragilistic ", "ramp", "elevator", "braille", "autism"];
+var tags_text = ["placeholder", "has ramps", "has elevator", "has braille signs", "is autism-friendly"];
 
 function getCaret(el) { 
   if (el.selectionStart) { 
@@ -79,9 +79,14 @@ $(" body").on('click', '.tag-btn', function (e) {
 
         	if($(this).siblings(".tag-neg-checked"))
 	    		$(this).siblings(".tag-neg-checked").toggleClass("tag-neg-checked");
-
-        	var inputForTag = "<input type='hidden' name='tags' value='"+ tagValue+"' id='"+ thisTagText +"-tag'>";
-        	thisTag.append(inputForTag);
+			if (!($("#" + thisTagText +"-tag").length)) {
+				var inputForTag = "<input type='hidden' name='tags' value='"+ tagValue+"' id='"+ thisTagText +"-tag'>";	
+				thisTag.append(inputForTag);
+			}
+			else {
+				$("#" +  thisTagText +"-tag").value($("#" +  thisTagText +"-tag").value() == "-1" ? "1":"-1");
+			}
+				
         }
         else{
         	console.log("#"+thisTagText+"-tag");

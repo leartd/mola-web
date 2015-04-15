@@ -14,7 +14,7 @@
 		<!-- <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css"> -->
 
 			<!-- Optional theme -->
-		<!-- <link rel="stylesheet" type="text/css" href="/static/lavish-bootstrap.css"> -->
+		<link rel="stylesheet" type="text/css" href="/static/lavish-bootstrap.css">
 		
 		<!-- Local Copy -->
 		<link rel="stylesheet" type="text/css" href="/static/main.css">
@@ -53,7 +53,7 @@
 		        {% endif %}
 					<li>
 						<p class="navbar-btn">
-							<a href="{{login}}" class="btn btn-primary">{% if login_needed %}Login{% else %}Logout{% endif %}</a>
+							<a href="{{login}}" class="btn btn-primary" id="login-logout-button">{% if login_needed %}Login{% else %}Logout{% endif %}</a>
 						</p>
 					</li>
 			   </ul>
