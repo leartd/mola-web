@@ -12,6 +12,7 @@ from google.appengine.ext import ndb
 def render_template(templatename, templatevalues = {}):
   user = users.get_current_user()
   if user:
+    templatevalues['admin'] = users.is_current_user_admin()
     templatevalues['login_needed'] = False
     templatevalues['login'] = users.create_logout_url("/")
     templatevalues['user'] = user.nickname()
@@ -59,6 +60,7 @@ class EditHandler(webapp2.RequestHandler):
     review_params["helpfulness_rating"] = self.request.get("Helpfulness")
     DatabaseWriter.edit_review(pid, review_params)
     self.redirect("/history")
+
 
 app = webapp2.WSGIApplication([
   ('/history/?', HistoryHandler),

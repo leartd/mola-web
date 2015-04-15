@@ -31,6 +31,12 @@ indexes:
 
 - kind: Review
   properties:
+  - name: reported
+  - name: time_created
+    direction: desc
+
+- kind: Review
+  properties:
   - name: user_email
   - name: time_created
     direction: desc

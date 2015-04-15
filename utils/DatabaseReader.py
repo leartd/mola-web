@@ -38,7 +38,6 @@ def get_page_recent_reviews(coords, cursor=None):
   PAGESIZE = 5
   page_reviews_tuple = ()
   g_hash = geohash.encode(coords[0], coords[1])[:4]
-  logging.info("\n\nGeohash is %s \n\n" % g_hash)
   if not cursor:
     page_reviews_tuple = models.Review.query(
       models.Review.geo_hash == g_hash).order(
@@ -67,3 +66,8 @@ def get_user_posts(email, location_id = None):
     # logging.info(review.user_email == email)
     # logging.info("\nUser email is %s and review email is %s\n\n" %(str(email), str(review.user_email)))
   return reviews
+
+def get_reported_posts():
+  posts = models.Review.query(models.Review.reported == True).order(
+    -models.Review.time_created).fetch()
+  return posts
