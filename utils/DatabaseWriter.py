@@ -4,7 +4,57 @@ import DatabaseReader
 import datetime
 from google.appengine.ext import ndb
 from google.appengine.api import users 
+import geohash
 
+tag_ids = {
+    '1': 'wheelchair-friendly',
+    '2': 'blind-friendly',
+    '3': 'understanding',
+    '4': 'autism-friendly',
+    '5': 'elevators',
+    '6': 'secret laboratory'
+  }
+
+#==============================================================================
+# @params: request containing the location details
+# Returns url if the request is valid, None otherwise
+#==============================================================================
+def add_location_new(details):
+  # Current time in milliseconds
+  post_time = int(time.time() * 1000)
+  
+  name = details['name']
+
+  # If we don't have the street name, we don't want the address field to have
+  # anything in it at all. However, if we have the street name and no street
+  # number, we still want an address that contains only the street name
+  if not details['street_name']:
+    address = None
+  else:
+    address = details['street_no'] + " " + details['street_name']
+  city = details['city']
+  state = details['state']
+  latitude = details['latitude']
+  longitude = details['longitude']
+
+  location = models.Location()
+  location.name = name
+  location.address = address
+  location.city = city
+  location.state = state
+  location.time_created = post_time
+  location.key = ndb.Key(models.Location, details['place_id'])
+  try:
+    location.latitude = float(latitude)
+  except ValueError:
+    pass
+  try:
+    location.longitude = float(longitude)
+  except ValueError:
+    pass
+  location.put()
+  return str(location.key.id())
+    
 #==============================================================================
 # @params: request containing the POSTed parameters
 # Returns true if the request is valid, false otherwise
@@ -149,6 +199,9 @@ def add_review(request):
   loc_id = request.get('URL')
   loc_obj = DatabaseReader.get_location(loc_id)
   loc_name = loc_obj.name
+  loc_lat = loc_obj.latitude
+  loc_long = loc_obj.longitude
+  geo_hash = geohash.encode(loc_lat, loc_long)[:4]
   try:
     vision_rating = int(request.get('Vision'))
   except:
@@ -166,15 +219,6 @@ def add_review(request):
   except:
     helpfulness_rating = 0
   text = request.get('Text')
-
-  tag_ids = {
-    '1': 'wheelchair-friendly',
-    '2': 'blind-friendly',
-    '3': 'understanding',
-    '4': 'autism-friendly',
-    '5': 'elevators',
-    '6': 'secret laboratory'
-  }
 
   tags_list = request.get_all('tags')
 
@@ -211,6 +255,9 @@ def add_review(request):
   review.text = text
   review.time_created = datetime.datetime.fromtimestamp(post_time)
   review.loc_id = loc_id
+  review.loc_lat = loc_lat
+  review.loc_long = loc_long
+  review.geo_hash = geo_hash
 
   update_location_average(review)
 
@@ -297,4 +344,18 @@ def edit_review(post_id, review_params):
   else:
     review.helpfulness_rating = 0
   update_location_average_edit(review, old_review)
+  # Tag section
+  tags_list = review_params['tags']
+  review.tags = []
+  for tag in tags_list:
+    if(tag != ""):
+      try:
+        tag = int(tag)
+        tag_index = tag_ids[str(abs(tag))]
+      except:
+        continue
+      logging.info("%s value is %s" %(tag_index, tag))
+      append_tag_to_review(tag_index, tag, review)
+
+
   review.put()

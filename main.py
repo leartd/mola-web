@@ -162,9 +162,11 @@ class LocationChecker(webapp2.RequestHandler):
   def post(self):
     render_params = DatabaseReader.get_location(self.request.get('PlaceID'))
     if render_params == None:
-      if LocationVerifier.VerifyLocation(self.request.get('PlaceID'),
-                                         self.request.get('PlaceName')):
-        url = DatabaseWriter.add_location(self.request)
+      location_details = LocationVerifier.VerifyLocation(self.request.get('PlaceID'), 
+                                         self.request.get('PlaceName'))
+      if location_details:
+        #url = DatabaseWriter.add_location(self.request)
+        url = DatabaseWriter.add_location_new(location_details)
         if url:
           self.redirect("/location/" + url)
         else:
@@ -239,7 +241,16 @@ class MainPage(webapp2.RequestHandler):
     #location = self.request.headers.get("X-AppEngine-City")
     #self.response.out.write(location)
     # recent_locations = DatabaseReader.get_recent_locations()
-    page_reviews_tuple = DatabaseReader.get_page_recent_reviews()
+    try:
+      coords_str = self.request.headers["X-AppEngine-CityLatLong"]
+      coords = [float(x) for x in coords_str.split(",")]
+    except ValueError:
+      coords = [40.440625,-79.995886] # Random location in Oakland
+    except KeyError:
+      coords = [40.440625,-79.995886] # Random location in Oakland
+
+
+    page_reviews_tuple = DatabaseReader.get_page_recent_reviews(coords)
     reviews = page_reviews_tuple[0]
     cursor = page_reviews_tuple[1]
     flag = page_reviews_tuple[2] 
@@ -264,6 +275,7 @@ class EditHandler(webapp2.RequestHandler):
     review_params["speech_rating"] = self.request.get("Speech")
     review_params["helpfulness_rating"] = self.request.get("Helpfulness")
     review_params['review_text'] = self.request.get("Text")
+    review_params['tags'] = self.request.get_all('tags')
     try:
       DatabaseWriter.edit_review(pid, review_params)
     except:
