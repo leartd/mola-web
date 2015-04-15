@@ -1,12 +1,5 @@
-/*.navbar .navbar-nav {
-		display: inline-block;
-		float: none;
-}
 
-.navbar .navbar-collapse {
-		text-align: center;
-}
-*/
+/*** GENERAL CSS ***/
 
 html, body {
 	height:100%;
@@ -36,6 +29,14 @@ body {
 .main-bar{
 	border-right:2px solid #ddd; 
 }
+
+@media only screen and (max-width: 991px) 
+{
+	.main-bar{
+		border-right: none; 
+	}
+}
+
 .title{
 	margin-top: auto;
 }
@@ -145,50 +146,39 @@ body {
 		cursor: default;
 }
 
-/* Front page posts */
+/*** FRONT PAGE POSTS ***/
+
 .front-page-post p, .review p{
 		max-height: 20em;
 		word-break: break-all;
 		overflow-y: auto;
 }
 
-/*REVIEW SECTION*/
+/*** REVIEW SECTION ***/
 
 .mola-panel {
 	background-color:#f4f4f4;
 }
 
-/*Autocomplete SECTION*/
-@media only screen and (min-width : 1000px) {
-	#autocomplete{
-		min-width: 25em;
-	}  
-}
-
-@media only screen and (max-width : 800px) {
-	#navbar-user-part{
-		padding-left: 15px;
-	}  
-}
-/*
-@media only screen and (min-width : 780px) {
-	#autocomplete{
-		min-width: 15em;
-	}  
-}*/
-/*
-@media only screen and (min-width : 750px) {
-	#autocomplete{
-		min-width: 18em;
-	}  
-}*/
-
 .pac-container {
 	z-index: 5132312;
 }
 
+/* Gets a location's star ratings to center on screens larger than mobile. */
+.loc-rating-label {
+  text-align: right;
+}
+.loc-rating-stars {
+  text-align: left;
+}
 
-/*TAGS SECTION*/
+@media only screen and (max-width: 767px) {
+  .loc-rating-label, .loc-rating-stars  {
+    text-align: center;
+  }
+}
+
+/*** TAGS SECTION ***/
 
 .tag, .tag-static {
 		display: inline-block;
@@ -253,23 +243,25 @@ body {
 		background-color:#666;
 }
 
-/* MAPS */
+/*** MAPS ***/
 
-#map-canvas {
-	min-height: 20em;
+#map-canvas, #location-info {
+	min-height: 30em;
 }
-#location-info {
-	min-height: 20em;
+@media only screen and (max-width : 991px) {
+	#map-canvas, #location-info {
+    min-height: 24em;
+  }
 }
 
-@media only screen and (min-width : 1000px) {
+@media only screen and (min-width : 767px) {
 	#front-page-maps-tab #map-canvas  {
 		min-height: 45em;
 		margin-bottom: 1em;
 	}
 }
 
-/* NAVBAR */
+/*** NAVBAR ***/
 
 .navbar-default {
 	background-color: #319245;
@@ -318,7 +310,7 @@ body {
 	color: #ffffff;
 }
 
-@media (max-width: 767px) {
+@media only screen and (max-width: 767px) {
 	.navbar-default .navbar-nav .open .dropdown-menu > li > a {
 		color: #e3e3e3;
 	}
@@ -329,4 +321,81 @@ body {
 		color: #ffffff;
 		background-color: #45b45c;
 	}
+  #search-button{
+    margin-top: 8px;
+    display: inline-block;
+    float: right;
+  }
+  #navbar-user-part{
+    padding-left: 15px;
+    padding-right: 15px;
+    float: right;
+  }
+  #login-logout-button{
+    display: inline-block;
+    float: right;
+  }
+  
+  .navbar-link{
+	color: #FFFFFF !important; 
+	text-decoration: underline;
+  }
 }
+/* Adds ellipsis truncation to the user email at different levels. */
+.navbar-text {
+  display: inline-block;
+  text-align: right;
+  margin-right: 15px;
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media only screen and (max-width: 1199px) {
+  .navbar-text {
+    max-width: 300px;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .navbar-text {
+    max-width: 240px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .navbar-text {
+    width: default;
+    margin-top: 7.5px;
+    margin-bottom: 7.5px;
+  }
+}
+
+.review-username {
+  text-align: left;
+  width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media only screen and (max-width: 1199px) {
+  .review-username {
+    width: 300px;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .review-username {
+    width: 240px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .review-username {
+    width: 150px;
+  }
+}
+
+/*Autocomplete SECTION*/
+@media only screen and (min-width : 992px) {
+	#autocomplete{
+		min-width: 25em;
+	}  
+}
+

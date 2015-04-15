@@ -1,5 +1,5 @@
-var tags = ["supercalifragilistic ", "wheelchair", "braille", "understanding", "autism"];
-var tags_text = ["placeholder", "wheelchair-friendly", "blind-friendly", "understanding", "autism-friendly"];	
+var tags = ["supercalifragilistic ", "ramp", "elevator", "braille", "autism"];
+var tags_text = ["placeholder", "ramps", "elevators", "braille-signs", "autism-friendly"];
 
 function getCaret(el) { 
   if (el.selectionStart) { 
@@ -45,6 +45,15 @@ function checkWord(textArea) {
     }
 }
 
+
+$('.review-text').keyup(function(event){
+	event = event || window.event;
+	var key = event.keyCode || ev.which;
+	if (String.fromCharCode(key).match(/[\.,-\/#!$%\^&\*;:{}=\_`~() \r\n]/)) {
+                checkWord(this);
+                // console.log(this);
+   }
+});
 $('#review_text').keyup(function(event){
     event = event || window.event;
     var key = event.keyCode || ev.which;
@@ -55,17 +64,7 @@ $('#review_text').keyup(function(event){
 });
 
 
-
-$('.review-text').keyup(function(event){
-	event = event || window.event;
-	var key = event.keyCode || ev.which;
-	if (String.fromCharCode(key).match(/[\.,-\/#!$%\^&\*;:{}=\_`~() \r\n]/)) {
-                checkWord(this);
-                // console.log(this);
-   }
-});
-
-$("#current_post_tags").on('click', '.tag-btn', function (e) {
+$(" body").on('click', '.tag-btn', function (e) {
 		console.log('this is the click ' + $(this).parent().siblings(".tag-text").text());
 		e.preventDefault();	
 

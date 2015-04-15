@@ -1,1 +1,2 @@
 *.pyc
+templates/recent_reviews_template.html

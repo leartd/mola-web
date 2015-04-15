@@ -1,10 +1,20 @@
 import models
-import time, logging, random
+import time
+import logging
+import random
 import DatabaseReader
 import datetime
+import geohash
+
 from google.appengine.ext import ndb
 from google.appengine.api import users 
-import geohash
+
+tag_ids = {
+  '1': 'ramps',
+  '2': 'elevator',
+  '3': 'braille-signs',
+  '4': 'autism-friendly'
+}
 
 #==============================================================================
 # @params: request containing the location details
@@ -37,12 +47,12 @@ def add_location_new(details):
   location.key = ndb.Key(models.Location, details['place_id'])
   try:
     location.latitude = float(latitude)
-  except ValueError:
-    pass
-  try:
     location.longitude = float(longitude)
+    location.geo_hash = geohash.encode(location.latitude, location.longitude)[:5]
   except ValueError:
+    logging.info("Error getting lat, long, or geo_hash")
     pass
+  
   location.put()
   return str(location.key.id())
     
@@ -50,44 +60,42 @@ def add_location_new(details):
 # @params: request containing the POSTed parameters
 # Returns true if the request is valid, false otherwise
 #==============================================================================
-def add_location(request):
-  # Current time in milliseconds
-  post_time = int(time.time() * 1000)
+# def add_location(request):
+  # post_time = int(time.time() * 1000)
   
-  name = request.get('PlaceName')
-  logging.info("Place name is %s" %name)
-  address = request.get('Street_number') + " "+ request.get('Street_name')
-  city = request.get('City')
-  state = request.get('State')
-  latitude = request.get('Latitude')
-  longitude = request.get('Longitude')
+  # name = request.get('PlaceName')
+  # logging.info("Place name is %s" %name)
+  # address = request.get('Street_number') + " "+ request.get('Street_name')
+  # city = request.get('City')
+  # state = request.get('State')
+  # latitude = request.get('Latitude')
+  # longitude = request.get('Longitude')
 
-  location = models.Location()
-  if len(name) <= 80:
-    location.name = name
-  if len(address) <= 48:
-    location.address = address
-  if len(city) <= 32:
-    location.city = city
-  if len(state) == 2 and state.isalpha():
-    location.state = state
-  location.time_created = post_time
-  location.key = ndb.Key(models.Location, request.get("PlaceID"))
-  try:
-    location.latitude = float(latitude)
-  except ValueError:
-    pass
-  try:
-    location.longitude = float(longitude)
-  except ValueError:
-    pass
-  if (location.name is not None and location.address is not None and
-      location.city is not None and location.state is not None and
-      location.latitude is not None and location.longitude is not None):
-    location.put()
-    return str(location.key.id())
-  else:
-    return None
+  # location = models.Location()
+  # if len(name) <= 80:
+    # location.name = name
+  # if len(address) <= 48:
+    # location.address = address
+  # if len(city) <= 32:
+    # location.city = city
+  # if len(state) == 2 and state.isalpha():
+    # location.state = state
+  # location.time_created = post_time
+  # location.key = ndb.Key(models.Location, request.get("PlaceID"))
+  # try:
+    # location.latitude = float(latitude)
+    # location.longitude = float(longitude)
+    # location.geo_hash = geohash.encode(latitude, longitude)[:4]
+  # except ValueError:
+    # pass
+    # location.geo_hash = None
+  # if (location.name is not None and location.address is not None and
+      # location.city is not None and location.state is not None and
+      # location.latitude is not None and location.longitude is not None):
+    # location.put()
+    # return str(location.key.id())
+  # else:
+    # return None
     
 #==============================================================================
 # @params: review containing one or more ratings
@@ -192,7 +200,10 @@ def add_review(request):
   loc_name = loc_obj.name
   loc_lat = loc_obj.latitude
   loc_long = loc_obj.longitude
-  geo_hash = geohash.encode(loc_lat, loc_long)[:4]
+  try:
+    geo_hash = geohash.encode(loc_lat, loc_long)[:4]
+  except ValueError:
+    geo_hash = None
   try:
     vision_rating = int(request.get('Vision'))
   except:
@@ -211,23 +222,7 @@ def add_review(request):
     helpfulness_rating = 0
   text = request.get('Text')
 
-  tag_ids = {
-    '1': 'wheelchair-friendly',
-    '2': 'blind-friendly',
-    '3': 'understanding',
-    '4': 'autism-friendly',
-    '5': 'elevators',
-    '6': 'secret laboratory'
-  }
-
   tags_list = request.get_all('tags')
-
-  # tags_list ={
-  #   'wheelchair-friendly': request.get('wheelchair-friendly').strip(),
-  #   'blind-friendly': request.get('blind-friendly').strip(),
-  #   'understanding': request.get('understanding').strip(),
-  #   'autism-friendly': request.get('autism-friendly').strip()
-  # }
   
   review = models.Review()
   review.loc_name = loc_name
@@ -267,12 +262,6 @@ def add_review(request):
     review.user_email = user.email()
   else:
     review.user = "Anonymous"
-
-  # Checking for tags Alpha
-  # for tag in tags_list.keys():
-  #   if(tags_list[tag] != ""):
-  #     logging.info("%s value is %s" %(tag, tags_list[tag]))
-  #     review = append_tag_to_review(tag, tags_list[tag], review)
 
   for tag in tags_list:
     if(tag != ""):
@@ -344,4 +333,17 @@ def edit_review(post_id, review_params):
   else:
     review.helpfulness_rating = 0
   update_location_average_edit(review, old_review)
+  # Tag section
+  tags_list = review_params['tags']
+  review.tags = []
+  for tag in tags_list:
+    if(tag != ""):
+      try:
+        tag = int(tag)
+        tag_index = tag_ids[str(abs(tag))]
+      except:
+        continue
+      logging.info("%s value is %s" %(tag_index, tag))
+      append_tag_to_review(tag_index, tag, review)
+
   review.put()
