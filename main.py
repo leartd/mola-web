@@ -203,6 +203,7 @@ class MoreReviewsHandler(webapp2.RequestHandler):
     }
     self.response.out.write(json.dumps(return_info))
 
+
 #==============================================================================
 # This handler works with AJAX to load the next page of general recent reviews.
 #==============================================================================   
@@ -227,6 +228,7 @@ class RecentReviewsHandler(webapp2.RequestHandler):
       "reviewsDBFlag": reviewsDBFlag
     }
     self.response.out.write(json.dumps(return_info))
+
 
 #==============================================================================
 # This handler works with AJAX to get nearby locations.

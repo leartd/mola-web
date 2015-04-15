@@ -10,13 +10,11 @@ from google.appengine.ext import ndb
 from google.appengine.api import users 
 
 tag_ids = {
-    '1': 'has ramps',
-    '2': 'has elevator',
-    '3': 'has braille signs',
-    '4': 'is autism-friendly'
-    # '5': 'elevators',
-    # '6': 'secret laboratory'
-  }
+  '1': 'ramps',
+  '2': 'elevator',
+  '3': 'braille-signs',
+  '4': 'autism-friendly'
+}
 
 #==============================================================================
 # @params: request containing the location details
@@ -225,13 +223,6 @@ def add_review(request):
   text = request.get('Text')
 
   tags_list = request.get_all('tags')
-
-  # tags_list ={
-  #   'wheelchair-friendly': request.get('wheelchair-friendly').strip(),
-  #   'blind-friendly': request.get('blind-friendly').strip(),
-  #   'understanding': request.get('understanding').strip(),
-  #   'autism-friendly': request.get('autism-friendly').strip()
-  # }
   
   review = models.Review()
   review.loc_name = loc_name
@@ -271,12 +262,6 @@ def add_review(request):
     review.user_email = user.email()
   else:
     review.user = "Anonymous"
-
-  # Checking for tags Alpha
-  # for tag in tags_list.keys():
-  #   if(tags_list[tag] != ""):
-  #     logging.info("%s value is %s" %(tag, tags_list[tag]))
-  #     review = append_tag_to_review(tag, tags_list[tag], review)
 
   for tag in tags_list:
     if(tag != ""):
