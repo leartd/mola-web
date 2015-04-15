@@ -34,8 +34,8 @@ function checkWord(textArea) {
 	    console.log(last_word);
 
 	    var flagForTag = 0;
-            $("#current_post_tags").children(".tag").each(function(){
-                console.log($(this).text() +"TEXT");
+
+        $(".tag-text").each(function(){
         	if ($(this).text() == tags_text[indexOfTag])
         		flagForTag = 1;
         });
@@ -45,26 +45,15 @@ function checkWord(textArea) {
     }
 }
 
-
-$('.review-text').keyup(function(event){
+$('#review_text').keyup(function(event){
 	event = event || window.event;
 	var key = event.keyCode || ev.which;
 	if (String.fromCharCode(key).match(/[\.,-\/#!$%\^&\*;:{}=\_`~() \r\n]/)) {
                 checkWord(this);
-                // console.log(this);
-   }
-});
-$('#review_text').keyup(function(event){
-    event = event || window.event;
-    var key = event.keyCode || ev.which;
-    if (String.fromCharCode(key).match(/[\.,-\/#!$%\^&\*;:{}=\_`~() \r\n]/)) {
-                checkWord(this);
-                // console.log(this);
    }
 });
 
-
-$(" body").on('click', '.tag-btn', function (e) {
+$("#current_post_tags").on('click', '.tag-btn', function (e) {
 		console.log('this is the click ' + $(this).parent().siblings(".tag-text").text());
 		e.preventDefault();	
 

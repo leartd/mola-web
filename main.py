@@ -16,7 +16,7 @@ def render_template(templatename, templatevalues = {}):
     templatevalues['login'] = users.create_logout_url("/")
     templatevalues['user'] = user.nickname()
   else:
-    templatevalues['login_needed'] = False #Change back later!
+    templatevalues['login_needed'] = True
     templatevalues['login'] = users.create_login_url("/")
   path = os.path.join(os.path.dirname(__file__), 'templates/' + templatename)
   html = template.render(path, templatevalues)
@@ -320,6 +320,7 @@ class EditHandler(webapp2.RequestHandler):
     review_params["speech_rating"] = self.request.get("Speech")
     review_params["helpfulness_rating"] = self.request.get("Helpfulness")
     review_params['review_text'] = self.request.get("Text")
+    review_params['tags'] = self.request.get_all('tags')
     try:
       DatabaseWriter.edit_review(pid, review_params)
     except:
