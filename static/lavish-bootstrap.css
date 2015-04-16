@@ -3997,10 +3997,12 @@ textarea.input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-inverse .navbar-link {
-  color: #aa9955;
+  color: #e3e3e3;
+  }
 }
 .navbar-inverse .navbar-link:hover {
   color: #ffffff;
+	text-decoration: underline;
 }
 .breadcrumb {
   padding: 8px 15px;

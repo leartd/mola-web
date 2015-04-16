@@ -11,7 +11,7 @@ from google.appengine.api import users
 
 tag_ids = {
   '1': 'ramps',
-  '2': 'elevator',
+  '2': 'elevators',
   '3': 'braille-signs',
   '4': 'autism-friendly'
 }

@@ -13,20 +13,20 @@
 				<label for="h3-test" class="small-border"></label for="h3-test">
 				<h3 id="h3-test">Average Scores:</h3>
 				<div class="row">
-					<label class="col-sm-6 col-xs-12 loc-rating-label">Vision:</label>
-					<div class="col-sm-6 col-xs-12 loc-rating-stars rateit" data-rateit-value="{{avg_vision}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+					<label class="col-sm-6 col-xs-6 loc-rating-label">Vision:</label>
+					<div class="col-sm-6 col-xs-6 loc-rating-stars rateit" data-rateit-value="{{avg_vision}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
 				</div>
 				<div class="row">
-					<label class="col-sm-6 col-xs-12 loc-rating-label">Mobility:</label>
-					<div class="col-sm-6 col-xs-12 loc-rating-stars rateit" data-rateit-value="{{avg_mobility}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+					<label class="col-sm-6 col-xs-6 loc-rating-label">Mobility:</label>
+					<div class="col-sm-6 col-xs-6 loc-rating-stars rateit" data-rateit-value="{{avg_mobility}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
 				</div>
 				<div class="row">
-					<label class="col-sm-6 col-xs-12 loc-rating-label">Speech:</label>
-					<div class="col-sm-6 col-xs-12 loc-rating-stars rateit" data-rateit-value="{{avg_speech}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+					<label class="col-sm-6 col-xs-6 loc-rating-label">Speech:</label>
+					<div class="col-sm-6 col-xs-6 loc-rating-stars rateit" data-rateit-value="{{avg_speech}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
 				</div>
 				<div class="row">
-					<label class="col-sm-6 col-xs-12 loc-rating-label">Helpfulness:</label>
-					<div class="col-sm-6 col-xs-12 loc-rating-stars rateit" data-rateit-value="{{avg_helpfulness}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+					<label class="col-sm-6 col-xs-6 loc-rating-label">Helpfulness:</label>
+					<div class="col-sm-6 col-xs-6 loc-rating-stars rateit" data-rateit-value="{{avg_helpfulness}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
 				</div>
 			</div>
 			<label for="location_assoc_tags-{{location.key.urlsafe}}" class="small-border"></label>	
@@ -68,22 +68,22 @@
 					<div class="well">
 						<div class="form-group ratings">       
 							<div class="row form-inline">
-								<label class="col-sm-6 col-xs-12" for="vision_input">Vision:</label>
+								<label class="col-sm-6 col-xs-6" for="vision_input">Vision:</label>
 								<input type="range" min="0" max="5" value="0" step="1" name="Vision" id="vision_input">
 								<div class="rateit" data-rateit-backingfld="#vision_input"></div>
 							</div>
 							<div class="row form-inline">
-								<label class="col-sm-6 col-xs-12" for="mobility_input">Mobility:</label>
+								<label class="col-sm-6 col-xs-6" for="mobility_input">Mobility:</label>
 								<input type="range" min="0" max="5" value="0" step="1" name="Mobility" id="mobility_input">
 								<div class="rateit" data-rateit-backingfld="#mobility_input"></div>	
 							</div>
 							<div class="row form-inline">
-								<label class="col-sm-6 col-xs-12" for="speech_input">Speech:</label>
+								<label class="col-sm-6 col-xs-6" for="speech_input">Speech:</label>
 								<input type="range" min="0" max="5" value="0" step="1" name="Speech" id="speech_input">
 								<div class="rateit" data-rateit-backingfld="#speech_input"></div>
 							</div>
 							<div class="row form-inline">
-								<label class="col-sm-6 col-xs-12" for="helpfulness_input">Helpfulness:</label>
+								<label class="col-sm-6 col-xs-6" for="helpfulness_input">Helpfulness:</label>
 								<input type="range" min="0" max="5" value="0" step="1" name="Helpfulness" id="helpfulness_input">
 								<div class="rateit" data-rateit-backingfld="#helpfulness_input"></div>
 							</div>
@@ -161,8 +161,7 @@
 							{% for tag in review.tags %}
 							<span class="tag well">
 								<span class="tag-text">{{tag.type}}</span>
-
-								<span class="tag-buttons">																		
+								<span class="tag-buttons">
 									{% if tag.votes_pos > 0 and tag.votes_pos > tag.votes_neg %} 
 									<a class="tag-btn glyphicon glyphicon-chevron-up tag-pos-selected"></a>
 									{% endif %}

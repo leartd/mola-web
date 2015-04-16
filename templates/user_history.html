@@ -12,37 +12,39 @@
         </div>
             <form role="form" name="review_form" action="/history/edit" class="review_form" method="POST">
                 <div class="panel-body panel-mola">
-                    <div class="col-md-3 well">   
-                        <div class="form-group ratings">       
-                            <div class="row form-inline">
-                                <label class="col-md-3 col-xs-12" for="vision_input-{{review.key.urlsafe}}">Vision:</label>
-                                <input type="range" min="0" max="5" value="{{review.vision_rating}}" step="1" name="Vision" id="vision_input-{{review.key.urlsafe}}">
-                                <div class="col-md-9 col-xs-12 rateit set-review" data-rateit-backingfld="#vision_input-{{review.key.urlsafe}}"></div>
-                            </div>
-                            <div class="row form-inline">
-                                <label class="col-md-3 col-xs-12" for="mobility_input-{{review.key.urlsafe}}">Mobility</label>
-                                <input type="range" min="0" max="5" value="{{review.mobility_rating}}" step="1" name="Mobility" id="mobility_input-{{review.key.urlsafe}}">
-                                <div class="col-md-9 col-xs-12 rateit set-review" data-rateit-backingfld="#mobility_input-{{review.key.urlsafe}}"></div> 
-                            </div>
-                            <div class="row form-inline">
-                                <label class="col-md-3 col-xs-12" for="speech_input-{{review.key.urlsafe}}">Speech</label>
-                                <input type="range" min="0" max="5" value="{{review.speech_rating}}" step="1" name="Speech" id="speech_input-{{review.key.urlsafe}}">
-                                <div class="col-md-9 col-xs-12 rateit set-review" data-rateit-backingfld="#speech_input-{{review.key.urlsafe}}"></div>
-                            </div>
-                            <div class="row form-inline">
-                                <label class="col-md-3 col-xs-12" for="helpfulness_input-{{review.key.urlsafe}}">Helpful</label>
-                                <input type="range" min="0" max="5" value="{{review.helpfulness_rating}}" step="1" name="Helpfulness" id="helpfulness_input-{{review.key.urlsafe}}">
-                                <div class="col-md-9 col-xs-12 rateit set-review" data-rateit-backingfld="#helpfulness_input-{{review.key.urlsafe}}"></div>
-                            </div>
-                        </div>
+					<div class="col-lg-3 col-md-4 col-sm-3">   
+						<div class="well">
+							<div class="form-group ratings">       
+								<div class="row form-inline">
+									<label class="col-md-6 col-xs-12" for="vision_input-{{review.key.urlsafe}}">Vision:</label>
+									<input type="range" min="0" max="5" value="{{review.vision_rating}}" step="1" name="Vision" id="vision_input-{{review.key.urlsafe}}">
+									<div class="rateit set-review" data-rateit-backingfld="#vision_input-{{review.key.urlsafe}}"></div>
+								</div>
+								<div class="row form-inline">
+									<label class="col-md-6 col-xs-12" for="mobility_input-{{review.key.urlsafe}}">Mobility:</label>
+									<input type="range" min="0" max="5" value="{{review.mobility_rating}}" step="1" name="Mobility" id="mobility_input-{{review.key.urlsafe}}">
+									<div class="rateit set-review" data-rateit-backingfld="#mobility_input-{{review.key.urlsafe}}"></div> 
+								</div>
+								<div class="row form-inline">
+									<label class="col-md-6 col-xs-12" for="speech_input-{{review.key.urlsafe}}">Speech:</label>
+									<input type="range" min="0" max="5" value="{{review.speech_rating}}" step="1" name="Speech" id="speech_input-{{review.key.urlsafe}}">
+									<div class="rateit set-review" data-rateit-backingfld="#speech_input-{{review.key.urlsafe}}"></div>
+								</div>
+								<div class="row form-inline">
+									<label class="col-md-6 col-xs-12" for="helpfulness_input-{{review.key.urlsafe}}">Helpful</label>
+									<input type="range" min="0" max="5" value="{{review.helpfulness_rating}}" step="1" name="Helpfulness" id="helpfulness_input-{{review.key.urlsafe}}">
+									<div class="rateit set-review" data-rateit-backingfld="#helpfulness_input-{{review.key.urlsafe}}"></div>
+								</div>
+							</div>
+						</div>
                     </div>
-                    <div class="col-md-9">   
+                    <div class="col-lg-9 col-md-8 col-sm-9">   
                         <div class="form-group">
                             <label for="review_text-{{review.key.id}}">Your Review</label>
                             <textarea name="Text" id="review_text-{{review.key.id}}" cols="50 " rows="8" class="review-text form-control">{{review.text}}</textarea>
                         </div>
 
-    <!-- EDITING TAGS Kinda Hard -->
+						<!-- EDITING TAGS; KINDA HARD -->
                         <label for="reviews_assoc_tags-{{review.key.id}}" class="small-border"></label>    
                         <div class="reviews_assoc_tags-{{review.key.id}}">                         
                             {% for tag in review.tags %}
@@ -60,7 +62,7 @@
                             {% endfor %}
                         </div>  
 
-                        <div style="margin-top: 5px;" >
+                        <div>
                             <input type="hidden" value="{{loc_id}}" id="loc_id" name="URL" />
                             <input type="hidden" name="post_id" value="{{review.key.id}}">
                             <input type="submit" class="pull-right hidden-button btn btn-default" value="Submit" >

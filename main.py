@@ -192,7 +192,7 @@ class MoreReviewsHandler(webapp2.RequestHandler):
     reviews = page_reviews_tuple[0]
     cursor = page_reviews_tuple[1]
     flag = page_reviews_tuple[2]
-    html = render_template('recent_reviews_template.html', {'reviews': reviews})
+    html = render_template('reviews_template.html', {'reviews': reviews})
     if cursor is None:
       reviewsCursor = ""
     else:
@@ -380,8 +380,8 @@ app = webapp2.WSGIApplication([
   ('/edit', EditHandler),
   ('/location/(.*)', LocationPage),
   ('/loc_checker', LocationChecker),
-  ('/get/reviews', MoreReviewsHandler),
-  ('/get/recent_reviews', RecentReviewsHandler),
+  ('/get/reviews', MoreReviewsHandler), # For location page!
+  ('/get/recent_reviews', RecentReviewsHandler), # For main page!
   ('/get/nearby_locations', NearbyLocationsHandler),
   ('/contact', ContactPage),
   ('/submit/feedback', SendFeedback),

@@ -172,11 +172,13 @@ body {
   text-align: left;
 }
 
+/*
 @media only screen and (max-width: 767px) {
   .loc-rating-label, .loc-rating-stars  {
     text-align: center;
   }
 }
+*/
 
 /*** TAGS SECTION ***/
 
@@ -335,14 +337,9 @@ body {
     display: inline-block;
     float: right;
   }
-  
-  .navbar-link{
-	color: #FFFFFF !important; 
-	text-decoration: underline;
-  }
 }
 
-/* Adds ellipsis truncation to the user email at different levels. */
+/* Ellipsis truncation to the user email in navbar. */
 .navbar-text {
   display: inline-block;
   text-align: right;
@@ -354,42 +351,90 @@ body {
 }
 @media only screen and (max-width: 1199px) {
   .navbar-text {
-    max-width: 250px;
+    max-width: 230px;
   }
 }
 @media only screen and (max-width: 991px) {
   .navbar-text {
-    max-width: 180px;
+    max-width: 160px;
   }
 }
 @media only screen and (max-width: 767px) {
   .navbar-text {
-    width: default;
+    max-width: 250px;
     margin-top: 7.5px;
     margin-bottom: 7.5px;
+    margin-right: 0px;
   }
 }
 
+/* Ellipsis truncation to user email in reviews. */
 .review-username {
   text-align: left;
-  width: 400px;
+}
+.review-loc-right {
+  text-align: right;
+}
+.review-username, .review-loc-right {
+  max-width: 380px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.page-link {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 @media only screen and (max-width: 1199px) {
-  .review-username {
-    width: 300px;
+  .review-username, .review-loc-right {
+    max-width: 300px;
   }
 }
 @media only screen and (max-width: 991px) {
-  .review-username {
-    width: 240px;
+  .review-username, .review-loc-right {
+    max-width: 300px;
   }
 }
-@media only screen and (max-width: 455px) {
-  .review-username {
-    width: 100px;
+@media only screen and (max-width: 767px) {
+  .review-username, .review-loc-right {
+    max-width: 300px;
+  }
+}
+@media only screen and (max-width: 715px) {
+  .review-username, .review-loc-right {
+    max-width: 250px;
+  }
+}
+@media only screen and (max-width: 615px) {
+  .review-username, .review-loc-right {
+    max-width: 200px;
+  }
+}
+@media only screen and (max-width: 515px) {
+  .review-username, .review-loc-right {
+    max-width: 150px;
+  }
+}
+@media only screen and (max-width: 415px) {
+  .review-username, .review-loc-right {
+    max-width: 100px;
+  }
+  .page-link {
+    max-width: 180px;
+  }
+}
+
+/* Admin CSS fixes. */
+.navbar-admin {
+  margin-top: 14px;
+  margin-right: 5px;
+  margin-left: 0px;
+  text-align: right;
+}
+@media only screen and (max-width: 767px) {
+  .navbar-admin {
+    margin-right: 0px;
   }
 }
 

@@ -13,7 +13,7 @@
 		<!-- Local Copy -->
 		<!-- <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css"> -->
 
-			<!-- Optional theme -->
+		<!-- Optional theme -->
 		<link rel="stylesheet" type="text/css" href="/static/lavish-bootstrap.css">
 		
 		<!-- Local Copy -->
@@ -66,7 +66,7 @@
 			    </form>    
 			    <ul class="navbar-nav nav navbar-right" id="navbar-user-part">
 			    {% if not login_needed %}
-			    	<li><p class="navbar-text">Welcome <a class="navbar-link" href="/history">{{user}}</a></p>{% if admin %}<li><p class="navbar-text"><a href="/admin">Admin</a></p></li>{% endif %}</li>
+			    	<li><p class="navbar-text">Welcome, <a class="navbar-link" href="/history">{{user}}</a></p>{% if admin %}<li><p class="navbar-btn navbar-admin"><a href="/admin" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-font"></span></a></p></li>{% endif %}</li>
 			    	
 		        {% endif %}
 					<li>
