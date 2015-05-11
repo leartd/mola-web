@@ -1,0 +1,80 @@
+{% extends "base_template.html" %}
+{% block content %}
+    <div class="row top-padding-fix">
+        <div class="container">
+            <h1>Reported Posts</h1>
+            {% for review in posts %}
+            <div class="panel panel-default review" id="{{review.key.id}}">
+                <div class="panel-heading" style="background-color:#e1e1e1;" >
+                <span class="pull-left" style="float:left;">{{review.user}}</span>
+                <span class="pull-center"><a href="/location/{{review.loc_id}}">{{ review.loc_name }}</a></span>
+                <span class="pull-right">{{review.time_created.month}}/{{review.time_created.day}}/{{review.time_created.year}}</span>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-body panel-mola">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="well">
+                            <div class="row">
+                                <label class="col-md-4 col-xs-12">Vision:</label>
+                                <div class="col-md-8 col-xs-12 rateit" data-rateit-value="{{review.vision_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-4 col-xs-12">Mobility:</label>
+                                <div class="col-md-8 col-xs-12 rateit" data-rateit-value="{{review.mobility_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-4 col-xs-12">Speech:</label>
+                                <div class="col-md-8 col-xs-12 rateit" data-rateit-value="{{review.speech_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-4 col-xs-12">Helpful:</label>
+                                <div class="col-md-8 col-xs-12 rateit" data-rateit-value="{{review.helpfulness_rating}}" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-md-9 text-review">
+                        <p>
+                            {{review.text}}
+                        </p>
+                        <label for="reviews_assoc_tags-{{review.key.urlsafe}}" class="small-border"></label>    
+                        <div class="reviews_assoc_tags" id="reviews_assoc_tags-{{review.key.urlsafe}}">                         
+                            {% for tag in review.tags %}
+                            <span class="tag-static well">
+                                <span class="tag-text-static">{{tag.type}}</span>
+                                <span class="tag-buttons-static">
+                                {% if tag.votes_pos > 0 and tag.votes_pos > tag.votes_neg %} 
+                                <a class="tag-btn-static glyphicon glyphicon-chevron-up tag-pos-selected"></a>
+                                {% endif %}
+                                {% if tag.votes_neg > 0 and tag.votes_neg > tag.votes_pos %} 
+                                <a class="tag-btn-static glyphicon glyphicon-chevron-down tag-neg-selected"></a>
+                                {% endif %}
+                                </span>
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer clearfix">
+                <div class="pull-right button-group">
+                    <form action="/admin/delete" id="delete-{{review.key.id}}" method="post">
+                        <input type="hidden" name="post_id" value="{{review.key.id}}">
+                    </form>
+                    <form action="/admin/ignore" id="ignore-{{review.key.id}}" method="post">
+                        <input type="hidden" name="post_id" value="{{review.key.id}}">
+                    </form>
+                    <button class="btn btn-default" onclick="document.getElementById('ignore-{{review.key.id}}').submit();">Ignore</button>
+                    <button class="btn btn-default" onclick="document.getElementById('delete-{{review.key.id}}').submit();">Delete</button>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No posts have been flagged as inappropriate</p>
+        {% endfor %}
+        <script>
+            
+        </script>
+    </div>
+    </div>
+{% endblock content %}

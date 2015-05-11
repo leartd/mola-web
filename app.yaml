@@ -12,5 +12,9 @@ handlers:
   script: maintenance.app
   login: required
 
+- url: /admin(/.*)?
+  script: admin.app
+  login: admin
+
 - url: /.*
   script: main.app

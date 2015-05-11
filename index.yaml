@@ -10,6 +10,18 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: Location
+  properties:
+  - name: geo_hash
+  - name: time_created
+    direction: desc
+
+- kind: Review
+  properties:
+  - name: geo_hash
+  - name: time_created
+    direction: desc
+
 - kind: Review
   properties:
   - name: loc_id
@@ -20,6 +32,12 @@ indexes:
   properties:
   - name: loc_id
   - name: user_email
+  - name: time_created
+    direction: desc
+
+- kind: Review
+  properties:
+  - name: reported
   - name: time_created
     direction: desc
 

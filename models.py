@@ -14,16 +14,10 @@ class Location(ndb.Model):
   state = ndb.StringProperty()
   latitude = ndb.FloatProperty()
   longitude = ndb.FloatProperty()
+  geo_hash = ndb.StringProperty()
   
   time_created = ndb.IntegerProperty()
   tags = ndb.StructuredProperty(Tag, repeated=True)
-  # location_id = ndb.IntegerProperty()
-  # url = ndb.StringProperty()
-  # tags_present =  "1" json!!!!
-  # tags_pos =      "2"
-  # tags_neg =      "1" tags = json
-  # {'wheelchair':1}
-  # query(location.tags['wheelchair'] and location.tags['wheelchair'][0] > location.tags['wheelchair'][1])
   num_vision = ndb.IntegerProperty(default = 0)
   vision_rating = ndb.IntegerProperty(default = 0)
   num_mobility = ndb.IntegerProperty(default = 0)
@@ -33,15 +27,17 @@ class Location(ndb.Model):
   num_helpfulness = ndb.IntegerProperty(default = 0)
   helpfulness_rating = ndb.IntegerProperty(default = 0)
 
-
 class Review(ndb.Model):
   loc_id = ndb.StringProperty(required=True)
   loc_name = ndb.StringProperty()
+  # Latitude and longitude for querying nearby reviews
+  loc_lat = ndb.FloatProperty()
+  loc_long = ndb.FloatProperty()
+  geo_hash = ndb.StringProperty()
   
   time_created = ndb.DateTimeProperty()
   user = ndb.StringProperty()
   user_email = ndb.StringProperty()
-  # rev_id = ndb.IntegerProperty()
   
   # Ratings are from a 1 to 5 scale, unless unrated(0).
   vision_rating = ndb.IntegerProperty()
@@ -49,7 +45,7 @@ class Review(ndb.Model):
   speech_rating = ndb.IntegerProperty()
   helpfulness_rating = ndb.IntegerProperty()
   tags = ndb.StructuredProperty(Tag, repeated=True)
-  
+  reported = ndb.BooleanProperty(default=False)
   text = ndb.TextProperty()
 
 class User(ndb.Model):
